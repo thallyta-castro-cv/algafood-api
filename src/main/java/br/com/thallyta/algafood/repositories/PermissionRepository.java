@@ -1,14 +1,10 @@
 package br.com.thallyta.algafood.repositories;
 
 import br.com.thallyta.algafood.model.Permission;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface PermissionRepository {
-
-    List<Permission> getAll();
-    Permission getById(Long id);
-    Permission save(Permission permission);
-    void delete(Permission permission);
+@Repository
+public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
 }

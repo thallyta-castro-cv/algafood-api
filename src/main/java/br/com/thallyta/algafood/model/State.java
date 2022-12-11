@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tb_permission")
+@Table(name="tb_states")
 @Data
 public class State {
 

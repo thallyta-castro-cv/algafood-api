@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Entity
 @Table(name="tb_restaurants")
@@ -24,21 +23,5 @@ public class Restaurant {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Kitchen kitchen;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private FormPayment formPayment;
-
-    @Column(name = "active")
-    private Boolean active;
-
-    @Column(name = "is_open")
-    private Boolean isOpen;
-
-    @Column(name = "created_date")
-    private Date createdDate;
-
-    @Column(name = "updated_date")
-    private Date updatedDate;
 
 }

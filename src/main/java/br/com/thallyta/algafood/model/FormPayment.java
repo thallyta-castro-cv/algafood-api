@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tb_form_payment")
+@Table(name="tb_form_payments")
 @Data
 public class FormPayment {
 

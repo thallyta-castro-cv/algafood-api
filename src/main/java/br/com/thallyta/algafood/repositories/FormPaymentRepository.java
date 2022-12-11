@@ -1,14 +1,10 @@
 package br.com.thallyta.algafood.repositories;
 
 import br.com.thallyta.algafood.model.FormPayment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface FormPaymentRepository {
-
-    List<FormPayment> getAll();
-    FormPayment getById(Long id);
-    FormPayment save(FormPayment formPayment);
-    void delete(FormPayment formPayment);
+@Repository
+public interface FormPaymentRepository extends JpaRepository<FormPayment, Long> {
 
 }

@@ -1,13 +1,10 @@
 package br.com.thallyta.algafood.repositories;
 
 import br.com.thallyta.algafood.model.State;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface StateRepository extends JpaRepository<State, Long> {
 
-public interface StateRepository {
-
-    List<State> getAll();
-    State getById(Long id);
-    State save(State state);
-    void delete(State state);
 }
