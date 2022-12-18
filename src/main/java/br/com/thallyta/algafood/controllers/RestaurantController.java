@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.common.exceptions.NotFound;
 import br.com.thallyta.algafood.common.exceptions.ValidateMessageException;
 import br.com.thallyta.algafood.model.Kitchen;
 import br.com.thallyta.algafood.model.Restaurant;
+import br.com.thallyta.algafood.model.params.ListRestaurantParams;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;
 import br.com.thallyta.algafood.services.RestaurantService;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -77,6 +79,31 @@ public class RestaurantController {
         } catch (NotFound exception){
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/by-name-and-kitchen")
+    public List<Restaurant> restaurantsByNameAndKitchen(@RequestParam  String name, Long kitchenId) {
+        return restaurantRepository.findByNameAndKitchen(name, kitchenId);
+    }
+
+    @GetMapping("/by-shipping-fee")
+    public List<Restaurant> restaurantsByShippingFee(ListRestaurantParams params) {
+        return restaurantRepository.list(params);
+    }
+
+    @GetMapping("/top2-by-name")
+    public List<Restaurant> restaurantsTop2ByName(String nome) {
+        return restaurantRepository.findTop2ByNameContaining(nome);
+    }
+
+    @GetMapping("/count-by-kitchen")
+    public int restaurantsCountByKitchen(Long kitchenId) {
+        return restaurantRepository.countByKitchenId(kitchenId);
+    }
+
+    @GetMapping("/first-by-name")
+    public Optional<Restaurant> restaurantByFirstName(String name) {
+        return restaurantRepository.findFirstRestaurantByNameContaining(name);
     }
 
 }

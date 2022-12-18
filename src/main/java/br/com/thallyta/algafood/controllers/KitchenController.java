@@ -63,4 +63,19 @@ public class KitchenController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
+
+    @GetMapping("/search-name")
+    public List<Kitchen> getByName(@RequestParam String name){
+        return kitchenRepository.getByName(name);
+    }
+
+    @GetMapping("/search-name-all")
+    public List<Kitchen> getByNameContaining(@RequestParam String name){
+        return kitchenRepository.findAllByNameContaining(name);
+    }
+
+    @GetMapping("/exists")
+    public boolean kitchenExists(String name) {
+        return kitchenRepository.existsByName(name);
+    }
 }
