@@ -1,4 +1,5 @@
 # Sistema de delivery de comida com Java e Spring Boot
+<img  align="center" alt="Thallyta-Js" height="300" width="400" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original-wordmark.svg" />
 
 ### Projeto em Andamento!
 
@@ -39,6 +40,13 @@ mvn clean install
 - master -> Projeto completo
 - feat/crud-basic -> Implementação de um CRUD da forma mais básica.
 - feat/crud-service -> Implementação do CRUD com a camada de serviço.
+
+# Resumo teórico
+Resumo sobre teoria e conceitos de Java com Spring no notion:
+https://www.notion.so/Ecossistema-Spring-197f2d4de72249b19e6e6978becfd735
+
+Resumo sobre teoria e conceitos de Java e JPA no notion:
+https://www.notion.so/Banco-de-dados-com-Java-e-JPA-bf6c88ac954f4bd7acb57384b67931ed
 
 # Autor
 <b>Thallyta Macedo Carvalho de Castro</b>
