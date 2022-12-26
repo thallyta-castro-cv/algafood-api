@@ -53,7 +53,7 @@ public class RestaurantController {
     public ResponseEntity<Restaurant> update(@PathVariable Long id, @RequestBody Restaurant restaurant) {
         return restaurantRepository.findById(id)
                 .map(restaurantFound -> {
-                    BeanUtils.copyProperties(restaurant, restaurantFound, "id");
+                    BeanUtils.copyProperties(restaurant, restaurantFound, "id", "forms_payment");
                     Restaurant restaurantUpdated = restaurantService.save(restaurantFound);
                     return ResponseEntity.ok().body(restaurantUpdated);
                 })
