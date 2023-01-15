@@ -21,4 +21,7 @@ public class City {
     @ManyToOne
     @JoinColumn(nullable = false)
     private State state;
+
+    public static class Request {
+    }
 }

@@ -59,6 +59,10 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
     </dependencies>
 
 	<build>
