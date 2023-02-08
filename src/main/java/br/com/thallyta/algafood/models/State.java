@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.model;
+package br.com.thallyta.algafood.models;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -6,9 +6,9 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tb_cities")
+@Table(name="tb_states")
 @Data
-public class City {
+public class State {
 
     @EqualsAndHashCode.Include
     @Id
@@ -17,11 +17,4 @@ public class City {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private State state;
-
-    public static class Request {
-    }
 }

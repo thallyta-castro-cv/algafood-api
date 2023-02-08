@@ -1,13 +1,11 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.common.exceptions.NotFound;
-import br.com.thallyta.algafood.model.State;
+import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.repositories.StateRepository;
 import br.com.thallyta.algafood.services.StateService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,10 +26,8 @@ public class StateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<State> getById(@PathVariable Long id){
-        return stateRepository.findById(id)
-                .map(state -> ResponseEntity.ok().body(state))
-                .orElse(ResponseEntity.notFound().build());
+    public State getById(@PathVariable Long id){
+        return stateService.findOrFail(id);
     }
 
     @PostMapping
@@ -41,23 +37,15 @@ public class StateController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<State> update(@PathVariable Long id, @RequestBody State state) {
-        return stateRepository.findById(id)
-                .map(stateFound -> {
-                    BeanUtils.copyProperties(state, stateFound, "id");
-                    State stateUpdated = stateService.save(stateFound);
-                    return ResponseEntity.ok().body(stateUpdated);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public State update(@PathVariable Long id, @RequestBody State state) {
+        State stateFound = stateService.findOrFail(id);
+        BeanUtils.copyProperties(state, stateFound, "id");
+        return  stateService.save(stateFound);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        try {
-            stateService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFound exception) {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+       stateService.delete(id);
     }
 }

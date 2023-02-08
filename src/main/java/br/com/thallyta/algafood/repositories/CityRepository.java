@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.repositories;
 
-import br.com.thallyta.algafood.model.City;
+import br.com.thallyta.algafood.models.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.repositories;
 
-import br.com.thallyta.algafood.model.Restaurant;
+import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.repositories.queries.restaurant.RestaurantQueries;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

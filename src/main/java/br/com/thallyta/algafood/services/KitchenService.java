@@ -1,8 +1,8 @@
 package br.com.thallyta.algafood.services;
 
-import br.com.thallyta.algafood.common.exceptions.NotFound;
-import br.com.thallyta.algafood.common.exceptions.ValidateMessageException;
-import br.com.thallyta.algafood.model.Kitchen;
+import br.com.thallyta.algafood.common.exceptions.NotFoundException;
+import br.com.thallyta.algafood.common.exceptions.EntityExceptionInUse;
+import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.repositories.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,9 +29,14 @@ public class KitchenService {
         try{
           kitchenRepository.deleteById(id);
         } catch (DataIntegrityViolationException exception) {
-            throw new ValidateMessageException("Cozinha não pode ser removida, pois está em uso.");
+            throw new EntityExceptionInUse("Cozinha não pode ser removida, pois está em uso.");
         } catch (EmptyResultDataAccessException exception) {
-            throw new NotFound("Cozinha não encontrada!");
+            throw new NotFoundException("Cozinha não encontrada!");
         }
+    }
+
+    public Kitchen findOrFail(Long id) {
+        return kitchenRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Cozinha não encontrada!"));
     }
 }

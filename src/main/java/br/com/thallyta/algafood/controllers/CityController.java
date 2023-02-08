@@ -1,14 +1,13 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.common.exceptions.NotFound;
-import br.com.thallyta.algafood.common.exceptions.ValidateMessageException;
-import br.com.thallyta.algafood.model.City;
+import br.com.thallyta.algafood.common.exceptions.BadRequestException;
+import br.com.thallyta.algafood.common.exceptions.NotFoundException;
+import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.repositories.CityRepository;
 import br.com.thallyta.algafood.services.CityService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,44 +28,35 @@ public class CityController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<City> getById(@PathVariable Long id){
-        return cityRepository.findById(id)
-                .map(restaurant -> ResponseEntity.ok().body(restaurant))
-                .orElse(ResponseEntity.notFound().build());
+    public City getById(@PathVariable Long id){
+        return cityService.findOrFail(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody City city) {
-        try{
-            city = cityService.save(city);
-            return ResponseEntity.status(HttpStatus.CREATED).body(city);
-        } catch(ValidateMessageException exception){
-            return ResponseEntity.badRequest().body(exception.getMessage());
+    @ResponseStatus(HttpStatus.CREATED)
+    public City create(@RequestBody City city) {
+        try {
+            return cityService.save(city);
+        } catch (NotFoundException e) {
+            throw new BadRequestException("Estado não existe!");
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<City> update(@PathVariable Long id, @RequestBody City city) {
-        return cityRepository.findById(id)
-                .map(cityFound -> {
-                    BeanUtils.copyProperties(city, cityFound, "id");
-                    City cityUpdated = cityService.save(cityFound);
-                    return ResponseEntity.ok().body(cityUpdated);
-                })
-                .orElse(ResponseEntity.badRequest().build());
-    }
+    public City update(@PathVariable Long id, @RequestBody City city) {
+        City cityFound = cityService.findOrFail(id);
+        BeanUtils.copyProperties(city, cityFound, "id");
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<City> delete(@PathVariable Long id) {
         try {
-            cityService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFound exception){
-            return ResponseEntity.notFound().build();
-        } catch (ValidateMessageException exception) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return cityService.save(cityFound);
+        } catch (NotFoundException e) {
+            throw new BadRequestException("Estado não existe!");
         }
     }
 
-
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        cityService.delete(id);
+    }
 }

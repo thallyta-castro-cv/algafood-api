@@ -31,7 +31,7 @@ request_id bigint not null,
 primary key (id))
 engine = InnoDB;
 
-alter table tb_request add constraint fk_request_adress_city foreign key (address_city_id) references tb_cities (id);
+alter table tb_request add constraint fk_request_address_city foreign key (address_city_id) references tb_cities (id);
 alter table tb_request add constraint fk_request_restaurant foreign key (user_client_id) references tb_users (id);
 alter table tb_request add constraint fk_request_user_client foreign key (form_payment_id) references tb_form_payments (id);
 alter table tb_request add constraint fk_request_form_payment foreign key (restaurant_id) references tb_restaurants (id);

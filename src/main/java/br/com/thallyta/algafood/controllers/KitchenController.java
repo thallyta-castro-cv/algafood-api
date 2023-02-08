@@ -1,14 +1,11 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.common.exceptions.NotFound;
-import br.com.thallyta.algafood.common.exceptions.ValidateMessageException;
-import br.com.thallyta.algafood.model.Kitchen;
+import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.repositories.KitchenRepository;
 import br.com.thallyta.algafood.services.KitchenService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,10 +26,8 @@ public class KitchenController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Kitchen> getById(@PathVariable Long id){
-        return kitchenRepository.findById(id)
-               .map(kitchen -> ResponseEntity.ok().body(kitchen))
-               .orElse(ResponseEntity.notFound().build());
+    public Kitchen getById(@PathVariable Long id){
+        return kitchenService.findOrFail(id);
     }
 
     @PostMapping
@@ -42,26 +37,16 @@ public class KitchenController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Kitchen> update(@PathVariable Long id, @RequestBody Kitchen kitchen) {
-        return kitchenRepository.findById(id)
-                .map(kitchenFound -> {
-                    BeanUtils.copyProperties(kitchen, kitchenFound, "id");
-                    Kitchen kitchenUpdated = kitchenService.save(kitchenFound);
-                    return ResponseEntity.ok().body(kitchenUpdated);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public Kitchen update(@PathVariable Long id, @RequestBody Kitchen kitchen) {
+        Kitchen kitchenFound = kitchenService.findOrFail(id);
+        BeanUtils.copyProperties(kitchen, kitchenFound, "id");
+        return  kitchenService.save(kitchenFound);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Kitchen> delete(@PathVariable Long id) {
-        try {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
             kitchenService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (NotFound exception){
-            return ResponseEntity.notFound().build();
-        } catch (ValidateMessageException exception) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
     }
 
     @GetMapping("/search-name")

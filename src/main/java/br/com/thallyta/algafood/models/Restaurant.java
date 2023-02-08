@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.model;
+package br.com.thallyta.algafood.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

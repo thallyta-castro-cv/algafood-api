@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.model;
+package br.com.thallyta.algafood.models;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

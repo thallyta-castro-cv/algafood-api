@@ -1,8 +1,8 @@
 package br.com.thallyta.algafood.repositories.queries.restaurant;
 
 
-import br.com.thallyta.algafood.model.Restaurant;
-import br.com.thallyta.algafood.model.params.ListRestaurantParams;
+import br.com.thallyta.algafood.models.Restaurant;
+import br.com.thallyta.algafood.models.params.ListRestaurantParams;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;

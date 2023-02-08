@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.model.enums;
+package br.com.thallyta.algafood.models.enums;
 
 public enum RequestStatus {
     CREATED,

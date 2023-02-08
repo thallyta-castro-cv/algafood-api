@@ -1,6 +1,6 @@
-package br.com.thallyta.algafood.model;
+package br.com.thallyta.algafood.models;
 
-import br.com.thallyta.algafood.model.enums.RequestStatus;
+import br.com.thallyta.algafood.models.enums.RequestStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;

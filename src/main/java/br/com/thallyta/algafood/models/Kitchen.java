@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.model;
+package br.com.thallyta.algafood.models;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -6,9 +6,9 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tb_states")
+@Table(name="tb_kitchens")
 @Data
-public class State {
+public class Kitchen {
 
     @EqualsAndHashCode.Include
     @Id

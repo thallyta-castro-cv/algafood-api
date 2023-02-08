@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.model.params;
+package br.com.thallyta.algafood.models.params;
 
 import lombok.Data;
 import java.math.BigDecimal;
