@@ -42,6 +42,7 @@ mvn clean install
 - feat/crud-service -> Implementação do CRUD com a camada de serviço.
 - feat/crud-repository-jpa -> Implementação de recursos do jpa e padrão repository.
 - feat/migrations-flyway -> Implementação do flyway para criar as migrações.
+- feat/custom-exception-handle -> Implementação de tratamendo e modelagem de erros da API.
 
 # Resumo teórico
 Resumo sobre teoria e conceitos de Java com Spring no notion:
