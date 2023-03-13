@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.services;
 
-import br.com.thallyta.algafood.common.exceptions.NotFoundException;
-import br.com.thallyta.algafood.common.exceptions.EntityExceptionInUse;
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.repositories.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;

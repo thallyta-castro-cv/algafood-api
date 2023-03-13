@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.services;
 
-import br.com.thallyta.algafood.common.exceptions.NotFoundException;
-import br.com.thallyta.algafood.common.exceptions.EntityExceptionInUse;
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
 import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.repositories.CityRepository;

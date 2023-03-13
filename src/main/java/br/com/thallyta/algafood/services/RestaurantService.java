@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.services;
 
-import br.com.thallyta.algafood.common.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;

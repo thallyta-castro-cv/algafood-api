@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,12 +33,12 @@ public class KitchenController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Kitchen create(@RequestBody Kitchen kitchen) {
+    public Kitchen create(@RequestBody @Valid Kitchen kitchen) {
         return kitchenService.save(kitchen);
     }
 
     @PutMapping("/{id}")
-    public Kitchen update(@PathVariable Long id, @RequestBody Kitchen kitchen) {
+    public Kitchen update(@PathVariable Long id, @RequestBody @Valid Kitchen kitchen) {
         Kitchen kitchenFound = kitchenService.findOrFail(id);
         BeanUtils.copyProperties(kitchen, kitchenFound, "id");
         return  kitchenService.save(kitchenFound);

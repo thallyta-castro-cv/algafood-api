@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.common.exceptions.BadRequestException;
-import br.com.thallyta.algafood.common.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.exceptions.BadRequestException;
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.params.ListRestaurantParams;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant create(@RequestBody Restaurant restaurant) {
+    public Restaurant create(@RequestBody @Valid Restaurant restaurant) {
         try {
             return restaurantService.save(restaurant);
         } catch (NotFoundException e) {
@@ -45,7 +46,7 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public Restaurant update(@PathVariable Long id, @RequestBody Restaurant restaurant) {
+    public Restaurant update(@PathVariable Long id, @RequestBody @Valid Restaurant restaurant) {
         Restaurant restaurantFound = restaurantService.findOrFail(id);
         BeanUtils.copyProperties(restaurant, restaurantFound, "id", "formsPayment",
                 "createdDate", "updatedDate");
