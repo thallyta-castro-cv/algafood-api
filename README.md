@@ -6,3 +6,5 @@
 - feat/bean-validation -> Implementação de validação do modelo com Bean Validation do Spring.
 
 # Assuntos abordados
+
+- Adicionando constraints e validando no controller com @Valid
