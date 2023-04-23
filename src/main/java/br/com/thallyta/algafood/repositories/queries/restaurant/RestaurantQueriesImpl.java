@@ -18,8 +18,8 @@ public class RestaurantQueriesImpl implements RestaurantQueries {
 
     @Override
     public List<Restaurant> list(ListRestaurantParams params) {
-        String sql = "from Restaurant " +
-                     "where 0 = 0 ";
+        String sql = "select restaurant from Restaurant restaurant " +
+                     "where ";
 
         sql += getSqlParams(params);
 

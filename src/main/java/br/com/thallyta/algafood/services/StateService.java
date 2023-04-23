@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,14 +18,12 @@ public class StateService {
     @Autowired
     private StateRepository stateRepository;
 
+    @Transactional
     public State save(State state) {
         return stateRepository.save(state);
     }
 
-    public List<State> getAll() {
-        return stateRepository.findAll();
-    }
-
+   @Transactional
     public void delete(Long id){
         try{
             stateRepository.deleteById(id);
@@ -33,6 +32,10 @@ public class StateService {
         } catch (DataIntegrityViolationException exception) {
             throw new EntityExceptionInUse("Estado não pode ser removido, pois está em uso.");
         }
+    }
+
+    public List<State> getAll() {
+        return stateRepository.findAll();
     }
 
     public State findOrFail(Long id) {

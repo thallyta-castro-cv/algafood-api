@@ -3,6 +3,10 @@ package br.com.thallyta.algafood.controllers;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.City;
+import br.com.thallyta.algafood.models.assembler.request.CityRequestDTODisassembler;
+import br.com.thallyta.algafood.models.assembler.response.CityResponseDTOAssembler;
+import br.com.thallyta.algafood.models.dtos.requests.CityRequestDTO;
+import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
 import br.com.thallyta.algafood.repositories.CityRepository;
 import br.com.thallyta.algafood.services.CityService;
 import org.springframework.beans.BeanUtils;
@@ -23,33 +27,42 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
+    @Autowired
+    private CityRequestDTODisassembler cityDisassembler;
+
+    @Autowired
+    private CityResponseDTOAssembler cityAssembler;
+
     @GetMapping
-    public List<City> getAll(){
-        return cityService.getAll();
+    public List<CityResponseDTO> getAll(){
+        List<City> cities = cityService.getAll();
+        return cityAssembler.toCollectionModel(cities);
     }
 
     @GetMapping("/{id}")
-    public City getById(@PathVariable Long id){
-        return cityService.findOrFail(id);
+    public CityResponseDTO getById(@PathVariable Long id){
+        City city = cityService.findOrFail(id);
+        return cityAssembler.toCityResponse(city);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public City create(@RequestBody @Valid City city) {
+    public CityResponseDTO create(@RequestBody @Valid CityRequestDTO cityRequestDTO) {
         try {
-            return cityService.save(city);
+            City city = cityDisassembler.toDomainObject(cityRequestDTO);
+            return cityAssembler.toCityResponse(cityService.save(city));
         } catch (NotFoundException e) {
             throw new BadRequestException("Estado não existe!");
         }
     }
 
     @PutMapping("/{id}")
-    public City update(@PathVariable Long id, @RequestBody @Valid City city) {
-        City cityFound = cityService.findOrFail(id);
-        BeanUtils.copyProperties(city, cityFound, "id");
+    public CityResponseDTO update(@PathVariable Long id, @RequestBody @Valid CityRequestDTO cityRequestDTO) {
 
         try {
-            return cityService.save(cityFound);
+            City cityFound = cityService.findOrFail(id);
+            cityDisassembler.copyToDomainObject(cityRequestDTO, cityFound);
+            return cityAssembler.toCityResponse(cityService.save(cityFound));
         } catch (NotFoundException e) {
             throw new BadRequestException("Estado não existe!");
         }

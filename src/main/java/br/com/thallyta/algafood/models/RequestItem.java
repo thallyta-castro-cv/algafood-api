@@ -19,10 +19,10 @@ public class RequestItem {
     @Column(name = "amount")
     private Long amount;
 
-    @Column(name = "unitPrice")
+    @Column(name = "unit_rice")
     private BigDecimal unitPrice;
 
-    @Column(name = "totalPrice")
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
     @Column(name = "note")

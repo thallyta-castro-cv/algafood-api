@@ -1,6 +1,10 @@
 package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.models.Kitchen;
+import br.com.thallyta.algafood.models.assembler.request.KitchenRequestDTODisassembler;
+import br.com.thallyta.algafood.models.assembler.response.KitchenResponseDTOAssembler;
+import br.com.thallyta.algafood.models.dtos.requests.KitchenRequestDTO;
+import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
 import br.com.thallyta.algafood.repositories.KitchenRepository;
 import br.com.thallyta.algafood.services.KitchenService;
 import org.springframework.beans.BeanUtils;
@@ -21,27 +25,36 @@ public class KitchenController {
     @Autowired
     private KitchenService kitchenService;
 
+    @Autowired
+    private KitchenRequestDTODisassembler kitchenDisassembler;
+
+    @Autowired
+    private KitchenResponseDTOAssembler kitchenAssembler;
+
     @GetMapping
-    public List<Kitchen> getAll(){
-        return kitchenService.getAll();
+    public List<KitchenResponseDTO> getAll(){
+        List<Kitchen> kitchens = kitchenService.getAll();
+        return kitchenAssembler.toCollectionModel(kitchens);
     }
 
     @GetMapping("/{id}")
-    public Kitchen getById(@PathVariable Long id){
-        return kitchenService.findOrFail(id);
+    public KitchenResponseDTO getById(@PathVariable Long id){
+        Kitchen kitchen = kitchenService.findOrFail(id);
+        return kitchenAssembler.toKitchenResponse(kitchen);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Kitchen create(@RequestBody @Valid Kitchen kitchen) {
-        return kitchenService.save(kitchen);
+    public KitchenResponseDTO create(@RequestBody @Valid KitchenRequestDTO kitchenRequestDTO) {
+        Kitchen kitchen = kitchenDisassembler.toDomainObject(kitchenRequestDTO);
+        return kitchenAssembler.toKitchenResponse(kitchenService.save(kitchen));
     }
 
     @PutMapping("/{id}")
-    public Kitchen update(@PathVariable Long id, @RequestBody @Valid Kitchen kitchen) {
+    public KitchenResponseDTO update(@PathVariable Long id, @RequestBody @Valid KitchenRequestDTO kitchenRequestDTO) {
         Kitchen kitchenFound = kitchenService.findOrFail(id);
-        BeanUtils.copyProperties(kitchen, kitchenFound, "id");
-        return  kitchenService.save(kitchenFound);
+        kitchenDisassembler.copyToDomainObject(kitchenRequestDTO, kitchenFound);
+        return kitchenAssembler.toKitchenResponse(kitchenService.save(kitchenFound));
     }
 
     @DeleteMapping("/{id}")
@@ -50,18 +63,4 @@ public class KitchenController {
             kitchenService.delete(id);
     }
 
-    @GetMapping("/search-name")
-    public List<Kitchen> getByName(@RequestParam String name){
-        return kitchenRepository.getByName(name);
-    }
-
-    @GetMapping("/search-name-all")
-    public List<Kitchen> getByNameContaining(@RequestParam String name){
-        return kitchenRepository.findAllByNameContaining(name);
-    }
-
-    @GetMapping("/exists")
-    public boolean kitchenExists(String name) {
-        return kitchenRepository.existsByName(name);
-    }
 }

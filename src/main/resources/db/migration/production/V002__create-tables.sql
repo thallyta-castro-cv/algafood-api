@@ -1,7 +1,7 @@
 create table tb_groups_permissions (group_id bigint not null,
 permission_id bigint not null) engine = InnoDB;
 
-create table tb_cities (id bigint not null,
+create table tb_cities (id bigint not null auto_increment,
 name varchar(255) not null,
 state_id bigint not null,
 primary key (id)) engine = InnoDB;
@@ -64,15 +64,13 @@ alter table tb_groups_permissions add constraint fk_groups_permissions_groups fo
 
 alter table tb_cities add constraint fk_cities_states foreign key (state_id) references tb_states (id);
 
-alter table tb_products add constraint fk_cities_restaurants foreign key (restaurant_id) references tb_restaurants (id);
-
 alter table tb_restaurant_form_payment add constraint fk_restaurant_form_payment_payments foreign key (form_payment_id) references tb_form_payments (id);
 
 alter table tb_restaurant_form_payment add constraint fk_restaurant_form_payment_restaurants foreign key (restaurant_id) references tb_restaurants (id);
 
-alter table tb_restaurants add constraint fk_resturants_cities foreign key (address_city_id) references tb_cities (id);
+alter table tb_restaurants add constraint fk_restaurants_cities foreign key (address_city_id) references tb_cities (id);
 
-alter table tb_restaurants add constraint fk_resturants_kitchens foreign key (kitchen_id) references tb_kitchens (id);
+alter table tb_restaurants add constraint fk_restaurants_kitchens foreign key (kitchen_id) references tb_kitchens (id);
 
 alter table tb_user_groups add constraint fk_user_groups_group foreign key (group_id) references tb_groups (id);
 

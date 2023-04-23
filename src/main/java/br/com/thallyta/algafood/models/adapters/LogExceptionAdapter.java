@@ -28,7 +28,6 @@ public class LogExceptionAdapter {
     private String title;
     private String message;
     private String className;
-    private String trace;
     private List<LogExceptionFieldsAdapter> fields;
 
     public LogExceptionAdapter(HttpStatus httpStatus, Exception exception) {
@@ -37,7 +36,6 @@ public class LogExceptionAdapter {
         this.setStatus(httpStatus.value());
         this.setMessage(exception.getMessage());
         this.setClassName(exception.getClass().getSimpleName());
-        this.setTrace(Arrays.toString(exception.getStackTrace()));
     }
 
     public LogExceptionAdapter(HttpStatus httpStatus, Exception exception, String message) {
@@ -46,7 +44,6 @@ public class LogExceptionAdapter {
         this.setStatus(httpStatus.value());
         this.message = message;
         this.setClassName(exception.getClass().getSimpleName());
-        this.setTrace(Arrays.toString(exception.getStackTrace()));
     }
 
     public LogExceptionAdapter(HttpStatus httpStatus, Exception exception, String message, List<LogExceptionFieldsAdapter> problemFields) {

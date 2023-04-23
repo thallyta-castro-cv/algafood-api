@@ -2,6 +2,7 @@ package br.com.thallyta.algafood.repositories;
 
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.repositories.queries.restaurant.RestaurantQueries;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,12 +18,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, R
     List<Restaurant> findByNameAndKitchen(String name, @Param("id") Long kitchenId);
 
     @Query("from Restaurant restaurant "   +
-           "join fetch restaurant.kitchen " +
-           "left join fetch restaurant.formsPayment")
+           "join fetch restaurant.kitchen ")
+    @NotNull
     List<Restaurant> findAll();
-    List<Restaurant> findTop2ByNameContaining(String name);
-
-    Optional<Restaurant> findFirstRestaurantByNameContaining(String name);
-
-    int countByKitchenId(Long kitchen);
 }

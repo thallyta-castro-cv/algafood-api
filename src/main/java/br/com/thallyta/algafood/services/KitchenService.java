@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,14 +18,12 @@ public class KitchenService {
     @Autowired
     private KitchenRepository kitchenRepository;
 
+    @Transactional
     public Kitchen save(Kitchen kitchen) {
         return kitchenRepository.save(kitchen);
     }
 
-    public List<Kitchen> getAll() {
-        return kitchenRepository.findAll();
-    }
-
+    @Transactional
     public void delete(Long id){
         try{
           kitchenRepository.deleteById(id);
@@ -38,5 +37,9 @@ public class KitchenService {
     public Kitchen findOrFail(Long id) {
         return kitchenRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Cozinha não encontrada!"));
+    }
+
+    public List<Kitchen> getAll() {
+        return kitchenRepository.findAll();
     }
 }
