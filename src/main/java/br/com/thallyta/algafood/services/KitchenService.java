@@ -27,6 +27,7 @@ public class KitchenService {
     public void delete(Long id){
         try{
           kitchenRepository.deleteById(id);
+          kitchenRepository.flush();
         } catch (DataIntegrityViolationException exception) {
             throw new EntityExceptionInUse("Cozinha não pode ser removida, pois está em uso.");
         } catch (EmptyResultDataAccessException exception) {

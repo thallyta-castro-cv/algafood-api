@@ -5,8 +5,8 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class KitchenRequestDTO {
+public class FormPaymentRequestDTO {
 
     @NotBlank
-    private String name;
+    private String description;
 }

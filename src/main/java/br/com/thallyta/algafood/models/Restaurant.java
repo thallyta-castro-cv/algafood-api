@@ -42,14 +42,16 @@ public class Restaurant {
     private Address address;
 
     @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "datetime")
+    @Column(columnDefinition = "datetime")
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    @Column(nullable = false, columnDefinition = "datetime")
+    @Column(columnDefinition = "datetime")
     private LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
+    @Column(name = "active", nullable = false)
+    private Boolean active = Boolean.TRUE;
 }

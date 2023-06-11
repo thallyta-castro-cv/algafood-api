@@ -7,7 +7,6 @@ import br.com.thallyta.algafood.models.dtos.requests.StateRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.StateResponseDTO;
 import br.com.thallyta.algafood.repositories.StateRepository;
 import br.com.thallyta.algafood.services.StateService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

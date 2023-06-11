@@ -1,6 +1,8 @@
 package br.com.thallyta.algafood.services;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
+import br.com.thallyta.algafood.models.Address;
+import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;
@@ -18,7 +20,7 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private KitchenService kitchenService;
+    private CityService cityService;
 
     public List<Restaurant> getAll() {
         return restaurantRepository.findAll();
@@ -26,9 +28,9 @@ public class RestaurantService {
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
-        Long kitchenId = restaurant.getKitchen().getId();
-        Kitchen kitchen = kitchenService.findOrFail(kitchenId);
-        restaurant.setKitchen(kitchen);
+        Long cityId = restaurant.getAddress().getCity().getId();
+        City city = cityService.findOrFail(cityId);
+        restaurant.getAddress().setCity(city);
         return restaurantRepository.save(restaurant);
     }
 
@@ -36,6 +38,7 @@ public class RestaurantService {
     public void delete(Long id){
         try{
             restaurantRepository.deleteById(id);
+            restaurantRepository.flush();
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundException("Restaurante não encontrado!");
         }
@@ -45,4 +48,18 @@ public class RestaurantService {
         return restaurantRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurante não encontrado!"));
     }
+
+    @Transactional
+    public void active(Long restaurantId){
+        Restaurant restaurant = findOrFail(restaurantId);
+        restaurant.setActive(true);
+    }
+
+    @Transactional
+    public void inactive(Long restaurantId){
+        Restaurant restaurant = findOrFail(restaurantId);
+        restaurant.setActive(false);
+    }
+
+
 }

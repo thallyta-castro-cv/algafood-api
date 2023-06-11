@@ -7,7 +7,6 @@ import br.com.thallyta.algafood.models.dtos.requests.KitchenRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
 import br.com.thallyta.algafood.repositories.KitchenRepository;
 import br.com.thallyta.algafood.services.KitchenService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -55,7 +55,9 @@ public class RestaurantController {
             Restaurant restaurant = restaurantDisassembler.toDomainObject(restaurantRequestDTO);
             return restaurantAssembler.toRestaurantResponse(restaurantService.save(restaurant));
         } catch (NotFoundException e) {
-            throw new BadRequestException("Restaurante não existe!");
+            throw new NotFoundException("Restaurante não existe!");
+        } catch (BadRequestException exception){
+            throw new BadRequestException("Algo deu errado, um dos recursos não pode ser encontrado!");
         }
     }
 
@@ -66,7 +68,7 @@ public class RestaurantController {
             restaurantDisassembler.copyToDomainObject(restaurantRequestDTO, restaurantFound);
             return restaurantAssembler.toRestaurantResponse(restaurantService.save(restaurantFound));
         } catch (NotFoundException e) {
-            throw new BadRequestException("Restaurante não existe!");
+            throw new NotFoundException("Restaurante não existe!");
         }
     }
 
@@ -76,4 +78,15 @@ public class RestaurantController {
         restaurantService.delete(id);
     }
 
+    @PutMapping("/{id}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void active(@PathVariable Long id){
+        restaurantService.active(id);
+    }
+
+    @DeleteMapping("/{id}/inactive")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactive(@PathVariable Long id){
+        restaurantService.inactive(id);
+    }
 }

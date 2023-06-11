@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.core.validation.annotation.ShippingFee;
 import br.com.thallyta.algafood.core.validation.annotation.ValueZeroIncludeDescription;
 import lombok.Data;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -23,4 +24,8 @@ public class RestaurantRequestDTO {
 
     @NotNull
     private KitchenIdRequestDTO kitchen;
+
+    @Valid
+    @NotNull
+    private AddressRequestDTO address;
 }
