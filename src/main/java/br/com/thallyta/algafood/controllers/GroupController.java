@@ -1,12 +1,9 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.models.FormPayment;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.request.GroupRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.GroupResponseDTOAssembler;
-import br.com.thallyta.algafood.models.dtos.requests.FormPaymentRequestDTO;
 import br.com.thallyta.algafood.models.dtos.requests.GroupRequestDTO;
-import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
 import br.com.thallyta.algafood.repositories.GroupRepository;
 import br.com.thallyta.algafood.services.GroupService;
