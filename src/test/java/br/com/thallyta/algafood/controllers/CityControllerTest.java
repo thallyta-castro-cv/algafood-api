@@ -1,5 +1,7 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.exceptions.BadRequestException;
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.mocks.CityMock;
 import br.com.thallyta.algafood.mocks.StateMock;
 import br.com.thallyta.algafood.models.City;
@@ -24,8 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.thallyta.algafood.mocks.StateMock.STATE_NOT_FOUND;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -98,6 +102,7 @@ class CityControllerTest {
     }
 
     @Test
+    @Order(3)
     void whenCreateThenReturnCreated() {
         when(cityDisassembler.toDomainObject(any(CityRequestDTO.class))).thenReturn(startCity());
         when(cityService.save(any(City.class))).thenReturn(startCity());
@@ -105,8 +110,11 @@ class CityControllerTest {
 
         CityResponseDTO result = cityController.create(cityMock.cityRequestDTO());
 
+        assertNotNull(result);
         assertEquals(startCityDTO().getId(), result.getId());
         assertEquals(startCityDTO().getName(), result.getName());
+        assertEquals(startCityDTO().getStateId(), result.getStateId());
+        assertEquals(startCityDTO().getStateName(), result.getStateName());
 
         verify(cityService, times(1)).save(any(City.class));
         verify(cityDisassembler, times(1)).toDomainObject(any(CityRequestDTO.class));
@@ -114,11 +122,51 @@ class CityControllerTest {
     }
 
     @Test
-    void update() {
+    @Order(4)
+    void whenCreateThenReturnBadRequestException() {
+                when(cityDisassembler.toDomainObject(any())).thenThrow(new NotFoundException(STATE_NOT_FOUND));
+
+        BadRequestException exception = assertThrows(BadRequestException.class,
+                () -> cityController.create(cityMock.cityRequestDTO()));
+
+        assertEquals(STATE_NOT_FOUND, exception.getMessage());
     }
 
     @Test
-    void delete() {
+    @Order(5)
+    void whenUpdateReturnSuccess() {
+        when(cityService.findOrFail(startCity().getId())).thenReturn(startCity());
+        when(cityDisassembler.toDomainObject(any(CityRequestDTO.class))).thenReturn(startCity());
+        when(cityService.save(any(City.class))).thenReturn(startCity());
+        when(cityResponseDTOAssembler.toCityResponse(any(City.class))).thenReturn(startCityDTO());
+
+        CityResponseDTO result = cityController.update(startCity().getId(), cityMock.cityRequestDTO());
+
+        assertNotNull(result);
+        assertEquals(startCityDTO().getId(), result.getId());
+        assertEquals(startCityDTO().getName(), result.getName());
+        assertEquals(startCityDTO().getStateId(), result.getStateId());
+        assertEquals(startCityDTO().getStateName(), result.getStateName());
+    }
+
+    @Test
+    @Order(6)
+    void whenUpdateThenReturnBadRequestException() {
+        when(cityService.findOrFail(startCity().getId())).thenThrow(new NotFoundException(STATE_NOT_FOUND));
+
+        BadRequestException exception = assertThrows(BadRequestException.class,
+                () -> cityController.update(startCity().getId(), cityMock.cityRequestDTO())
+        );
+
+        assertEquals(STATE_NOT_FOUND, exception.getMessage());
+    }
+
+    @Test
+    @Order(7)
+    void whenDeleteThenReturnSuccess() {
+        doNothing().when(cityService).delete(anyLong());
+        cityController.delete(startCity().getId());
+        verify(cityService, times(1)).delete(anyLong());
     }
 
     private CityResponseDTO startCityDTO() {
