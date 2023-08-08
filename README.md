@@ -28,7 +28,7 @@ O intuito deste projeto é servir de repositório base para consultas futuras de
 Para iniciar a aplicação execute a seguinte ação na pasta algafood
 
 ```shell script
-Clique no botão run de sua IDE
+mvn spring-boot:run
 ```
 
 Instale as dependências do maven com o comando:
