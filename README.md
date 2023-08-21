@@ -20,13 +20,15 @@ O intuito deste projeto é servir de repositório base para consultas futuras de
 - Spring Data JPA
 - Lombok
 - MySql
+- jUnit 5
+- Mockito
 
 # Iniciando o projeto
 
 Para iniciar a aplicação execute a seguinte ação na pasta algafood
 
 ```shell script
-Clique no botão run de sua IDE
+mvn spring-boot:run
 ```
 
 Instale as dependências do maven com o comando:
@@ -35,7 +37,7 @@ Instale as dependências do maven com o comando:
 mvn clean install
 ```
 
-# Branches de referência
+## Branches de referência - Desenvolvimento
 
 - master -> Projeto completo
 - feat/crud-basic -> Implementação de um CRUD da forma mais básica.
@@ -44,6 +46,10 @@ mvn clean install
 - feat/migrations-flyway -> Implementação do flyway para criar as migrações.
 - feat/custom-exception-handle -> Implementação de tratamendo e modelagem de erros da API.
 - feat/include-patterns -> Inclusão de DTO's e Mappers nos CRUD's para aplicação de boas práticas.
+
+## Branches de referência - Testes
+- feat/unitary-tests -> Implementação de testes unitários com jUnit 5 e Mockito
+- feat/api-tests -> Implementação de testes de integração e api com banco de dados de teste
 
 # Resumo teórico
 Resumo sobre teoria e conceitos de Java com Spring no notion:

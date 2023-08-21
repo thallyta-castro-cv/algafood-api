@@ -52,13 +52,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<Object> handleBadRequestException(BadRequestException exception, WebRequest request) {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception);
-        return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusNotFound, request);
+        return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusBadRequest, request);
     }
 
     @ExceptionHandler({EntityExceptionInUse.class})
     public ResponseEntity<Object> handleConflictException(EntityExceptionInUse exception, WebRequest request) {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusConflict, exception);
-        return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusNotFound, request);
+        return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusConflict, request);
     }
 
     @ExceptionHandler({Exception.class})
@@ -108,7 +108,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         String message = String.format("O recurso %s, que você tentou acessar, é inexistente.",
                 exception.getRequestURL());
 
-        LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception, message);
+        LogExceptionAdapter error = new LogExceptionAdapter(httpStatusNotFound, exception, message);
         return handleExceptionInternal(exception, error, headers, status, request);
     }
 
