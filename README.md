@@ -49,6 +49,7 @@ mvn clean install
 
 ## Branches de referência - Testes
 - feat/unitary-tests -> Implementação de testes unitários com jUnit 5 e Mockito
+- feat/api-tests -> Implementação de testes de integração e api com banco de dados de teste
 
 # Resumo teórico
 Resumo sobre teoria e conceitos de Java com Spring no notion:
