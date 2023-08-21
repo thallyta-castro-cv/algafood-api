@@ -1,9 +1,10 @@
-package br.com.thallyta.algafood.controllers;
+package br.com.thallyta.algafood.unitary.controllers;
 
+import br.com.thallyta.algafood.controllers.CityController;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.mocks.CityMock;
-import br.com.thallyta.algafood.mocks.StateMock;
+import br.com.thallyta.algafood.common.mocks.CityMock;
+import br.com.thallyta.algafood.common.mocks.StateMock;
 import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.request.CityRequestDTODisassembler;
@@ -17,16 +18,12 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static br.com.thallyta.algafood.mocks.StateMock.STATE_NOT_FOUND;
+import static br.com.thallyta.algafood.common.mocks.StateMock.STATE_NOT_FOUND;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
