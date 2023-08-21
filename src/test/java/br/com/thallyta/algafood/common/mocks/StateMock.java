@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.mocks;
+package br.com.thallyta.algafood.common.mocks;
 
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.dtos.requests.StateIdRequestDTO;
