@@ -1,12 +1,14 @@
 package br.com.thallyta.algafood.models.dtos.requests;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 public class StateIdRequestDTO {
 
-    @NotNull
+    @NotNull(message = "Estado é obrigatório")
     private Long id;
 }

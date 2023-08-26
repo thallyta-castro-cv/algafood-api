@@ -1,12 +1,14 @@
 package br.com.thallyta.algafood.models.dtos.requests;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
+@Setter
 public class FormPaymentRequestDTO {
 
-    @NotBlank
+    @NotBlank(message = "O descrição deve ser informado")
     private String description;
 }

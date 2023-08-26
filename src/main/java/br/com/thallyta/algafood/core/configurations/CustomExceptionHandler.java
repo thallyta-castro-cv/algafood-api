@@ -3,6 +3,7 @@ package br.com.thallyta.algafood.core.configurations;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.exceptions.ValidateMessageException;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.adapters.LogExceptionFieldsAdapter;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -59,6 +60,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleConflictException(EntityExceptionInUse exception, WebRequest request) {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusConflict, exception);
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusConflict, request);
+    }
+
+    @ExceptionHandler({ValidateMessageException.class})
+    public ResponseEntity<Object> handleValidateMessageException(ValidateMessageException exception, WebRequest request) {
+        LogExceptionAdapter error = new LogExceptionAdapter(httpStatusNotFound, exception);
+        return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusNotFound, request);
     }
 
     @ExceptionHandler({Exception.class})

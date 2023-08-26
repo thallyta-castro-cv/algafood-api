@@ -1,12 +1,14 @@
-package br.com.thallyta.algafood.models.dtos.responses;
+package br.com.thallyta.algafood.models.dtos.requests;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Data
-public class UserResponseDTO {
+@Getter
+@Setter
+public class UserRequestDTO {
 
     @NotBlank(message="O campo nome deve ser informado")
     private String name;
