@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="tb_form_payments")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 public class FormPayment {
 

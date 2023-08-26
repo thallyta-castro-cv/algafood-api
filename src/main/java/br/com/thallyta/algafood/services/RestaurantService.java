@@ -1,9 +1,8 @@
 package br.com.thallyta.algafood.services;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.models.Address;
 import br.com.thallyta.algafood.models.City;
-import br.com.thallyta.algafood.models.Kitchen;
+import br.com.thallyta.algafood.models.FormPayment;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,9 @@ public class RestaurantService {
 
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private FormPaymentService formPaymentService;
 
     public List<Restaurant> getAll() {
         return restaurantRepository.findAll();
@@ -59,6 +61,20 @@ public class RestaurantService {
     public void inactive(Long restaurantId){
         Restaurant restaurant = findOrFail(restaurantId);
         restaurant.setActive(false);
+    }
+
+    @Transactional
+    public void unbindFormPayment(Long restaurantId, Long formPaymentId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        FormPayment formPayment = formPaymentService.findOrFail(formPaymentId);
+        restaurant.getFormsPayment().remove(formPayment);
+    }
+
+    @Transactional
+    public void bindFormPayment(Long restaurantId, Long formPaymentId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        FormPayment formPayment = formPaymentService.findOrFail(formPaymentId);
+        restaurant.getFormsPayment().add(formPayment);
     }
 
 
