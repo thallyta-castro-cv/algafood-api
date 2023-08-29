@@ -77,5 +77,17 @@ public class RestaurantService {
         restaurant.getFormsPayment().add(formPayment);
     }
 
+    @Transactional
+    public void open(Long restaurantId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        restaurant.setOpen(true);
+    }
+
+    @Transactional
+    public void close(Long restaurantId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        restaurant.setOpen(false);
+    }
+
 
 }

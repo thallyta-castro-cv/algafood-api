@@ -56,4 +56,7 @@ public class Restaurant {
 
     @Column(name = "active", nullable = false)
     private Boolean active = Boolean.TRUE;
+
+    @Column(name = "open", nullable = false)
+    private Boolean open = Boolean.FALSE;
 }

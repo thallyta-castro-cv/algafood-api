@@ -58,3 +58,7 @@ insert into tb_users (id, name, email, password, created_date) values
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp);
+
+insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date, active, open) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, true, true);
+insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date, active, open) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true, true);
+insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date, active, open) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, true, true);

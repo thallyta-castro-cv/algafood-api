@@ -12,6 +12,7 @@ public class RestaurantResponseDTO {
     private Long kitchenId;
     private String kitchenName;
     private Boolean active;
+    private Boolean open;
     private String addressCep;
     private String addressStreet;
     private String addressNumber;
