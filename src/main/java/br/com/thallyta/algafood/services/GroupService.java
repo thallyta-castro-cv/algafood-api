@@ -3,6 +3,7 @@ package br.com.thallyta.algafood.services;
 import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.Group;
+import br.com.thallyta.algafood.models.Permission;
 import br.com.thallyta.algafood.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,6 +18,9 @@ public class GroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private PermissionService permissionService;
 
     @Transactional
     public Group save(Group kitchen) {
@@ -42,5 +46,19 @@ public class GroupService {
 
     public List<Group> getAll() {
         return groupRepository.findAll();
+    }
+
+    @Transactional
+    public void unbindPermission(Long groupId, Long permissionId) {
+        Group group = findOrFail(groupId);
+        Permission permission = permissionService.findOrFail(permissionId);
+        group.getPermissions().remove(permission);
+    }
+
+    @Transactional
+    public void bindPermission(Long groupId, Long permissionId) {
+        Group group = findOrFail(groupId);
+        Permission permission = permissionService.findOrFail(permissionId);
+        group.getPermissions().add(permission);
     }
 }
