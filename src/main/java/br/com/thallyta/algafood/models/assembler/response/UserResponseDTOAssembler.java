@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class UserResponseDTOAssembler {
         return modelMapper.map(user, UserResponseDTO.class);
     }
 
-    public List<UserResponseDTO> toCollectionModel(List<User> users) {
+    public List<UserResponseDTO> toCollectionModel(Collection<User> users) {
         return users.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());

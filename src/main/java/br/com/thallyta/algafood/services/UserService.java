@@ -2,6 +2,7 @@ package br.com.thallyta.algafood.services;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.exceptions.ValidateMessageException;
+import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GroupService groupService;
 
     @Transactional
     public User save(User user) {
@@ -41,5 +45,19 @@ public class UserService {
     public User findOrFail(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Não foi encontrado usuário com id informado"));
+    }
+
+    @Transactional
+    public void unbindGroup(Long userId, Long groupId) {
+        User user = findOrFail(userId);
+        Group group = groupService.findOrFail(groupId);
+        user.getGroups().remove(group);
+    }
+
+    @Transactional
+    public void bindGroup(Long userId, Long groupId) {
+        User user = findOrFail(userId);
+        Group group = groupService.findOrFail(groupId);
+        user.getGroups().add(group);
     }
 }
