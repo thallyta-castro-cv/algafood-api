@@ -101,4 +101,26 @@ public class RestaurantController {
     public void close(@PathVariable Long restaurantId) {
         restaurantService.close(restaurantId);
     }
+
+    @PutMapping("/activations")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activeSeveral(@RequestBody List<Long> restaurantsId){
+        try{
+            restaurantService.active(restaurantsId);
+        }catch(NotFoundException e){
+           throw new BadRequestException("Um ou mais restaurantes não estão cadastrados no sistema!" +
+                   " Verifique os restaurantes informados e tente novamente.");
+        }
+    }
+
+    @DeleteMapping("/activations")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactiveSeveral(@RequestBody List<Long> restaurantsId){
+        try{
+            restaurantService.inactive(restaurantsId);
+        }catch(NotFoundException e) {
+            throw new BadRequestException("Um ou mais restaurantes não estão cadastrados no sistema!" +
+                    " Verifique os restaurantes informados e tente novamente.");
+        }
+    }
 }

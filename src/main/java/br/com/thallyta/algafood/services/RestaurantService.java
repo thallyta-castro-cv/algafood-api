@@ -32,6 +32,11 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
+    public Restaurant findOrFail(Long id) {
+        return restaurantRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado!"));
+    }
+
     @Transactional
     public Restaurant save(Restaurant restaurant) {
         Long cityId = restaurant.getAddress().getCity().getId();
@@ -48,11 +53,6 @@ public class RestaurantService {
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundException("Restaurante não encontrado!");
         }
-    }
-
-    public Restaurant findOrFail(Long id) {
-        return restaurantRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado!"));
     }
 
     @Transactional
@@ -105,6 +105,16 @@ public class RestaurantService {
         Restaurant restaurant = findOrFail(restaurantId);
         User user = userService.findOrFail(userId);
         restaurant.getResponsible().add(user);
+    }
+
+    @Transactional
+    public void active(List<Long> restaurantId){
+        restaurantId.forEach(this::active);
+    }
+
+    @Transactional
+    public void inactive(List<Long> restaurantId){
+        restaurantId.forEach(this::inactive);
     }
 
 
