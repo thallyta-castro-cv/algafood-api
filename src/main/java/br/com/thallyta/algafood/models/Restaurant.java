@@ -59,4 +59,10 @@ public class Restaurant {
 
     @Column(name = "open", nullable = false)
     private Boolean open = Boolean.FALSE;
+
+    @ManyToMany
+    @JoinTable(name = "tb_restaurant_responsible",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> responsible = new HashSet<>();
 }
