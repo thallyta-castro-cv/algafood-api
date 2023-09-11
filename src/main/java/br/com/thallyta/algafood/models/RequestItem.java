@@ -19,7 +19,7 @@ public class RequestItem {
     @Column(name = "amount")
     private Long amount;
 
-    @Column(name = "unit_rice")
+    @Column(name = "unit_price")
     private BigDecimal unitPrice;
 
     @Column(name = "total_price")

@@ -65,4 +65,12 @@ public class Restaurant {
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> responsible = new HashSet<>();
+
+    public boolean acceptPaymentMethod(FormPayment formPayment) {
+        return getFormsPayment().contains(formPayment);
+    }
+
+    public boolean notAcceptPaymentMethod(FormPayment formPayment) {
+        return !acceptPaymentMethod(formPayment);
+    }
 }

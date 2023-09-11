@@ -35,7 +35,8 @@ public class Request {
     private Address address;
 
     @Column(name="request_status")
-    private RequestStatus requestStatus;
+    @Enumerated(EnumType.STRING)
+    private RequestStatus requestStatus = RequestStatus.CREATED;
 
     @CreationTimestamp
     @Column(name="created_date", columnDefinition = "datetime")
@@ -50,7 +51,7 @@ public class Request {
     @Column(name="delivery_date")
     private OffsetDateTime deliveryDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="form_payment_id", nullable = false)
     private FormPayment formPayment;
 
@@ -64,5 +65,21 @@ public class Request {
 
     @OneToMany(mappedBy = "request")
     private List<RequestItem> items = new ArrayList<>();
+
+    public void sumTotalValue() {
+        this.subtotal = getItems().stream()
+                .map(RequestItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.totalValue = this.subtotal.add(this.shippingFee);
+    }
+
+    public void defineShippingFee() {
+        setShippingFee(getRestaurant().getShippingFee());
+    }
+
+    public void assignOrderToItems() {
+        getItems().forEach(item -> item.setRequest(this));
+    }
 
 }
