@@ -35,4 +35,19 @@ public class RequestItem {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Product product;
+
+    public void calculateTotalPrice() {
+        BigDecimal unitPrice = this.getUnitPrice();
+        Long amount = this.getAmount();
+
+        if (unitPrice == null) {
+            unitPrice = BigDecimal.ZERO;
+        }
+
+        if (amount == null) {
+            amount = 0L;
+        }
+
+        this.setTotalPrice(unitPrice.multiply(new BigDecimal(amount)));
+    }
 }

@@ -1,8 +1,9 @@
 package br.com.thallyta.algafood.models;
 
 import br.com.thallyta.algafood.models.enums.RequestStatus;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ import java.util.List;
 
 @Entity
 @Table(name="tb_request")
-@Data
+@Getter
+@Setter
 public class Request {
 
     @EqualsAndHashCode.Include
@@ -63,10 +65,12 @@ public class Request {
     @JoinColumn(name = "user_client_id", nullable = false)
     private User client;
 
-    @OneToMany(mappedBy = "request")
+    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL)
     private List<RequestItem> items = new ArrayList<>();
 
     public void sumTotalValue() {
+       getItems().forEach(RequestItem::calculateTotalPrice);
+
         this.subtotal = getItems().stream()
                 .map(RequestItem::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
