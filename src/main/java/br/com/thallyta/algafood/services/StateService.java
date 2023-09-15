@@ -44,5 +44,4 @@ public class StateService {
                 .orElseThrow(() -> new NotFoundException("Estado não encontrado!"));
     }
 
-
 }

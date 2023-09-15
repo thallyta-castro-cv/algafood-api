@@ -1,14 +1,12 @@
-package br.com.thallyta.algafood.unitary.services;
+package br.com.thallyta.algafood.services;
 
-import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
-import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.common.mocks.CityMock;
 import br.com.thallyta.algafood.common.mocks.StateMock;
+import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.repositories.CityRepository;
-import br.com.thallyta.algafood.services.CityService;
-import br.com.thallyta.algafood.services.StateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
