@@ -37,8 +37,7 @@ public class Request {
     private Address address;
 
     @Column(name="request_status")
-    @Enumerated(EnumType.STRING)
-    private RequestStatus requestStatus = RequestStatus.CREATED;
+    private RequestStatus requestStatus = RequestStatus.fromString("Criado");
 
     @CreationTimestamp
     @Column(name="created_date", columnDefinition = "datetime")
