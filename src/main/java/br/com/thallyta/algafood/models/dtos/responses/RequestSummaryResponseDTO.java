@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 @Setter
 public class RequestSummaryResponseDTO {
 
-    private Long id;
+    private String code;
     private BigDecimal subtotal;
     private BigDecimal shippingFee;
     private BigDecimal totalValue;

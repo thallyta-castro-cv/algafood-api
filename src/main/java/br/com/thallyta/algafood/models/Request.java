@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.models;
 
+import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.models.enums.RequestStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name="tb_request")
@@ -22,6 +24,9 @@ public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "code")
+    private String code;
 
     @Column(name = "subtotal")
     private BigDecimal subtotal;
@@ -37,7 +42,8 @@ public class Request {
     private Address address;
 
     @Column(name="request_status")
-    private RequestStatus requestStatus = RequestStatus.fromString("Criado");
+    @Enumerated(EnumType.STRING)
+    private RequestStatus requestStatus = RequestStatus.CRIADO;
 
     @CreationTimestamp
     @Column(name="created_date", columnDefinition = "datetime")
@@ -77,12 +83,33 @@ public class Request {
         this.totalValue = this.subtotal.add(this.shippingFee);
     }
 
-    public void defineShippingFee() {
-        setShippingFee(getRestaurant().getShippingFee());
+    public void confirmRequest() {
+        setRequestStatus(RequestStatus.CONFIRMADO);
+        setConfirmationDate(OffsetDateTime.now());
     }
 
-    public void assignOrderToItems() {
-        getItems().forEach(item -> item.setRequest(this));
+    public void cancelRequest() {
+        setRequestStatus(RequestStatus.CANCELADO);
+        setCancellationDate(OffsetDateTime.now());
+    }
+
+    public void deliverRequest() {
+        setRequestStatus(RequestStatus.ENTREGUE);
+        setDeliveryDate(OffsetDateTime.now());
+    }
+
+    public void setRequestStatus(RequestStatus requestStatus) {
+        if (getRequestStatus().doesNotChangeStatusTo(requestStatus)) {
+           throw new BadRequestException("Status do pedido não pode ser alterado de "
+                + getRequestStatus().getStatusValue() + " para " + requestStatus.getStatusValue());
+        }
+
+        this.requestStatus = requestStatus;
+    }
+
+    @PrePersist
+    private void makeCode() {
+        setCode(UUID.randomUUID().toString());
     }
 
 }

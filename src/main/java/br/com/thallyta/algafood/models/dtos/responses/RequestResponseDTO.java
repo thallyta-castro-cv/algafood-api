@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class RequestResponseDTO {
 
-    private Long id;
+    private String code;
     private BigDecimal subtotal;
     private BigDecimal shippingFee;
     private BigDecimal totalValue;

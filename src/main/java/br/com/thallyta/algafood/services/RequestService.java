@@ -27,10 +27,8 @@ public class RequestService {
         return requestRepository.save(request);
     }
 
-    public Request findOrFail(Long requestId) {
-        return requestRepository.findById(requestId)
+    public Request findOrFail(String code) {
+        return requestRepository.findByCode(code)
                 .orElseThrow(() -> new NotFoundException("Request não encontrado!"));
     }
-
-
 }

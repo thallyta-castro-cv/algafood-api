@@ -44,8 +44,8 @@ public class RequestController {
     }
 
     @GetMapping("/{requestId}")
-    public RequestResponseDTO getById(@PathVariable Long requestId) {
-        Request request = requestService.findOrFail(requestId);
+    public RequestResponseDTO getById(@PathVariable String code) {
+        Request request = requestService.findOrFail(code);
         return responseDTOAssembler.toModel(request);
     }
 

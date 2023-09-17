@@ -1,28 +1,30 @@
 package br.com.thallyta.algafood.models.enums;
 
-public enum RequestStatus {
-    CREATED("Criado"),
-    CONFIRMED("Confirmado"),
-    DELIVERED("Entregue"),
-    CANCELED("Cancelado");
+import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.List;
+
+public enum RequestStatus {
+
+    CRIADO("CRIADO"),
+    CONFIRMADO("CONFIRMADO", CRIADO),
+    ENTREGUE("ENTREGUE", CONFIRMADO),
+    CANCELADO("CANCELADO", CRIADO);
+
+    @Getter
     private final String statusValue;
 
-    private RequestStatus(String statusValue) {
+    @Getter
+    private final List<RequestStatus> previousStatus;
+
+    private RequestStatus(String statusValue, RequestStatus... previousStatus) {
         this.statusValue = statusValue;
+        this.previousStatus = Arrays.asList(previousStatus);
     }
 
-    public String getStatusValue() {
-        return statusValue;
-    }
-
-    public static RequestStatus fromString(String statusString) {
-        for (RequestStatus status : RequestStatus.values()) {
-            if (status.statusValue.equalsIgnoreCase(statusString)) {
-                return status;
-            }
-        }
-        throw new IllegalArgumentException("Status inválido: " + statusString);
+    public boolean doesNotChangeStatusTo(RequestStatus newStatus) {
+        return !newStatus.previousStatus.contains(this);
     }
 
 }
