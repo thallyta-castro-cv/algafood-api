@@ -28,10 +28,6 @@ alter table tb_users auto_increment = 1;
 insert into tb_kitchens (id, name) values (1, 'Tailandesa');
 insert into tb_kitchens (id, name) values (2, 'Indiana');
 
-insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp);
-insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp);
-insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp);
-
 insert into tb_states (id, name) values (1, 'Minas Gerais');
 insert into tb_states (id, name) values (2, 'São Paulo');
 insert into tb_states (id, name) values (3, 'Ceará');
@@ -50,8 +46,6 @@ insert into tb_form_payments (id, description) values (4, 'Pix');
 insert into tb_permissions (id, name, description) values (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 insert into tb_permissions (id, name, description) values (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
 
-insert into tb_restaurant_form_payment (restaurant_id, form_payment_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
-
 insert into tb_products (name, description, price, active, restaurant_id) values ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1);
 insert into tb_products (name, description, price, active, restaurant_id) values ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1);
 insert into tb_products (name, description, price, active, restaurant_id) values ('Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 2);
@@ -59,3 +53,12 @@ insert into tb_products (name, description, price, active, restaurant_id) values
 insert into tb_products (name, description, price, active, restaurant_id) values ('Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 3);
 insert into tb_products (name, description, price, active, restaurant_id) values ('Murg Curry', 'Cubos de frango preparados com molho curry e especiarias', 43, 1, 3);
 
+insert into tb_users (id, name, email, password, created_date) values
+(1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
+(2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
+(3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
+(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp);
+
+insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date, active, open) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, true, true);
+insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date, active, open) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true, true);
+insert into tb_restaurants (id, name, shipping_fee, kitchen_id, created_date, updated_date, active, open) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, true, true);

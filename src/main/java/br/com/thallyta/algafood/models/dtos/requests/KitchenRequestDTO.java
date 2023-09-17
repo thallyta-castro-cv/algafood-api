@@ -1,13 +1,14 @@
 package br.com.thallyta.algafood.models.dtos.requests;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 public class KitchenRequestDTO {
 
-    @NotBlank
+    @NotBlank(message = "O campo nome deve ser informado")
     private String name;
 }

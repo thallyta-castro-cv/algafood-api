@@ -1,8 +1,10 @@
 package br.com.thallyta.algafood.models;
 
+import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.models.enums.RequestStatus;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,16 +12,21 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name="tb_request")
-@Data
+@Getter
+@Setter
 public class Request {
 
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "code")
+    private String code;
 
     @Column(name = "subtotal")
     private BigDecimal subtotal;
@@ -35,7 +42,8 @@ public class Request {
     private Address address;
 
     @Column(name="request_status")
-    private RequestStatus requestStatus;
+    @Enumerated(EnumType.STRING)
+    private RequestStatus requestStatus = RequestStatus.CRIADO;
 
     @CreationTimestamp
     @Column(name="created_date", columnDefinition = "datetime")
@@ -50,7 +58,7 @@ public class Request {
     @Column(name="delivery_date")
     private OffsetDateTime deliveryDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="form_payment_id", nullable = false)
     private FormPayment formPayment;
 
@@ -62,7 +70,46 @@ public class Request {
     @JoinColumn(name = "user_client_id", nullable = false)
     private User client;
 
-    @OneToMany(mappedBy = "request")
+    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL)
     private List<RequestItem> items = new ArrayList<>();
+
+    public void sumTotalValue() {
+       getItems().forEach(RequestItem::calculateTotalPrice);
+
+        this.subtotal = getItems().stream()
+                .map(RequestItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.totalValue = this.subtotal.add(this.shippingFee);
+    }
+
+    public void confirmRequest() {
+        setRequestStatus(RequestStatus.CONFIRMADO);
+        setConfirmationDate(OffsetDateTime.now());
+    }
+
+    public void cancelRequest() {
+        setRequestStatus(RequestStatus.CANCELADO);
+        setCancellationDate(OffsetDateTime.now());
+    }
+
+    public void deliverRequest() {
+        setRequestStatus(RequestStatus.ENTREGUE);
+        setDeliveryDate(OffsetDateTime.now());
+    }
+
+    public void setRequestStatus(RequestStatus requestStatus) {
+        if (getRequestStatus().doesNotChangeStatusTo(requestStatus)) {
+           throw new BadRequestException("Status do pedido não pode ser alterado de "
+                + getRequestStatus().getStatusValue() + " para " + requestStatus.getStatusValue());
+        }
+
+        this.requestStatus = requestStatus;
+    }
+
+    @PrePersist
+    private void makeCode() {
+        setCode(UUID.randomUUID().toString());
+    }
 
 }

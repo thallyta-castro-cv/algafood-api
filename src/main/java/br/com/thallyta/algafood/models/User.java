@@ -6,8 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="tb_users")
@@ -33,7 +33,16 @@ public class User {
     private OffsetDateTime createdDate;
 
     @ManyToMany
-    @JoinTable(name = "user_groups", joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(name = "tb_user_groups", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private List<Group> groups = new ArrayList<>();
+    private Set<Group> groups = new HashSet<>();
+
+    public boolean passwordMatchWith(String password) {
+        return getPassword().equals(password);
+    }
+
+    public boolean passwordDoesNotMatchWith(String password) {
+        return !passwordMatchWith(password);
+    }
+
 }

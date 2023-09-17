@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.models.assembler.request;
 
+import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.dtos.requests.RestaurantRequestDTO;
@@ -20,7 +21,9 @@ public class RestaurantRequestDTODisassembler {
     }
 
     public void copyToDomainObject(@Valid RestaurantRequestDTO restaurantRequestDTO, Restaurant restaurant) {
-        restaurant.setKitchen(new Kitchen());
+        if(restaurant.getAddress() != null ){
+            restaurant.getAddress().setCity(new City());
+        }
         modelMapper.map(restaurantRequestDTO, restaurant);
     }
 }

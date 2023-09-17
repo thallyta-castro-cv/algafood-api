@@ -10,7 +10,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="tb_restaurants")
@@ -36,20 +38,39 @@ public class Restaurant {
     @JoinTable(name = "tb_restaurant_form_payment",
                joinColumns = @JoinColumn(name = "restaurant_id"),
                inverseJoinColumns = @JoinColumn(name = "form_payment_id"))
-    private List<FormPayment> formsPayment = new ArrayList<>();
+    private Set<FormPayment> formsPayment = new HashSet<>();
 
     @Embedded
     private Address address;
 
     @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "datetime")
+    @Column(columnDefinition = "datetime")
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    @Column(nullable = false, columnDefinition = "datetime")
+    @Column(columnDefinition = "datetime")
     private LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
+    @Column(name = "active", nullable = false)
+    private Boolean active = Boolean.TRUE;
+
+    @Column(name = "open", nullable = false)
+    private Boolean open = Boolean.FALSE;
+
+    @ManyToMany
+    @JoinTable(name = "tb_restaurant_responsible",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> responsible = new HashSet<>();
+
+    public boolean acceptPaymentMethod(FormPayment formPayment) {
+        return getFormsPayment().contains(formPayment);
+    }
+
+    public boolean notAcceptPaymentMethod(FormPayment formPayment) {
+        return !acceptPaymentMethod(formPayment);
+    }
 }

@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.unitary.controllers;
+package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.controllers.CityController;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;

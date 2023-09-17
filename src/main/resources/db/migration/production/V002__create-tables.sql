@@ -30,16 +30,17 @@ primary key (id)) engine = InnoDB;
 create table tb_restaurant_form_payment (restaurant_id bigint not null,
 form_payment_id bigint not null) engine = InnoDB;
 
-create table tb_restaurants (id bigint not null auto_increment,
+create table tb_restaurants (
+id bigint not null auto_increment,
 address_cep varchar(255),
 address_complement varchar(255),
 address_neighborhood varchar(255),
 address_number varchar(255),
 address_street varchar(255),
-created_date datetime not null,
+created_date datetime,
 name varchar(255) not null,
 shipping_fee decimal(19,2) not null,
-updated_date datetime not null,
+updated_date datetime,
 address_city_id bigint,
 kitchen_id bigint not null,
 primary key (id)) engine = InnoDB;

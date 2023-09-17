@@ -34,6 +34,7 @@ public class CityService {
     public void delete(Long id){
         try{
            cityRepository.deleteById(id);
+           cityRepository.flush();
         } catch (DataIntegrityViolationException exception) {
             throw new EntityExceptionInUse("Cidade não pode ser removida, pois está em uso.");
         } catch (EmptyResultDataAccessException exception) {

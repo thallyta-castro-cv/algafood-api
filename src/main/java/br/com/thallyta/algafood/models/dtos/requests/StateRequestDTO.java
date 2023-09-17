@@ -1,12 +1,14 @@
 package br.com.thallyta.algafood.models.dtos.requests;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
+@Setter
 public class StateRequestDTO {
 
-    @NotBlank
+    @NotBlank(message = "O nome do estado é obrigatório")
     private String name;
 }

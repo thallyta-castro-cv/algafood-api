@@ -1,12 +1,14 @@
 package br.com.thallyta.algafood.models.dtos.requests;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 public class KitchenIdRequestDTO {
 
-    @NotNull
-    private Long id;
+    @NotNull(message = "O campo cozinha deve ser informado")
+    Long id;
 }

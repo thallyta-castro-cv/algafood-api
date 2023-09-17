@@ -9,7 +9,6 @@ import br.com.thallyta.algafood.models.dtos.requests.CityRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
 import br.com.thallyta.algafood.repositories.CityRepository;
 import br.com.thallyta.algafood.services.CityService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
