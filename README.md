@@ -18,10 +18,15 @@ O intuito deste projeto é servir de repositório base para consultas futuras de
 - Java
 - Spring Boot
 - Spring Data JPA
-- Lombok
 - MySql
 - jUnit 5
 - Mockito
+
+### Bibliotecas e plugins utilizados
+
+- Lombok
+- Squiggly (JsonFilter)
+- RestAssured
 
 # Iniciando o projeto
 
