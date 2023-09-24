@@ -11,8 +11,12 @@ import br.com.thallyta.algafood.models.dtos.responses.RequestResponseDTO;
 import br.com.thallyta.algafood.models.dtos.responses.RequestSummaryResponseDTO;
 import br.com.thallyta.algafood.repositories.RequestRepository;
 import br.com.thallyta.algafood.services.RequestService;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,10 +41,28 @@ public class RequestController {
     @Autowired
     private RequestRequestDTODisassembler requestDTODisassembler;
 
+
+    /**
+     * Filtra os dados do DTO de acordo com os filtros informados pelo consumidor da API.
+     * Usa JsonFilter para filtrar os campos
+     * @param fields - Array de strings contendo os nomes dos campos a serem filtrados.
+     * @return O DTO filtrado, ou o DTO completo se nenhum filtro for informado.
+     */
     @GetMapping
-    public List<RequestSummaryResponseDTO> getAll() {
+    public MappingJacksonValue getAll(@RequestParam(required = false) String fields) {
         List<Request> requests = requestRepository.findAll();
-        return responseSummaryDTOAssembler.toCollectionModel(requests);
+        List<RequestSummaryResponseDTO> requestsDTO = responseSummaryDTOAssembler.toCollectionModel(requests);
+
+        MappingJacksonValue requestsWrapper = new MappingJacksonValue(requestsDTO);
+        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+        filterProvider.addFilter("requestFilter", SimpleBeanPropertyFilter.serializeAll());
+
+        if (StringUtils.isNotBlank(fields)) {
+            filterProvider.addFilter("requestFilter", SimpleBeanPropertyFilter.filterOutAllExcept(fields.split(",")));
+        }
+
+        requestsWrapper.setFilters(filterProvider);
+        return requestsWrapper;
     }
 
     @GetMapping("/{requestId}")
