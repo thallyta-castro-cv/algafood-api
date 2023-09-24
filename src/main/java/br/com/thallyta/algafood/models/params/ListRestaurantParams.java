@@ -7,8 +7,6 @@ import java.math.BigDecimal;
 public class ListRestaurantParams {
 
     private BigDecimal shippingFeeInitial;
-
     private BigDecimal shippingFeeFinal;
-
     private String name;
 }
