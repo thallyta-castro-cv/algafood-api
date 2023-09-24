@@ -36,9 +36,12 @@ public class RestaurantProductController {
     private ProductRequestDTODisassembler productDisassembler;
 
     @GetMapping
-    public List<ProductResponseDTO> getAll(@PathVariable Long restaurantId) {
+    public List<ProductResponseDTO> getAll(@PathVariable Long restaurantId,
+                                           @RequestParam(required = false) boolean includeActiveOnly) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
-        List<Product> products = productRepository.findByRestaurant(restaurant);
+        List<Product> products =  includeActiveOnly ? productRepository.findByActiveByRestaurant(restaurant) :
+                productRepository.findByRestaurant(restaurant);
+
         return productAssembler.toCollectionModel(products);
     }
 
