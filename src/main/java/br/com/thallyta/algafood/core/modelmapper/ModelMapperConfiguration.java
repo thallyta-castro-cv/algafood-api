@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.core.configurations;
+package br.com.thallyta.algafood.core.modelmapper;
 
 import br.com.thallyta.algafood.models.RequestItem;
 import br.com.thallyta.algafood.models.dtos.requests.RequestItemRequestDTO;
