@@ -14,8 +14,8 @@ public class ListRequestParams {
     private Long restaurantId;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private OffsetDateTime creationDateStart;
+    private OffsetDateTime createdDateStart;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private OffsetDateTime creationDateEnd;
+    private OffsetDateTime createdDateEnd;
 }

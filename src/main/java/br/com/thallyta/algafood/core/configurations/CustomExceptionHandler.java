@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -120,13 +121,25 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
+    protected @NotNull ResponseEntity<Object> handleBindException(@NotNull BindException exception,
+                                                                  @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                                  @NotNull WebRequest request) {
+
+        return handleValidationInternal(exception, headers, status, request, exception.getBindingResult());
+    }
+
+    @Override
     protected @NotNull ResponseEntity<Object> handleMethodArgumentNotValid(@NotNull MethodArgumentNotValidException exception,
                                                                            @NotNull HttpHeaders headers, @NotNull HttpStatus status,
                                                                            @NotNull WebRequest request) {
 
-        String message = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+        return handleValidationInternal(exception, headers, status, request, exception.getBindingResult());
+    }
 
-        BindingResult bindingResult = exception.getBindingResult();
+    private ResponseEntity<Object> handleValidationInternal(@NotNull Exception exception,
+                                                            @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                            @NotNull WebRequest request, BindingResult bindingResult) {
+        String message = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 
         List<LogExceptionFieldsAdapter> problemFields = bindingResult.getAllErrors().stream()
                 .map(objectError -> {

@@ -4,6 +4,10 @@ import br.com.thallyta.algafood.models.Request;
 import br.com.thallyta.algafood.models.params.ListRequestParams;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+
+
 public class RequestSpecs {
 
     public static Specification<Request> usingParams(ListRequestParams params) {
@@ -11,33 +15,25 @@ public class RequestSpecs {
             root.fetch("client");
             root.fetch("restaurant").fetch("kitchen");
 
-            var predicates = builder.conjunction();
+            var predicates =  new ArrayList<Predicate>();
 
             if (params.getClientId() != null) {
-                predicates.getExpressions().add(
-                        builder.equal(root.get("client"), params.getClientId())
-                );
+                predicates.add(builder.equal(root.get("client"), params.getClientId())                );
             }
 
             if (params.getRestaurantId() != null) {
-                predicates.getExpressions().add(
-                        builder.equal(root.get("restaurant"), params.getRestaurantId())
-                );
+                predicates.add(builder.equal(root.get("restaurant"), params.getRestaurantId())                );
             }
 
-            if (params.getCreationDateStart() != null) {
-                predicates.getExpressions().add(
-                        builder.greaterThanOrEqualTo(root.get("createdDate"), params.getCreationDateStart())
-                );
+            if (params.getCreatedDateStart() != null) {
+                predicates.add(builder.greaterThanOrEqualTo(root.get("createdDate"), params.getCreatedDateStart())                );
             }
 
-            if (params.getCreationDateEnd() != null) {
-                predicates.getExpressions().add(
-                        builder.lessThanOrEqualTo(root.get("createdDate"), params.getCreationDateEnd())
-                );
+            if (params.getCreatedDateEnd() != null) {
+                predicates.add(builder.lessThanOrEqualTo(root.get("createdDate"), params.getCreatedDateEnd())                );
             }
 
-            return predicates;
+            return builder.and(predicates.toArray(new Predicate[0]));
         };
     }
 }
