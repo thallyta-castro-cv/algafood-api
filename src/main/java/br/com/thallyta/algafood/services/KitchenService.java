@@ -1,16 +1,16 @@
 package br.com.thallyta.algafood.services;
 
-import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.repositories.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class KitchenService {
@@ -40,7 +40,7 @@ public class KitchenService {
                 .orElseThrow(() -> new NotFoundException("Cozinha não encontrada!"));
     }
 
-    public List<Kitchen> getAll() {
-        return kitchenRepository.findAll();
+    public Page<Kitchen> getAll(Pageable pageable) {
+        return kitchenRepository.findAll(pageable);
     }
 }

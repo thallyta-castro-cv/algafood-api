@@ -18,19 +18,19 @@ public class RequestSpecs {
             var predicates =  new ArrayList<Predicate>();
 
             if (params.getClientId() != null) {
-                predicates.add(builder.equal(root.get("client"), params.getClientId())                );
+                predicates.add(builder.equal(root.get("client"), params.getClientId()));
             }
 
             if (params.getRestaurantId() != null) {
-                predicates.add(builder.equal(root.get("restaurant"), params.getRestaurantId())                );
+                predicates.add(builder.equal(root.get("restaurant"), params.getRestaurantId()));
             }
 
             if (params.getCreatedDateStart() != null) {
-                predicates.add(builder.greaterThanOrEqualTo(root.get("createdDate"), params.getCreatedDateStart())                );
+                predicates.add(builder.greaterThanOrEqualTo(root.get("createdDate"), params.getCreatedDateStart()));
             }
 
             if (params.getCreatedDateEnd() != null) {
-                predicates.add(builder.lessThanOrEqualTo(root.get("createdDate"), params.getCreatedDateEnd())                );
+                predicates.add(builder.lessThanOrEqualTo(root.get("createdDate"), params.getCreatedDateEnd()));
             }
 
             return builder.and(predicates.toArray(new Predicate[0]));
