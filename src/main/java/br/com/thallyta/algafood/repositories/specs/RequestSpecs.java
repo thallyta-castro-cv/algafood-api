@@ -12,8 +12,10 @@ public class RequestSpecs {
 
     public static Specification<Request> usingParams(ListRequestParams params) {
         return (root, query, builder) -> {
-            root.fetch("client");
-            root.fetch("restaurant").fetch("kitchen");
+            if (Request.class.equals(query.getResultType())) {
+                root.fetch("restaurant").fetch("kitchen");
+                root.fetch("client");
+            }
 
             var predicates =  new ArrayList<Predicate>();
 

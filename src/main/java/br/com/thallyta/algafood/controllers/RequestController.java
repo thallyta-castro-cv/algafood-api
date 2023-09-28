@@ -13,6 +13,10 @@ import br.com.thallyta.algafood.repositories.RequestRepository;
 import br.com.thallyta.algafood.repositories.specs.RequestSpecs;
 import br.com.thallyta.algafood.services.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,9 +44,11 @@ public class RequestController {
 
 
     @GetMapping
-    public List<RequestResponseDTO> getAll(ListRequestParams params) {
-        List<Request> requests = requestRepository.findAll(RequestSpecs.usingParams(params));
-        return responseDTOAssembler.toCollectionModel(requests);
+    public Page<RequestResponseDTO> getAll(ListRequestParams params,
+                                           @PageableDefault(size = 10) Pageable pageable) {
+        Page<Request> requests = requestRepository.findAll(RequestSpecs.usingParams(params), pageable);
+        List<RequestResponseDTO> requestsDTO = responseDTOAssembler.toCollectionModel(requests.getContent());
+        return new PageImpl<>(requestsDTO, pageable, requests.getTotalElements());
     }
 
     @GetMapping("/{requestId}")
