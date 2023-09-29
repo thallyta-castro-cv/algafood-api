@@ -1,13 +1,11 @@
 package br.com.thallyta.algafood.models.dtos.responses;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@JsonFilter("requestFilter")
 @Getter
 @Setter
 public class RequestSummaryResponseDTO {

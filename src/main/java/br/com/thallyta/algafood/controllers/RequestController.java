@@ -8,6 +8,7 @@ import br.com.thallyta.algafood.models.assembler.response.RequestResponseDTOAsse
 import br.com.thallyta.algafood.models.assembler.response.RequestSummaryResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.requests.RequestRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.RequestResponseDTO;
+import br.com.thallyta.algafood.models.dtos.responses.RequestSummaryResponseDTO;
 import br.com.thallyta.algafood.models.params.ListRequestParams;
 import br.com.thallyta.algafood.repositories.RequestRepository;
 import br.com.thallyta.algafood.repositories.specs.RequestSpecs;
@@ -44,10 +45,11 @@ public class RequestController {
 
 
     @GetMapping
-    public Page<RequestResponseDTO> getAll(ListRequestParams params,
-                                           @PageableDefault(size = 10) Pageable pageable) {
+    public Page<RequestSummaryResponseDTO> getAll(ListRequestParams params,
+                                                            @PageableDefault(size = 10) Pageable pageable) {
+        pageable = requestService.translatePageable(pageable);
         Page<Request> requests = requestRepository.findAll(RequestSpecs.usingParams(params), pageable);
-        List<RequestResponseDTO> requestsDTO = responseDTOAssembler.toCollectionModel(requests.getContent());
+        List<RequestSummaryResponseDTO> requestsDTO = responseSummaryDTOAssembler.toCollectionModel(requests.getContent());
         return new PageImpl<>(requestsDTO, pageable, requests.getTotalElements());
     }
 
