@@ -17,14 +17,12 @@ public class RestaurantQueriesImpl implements RestaurantQueries {
     EntityManager manager;
 
     @Override
-    public List<Restaurant> list(ListRestaurantParams params) {
+    public List list(ListRestaurantParams params) {
         String sql = "select restaurant from Restaurant restaurant " +
                      "where ";
 
         sql += getSqlParams(params);
-
         Query query = getParameters(sql, params);
-
         return query.getResultList();
     }
 

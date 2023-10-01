@@ -9,9 +9,15 @@ import br.com.thallyta.algafood.models.assembler.response.RequestSummaryResponse
 import br.com.thallyta.algafood.models.dtos.requests.RequestRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.RequestResponseDTO;
 import br.com.thallyta.algafood.models.dtos.responses.RequestSummaryResponseDTO;
+import br.com.thallyta.algafood.models.params.ListRequestParams;
 import br.com.thallyta.algafood.repositories.RequestRepository;
+import br.com.thallyta.algafood.repositories.specs.RequestSpecs;
 import br.com.thallyta.algafood.services.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,10 +43,14 @@ public class RequestController {
     @Autowired
     private RequestRequestDTODisassembler requestDTODisassembler;
 
+
     @GetMapping
-    public List<RequestSummaryResponseDTO> getAll() {
-        List<Request> requests = requestRepository.findAll();
-        return responseSummaryDTOAssembler.toCollectionModel(requests);
+    public Page<RequestSummaryResponseDTO> getAll(ListRequestParams params,
+                                                            @PageableDefault(size = 10) Pageable pageable) {
+        pageable = requestService.translatePageable(pageable);
+        Page<Request> requests = requestRepository.findAll(RequestSpecs.usingParams(params), pageable);
+        List<RequestSummaryResponseDTO> requestsDTO = responseSummaryDTOAssembler.toCollectionModel(requests.getContent());
+        return new PageImpl<>(requestsDTO, pageable, requests.getTotalElements());
     }
 
     @GetMapping("/{requestId}")

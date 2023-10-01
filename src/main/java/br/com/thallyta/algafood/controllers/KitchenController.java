@@ -8,6 +8,9 @@ import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
 import br.com.thallyta.algafood.repositories.KitchenRepository;
 import br.com.thallyta.algafood.services.KitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +34,10 @@ public class KitchenController {
     private KitchenResponseDTOAssembler kitchenAssembler;
 
     @GetMapping
-    public List<KitchenResponseDTO> getAll(){
-        List<Kitchen> kitchens = kitchenService.getAll();
-        return kitchenAssembler.toCollectionModel(kitchens);
+    public Page<KitchenResponseDTO> getAll(Pageable pageable){
+        Page<Kitchen> kitchens = kitchenService.getAll(pageable);
+        List<KitchenResponseDTO> kitchenResponseDTOList = kitchenAssembler.toCollectionModel(kitchens.getContent());
+        return new PageImpl<>(kitchenResponseDTOList, pageable, kitchens.getTotalElements());
     }
 
     @GetMapping("/{id}")
