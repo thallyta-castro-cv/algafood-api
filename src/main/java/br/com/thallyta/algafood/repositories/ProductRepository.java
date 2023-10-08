@@ -2,6 +2,7 @@ package br.com.thallyta.algafood.repositories;
 
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.Restaurant;
+import br.com.thallyta.algafood.repositories.queries.product.ProductRepositoryQueries;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryQueries {
 
     @Query("from Product where restaurant.id = :restaurant and id = :product")
     Optional<Product> findById(@Param("restaurant") Long restaurantId,
