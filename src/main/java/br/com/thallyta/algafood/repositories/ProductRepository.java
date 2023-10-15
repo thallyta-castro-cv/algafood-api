@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.repositories;
 
 import br.com.thallyta.algafood.models.Product;
+import br.com.thallyta.algafood.models.ProductPhoto;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.repositories.queries.product.ProductRepositoryQueries;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
 
     @Query("from Product p where p.active = true and p.restaurant = :restaurant")
     List<Product> findByActiveByRestaurant(Restaurant restaurant);
+
+    @Query("select f from ProductPhoto f join f.product p "
+            + "where p.restaurant.id = :restaurantId and f.product.id = :productId")
+    Optional<ProductPhoto> findPhotoById(Long restaurantId, Long productId);
 }
