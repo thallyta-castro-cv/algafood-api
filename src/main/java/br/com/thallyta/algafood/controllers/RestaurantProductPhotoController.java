@@ -9,10 +9,7 @@ import br.com.thallyta.algafood.services.ProductService;
 import br.com.thallyta.algafood.services.RestaurantPhotoProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -45,8 +42,15 @@ public class RestaurantProductPhotoController {
         photo.setContentType(file.getContentType());
         photo.setSize(file.getSize());
         photo.setFileName(file.getOriginalFilename());
-
         ProductPhoto photoSaved = restaurantProductService.save(photo, file.getInputStream());
+
         return photoProductResponseDTOAssembler.toPhotoProductResponseDTO(photoSaved);
+    }
+
+    @GetMapping
+    public ProductPhotoResponseDTO findById(@PathVariable Long restaurantId,
+                                            @PathVariable Long productId) {
+        ProductPhoto productPhoto = restaurantProductService.findOrFail(restaurantId, productId);
+        return photoProductResponseDTOAssembler.toPhotoProductResponseDTO(productPhoto);
     }
 }

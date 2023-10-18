@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.services;
 
+import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.ProductPhoto;
 import br.com.thallyta.algafood.repositories.ProductRepository;
 import br.com.thallyta.algafood.services.photo_local_storage.PhotoLocalStorageService.NewPhoto;
@@ -47,5 +48,10 @@ public class RestaurantPhotoProductService {
 
         photoLocalStorageService.replace(fileNameFound, newPhoto);
         return photo;
+    }
+
+    public ProductPhoto findOrFail(Long restaurantId, Long productId){
+        return productRepository.findPhotoById(restaurantId, productId)
+                .orElseThrow(() -> new NotFoundException("Não foi encontrado uma foto de produto para o restaurante e/ou produto informado"));
     }
 }
