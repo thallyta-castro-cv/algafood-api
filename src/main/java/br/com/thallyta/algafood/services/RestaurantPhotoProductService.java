@@ -6,10 +6,13 @@ import br.com.thallyta.algafood.repositories.ProductRepository;
 import br.com.thallyta.algafood.services.photo_local_storage.PhotoLocalStorageService.NewPhoto;
 import br.com.thallyta.algafood.services.photo_local_storage.PhotoLocalStorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,5 +56,14 @@ public class RestaurantPhotoProductService {
     public ProductPhoto findOrFail(Long restaurantId, Long productId){
         return productRepository.findPhotoById(restaurantId, productId)
                 .orElseThrow(() -> new NotFoundException("Não foi encontrado uma foto de produto para o restaurante e/ou produto informado"));
+    }
+
+    public void verifyCompatibilityMediaType(MediaType mediaType, String acceptHeader) throws HttpMediaTypeNotAcceptableException {
+
+        List<MediaType> mediaTypes = MediaType.parseMediaTypes(acceptHeader);
+        boolean compatible = mediaTypes.stream().anyMatch(mediaTypesAccept -> mediaTypesAccept.isCompatibleWith(mediaType));
+
+        if(!compatible)
+            throw new HttpMediaTypeNotAcceptableException(mediaTypes);
     }
 }
