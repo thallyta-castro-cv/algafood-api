@@ -11,6 +11,7 @@ import br.com.thallyta.algafood.services.RestaurantPhotoProductService;
 import br.com.thallyta.algafood.services.photo_local_storage.PhotoLocalStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -85,6 +86,13 @@ public class RestaurantProductPhotoController {
         } catch(NotFoundException e){
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long restaurantId,
+                        @PathVariable Long productId) {
+        restaurantProductService.delete(restaurantId, productId);
     }
 
 }

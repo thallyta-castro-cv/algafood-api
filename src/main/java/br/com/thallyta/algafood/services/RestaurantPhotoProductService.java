@@ -53,6 +53,14 @@ public class RestaurantPhotoProductService {
         return photo;
     }
 
+    @Transactional
+    public void delete(Long restaurantId, Long productId) {
+        ProductPhoto photo = findOrFail(restaurantId, productId);
+        productRepository.delete(photo);
+        productRepository.flush();
+        photoLocalStorageService.remove(photo.getFileName());
+    }
+
     public ProductPhoto findOrFail(Long restaurantId, Long productId){
         return productRepository.findPhotoById(restaurantId, productId)
                 .orElseThrow(() -> new NotFoundException("Não foi encontrado uma foto de produto para o restaurante e/ou produto informado"));
