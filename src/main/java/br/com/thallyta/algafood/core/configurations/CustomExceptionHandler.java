@@ -22,6 +22,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -77,6 +78,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         LogExceptionAdapter error = new LogExceptionAdapter(httpInternalError, exception, message);
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpInternalError, request);
     }
+
+    @Override
+    protected @NotNull ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(@NotNull HttpMediaTypeNotAcceptableException ex,
+                                                                               @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                                               @NotNull WebRequest request) {
+        return ResponseEntity.status(status).headers(headers).build();
+    }
+
 
     @Override
     protected @NotNull ResponseEntity<Object> handleHttpMessageNotReadable(@NotNull HttpMessageNotReadableException exception,
