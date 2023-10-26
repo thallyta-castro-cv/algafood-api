@@ -3,8 +3,7 @@ package br.com.thallyta.algafood.services;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.ProductPhoto;
 import br.com.thallyta.algafood.repositories.ProductRepository;
-import br.com.thallyta.algafood.services.photo_local_storage.PhotoLocalStorageService.NewPhoto;
-import br.com.thallyta.algafood.services.photo_local_storage.PhotoLocalStorageServiceImpl;
+import br.com.thallyta.algafood.services.storage.PhotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class RestaurantPhotoProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private PhotoLocalStorageServiceImpl photoLocalStorageService;
+    private PhotoStorageService photoLocalStorageService;
 
     @Transactional
     public ProductPhoto save (ProductPhoto photo, InputStream inputStream) {
@@ -44,8 +43,9 @@ public class RestaurantPhotoProductService {
         photo = productRepository.save(photo);
         productRepository.flush();
 
-        NewPhoto newPhoto = NewPhoto.builder()
+        PhotoStorageService.NewPhoto newPhoto = PhotoStorageService.NewPhoto.builder()
                 .fileName(photo.getFileName())
+                .contentType(photo.getContentType())
                 .inputStream(inputStream)
                 .build();
 

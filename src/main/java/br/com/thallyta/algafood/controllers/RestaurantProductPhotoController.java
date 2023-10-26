@@ -8,9 +8,10 @@ import br.com.thallyta.algafood.models.dtos.requests.ProductPhotoRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.ProductPhotoResponseDTO;
 import br.com.thallyta.algafood.services.ProductService;
 import br.com.thallyta.algafood.services.RestaurantPhotoProductService;
-import br.com.thallyta.algafood.services.photo_local_storage.PhotoLocalStorageService;
+import br.com.thallyta.algafood.services.storage.PhotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
@@ -36,7 +36,7 @@ public class RestaurantProductPhotoController {
     private PhotoProductResponseDTOAssembler photoProductResponseDTOAssembler;
 
     @Autowired
-    private PhotoLocalStorageService photoLocalStorageService;
+    private PhotoStorageService photoLocalStorageService;
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoResponseDTO updateFile(@PathVariable  Long restaurantId,
@@ -81,8 +81,17 @@ public class RestaurantProductPhotoController {
             ProductPhoto productPhoto = restaurantProductService.findOrFail(restaurantId, productId);
             MediaType mediaType = MediaType.parseMediaType(productPhoto.getContentType());
             restaurantProductService.verifyCompatibilityMediaType(mediaType, acceptHeader);
-            InputStream inputStream = photoLocalStorageService.recover(productPhoto.getFileName());
-            return ResponseEntity.ok().contentType(mediaType).body(new InputStreamResource(inputStream));
+            PhotoStorageService.RecoverPhoto recoverPhoto = photoLocalStorageService.recover(productPhoto.getFileName());
+
+            if(recoverPhoto.hasUrl()){
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, recoverPhoto.getUrl())
+                        .build();
+            } else {
+                return ResponseEntity.ok().contentType(mediaType)
+                        .body(new InputStreamResource(recoverPhoto.getInputStream()));
+            }
+
         } catch(NotFoundException e){
             return ResponseEntity.notFound().build();
         }

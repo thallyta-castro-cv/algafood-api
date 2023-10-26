@@ -107,6 +107,12 @@
 			<version>${squiggly.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.11.671</version>
+		</dependency>
+
     </dependencies>
 
 	<build>

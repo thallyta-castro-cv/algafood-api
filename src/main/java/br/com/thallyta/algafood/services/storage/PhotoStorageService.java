@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.services.photo_local_storage;
+package br.com.thallyta.algafood.services.storage;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,12 +6,12 @@ import lombok.Getter;
 import java.io.InputStream;
 import java.util.UUID;
 
-public interface PhotoLocalStorageService {
+public interface PhotoStorageService {
     void store(NewPhoto newPhoto);
 
     void remove(String nameFile);
 
-    InputStream recover(String nameFile);
+    RecoverPhoto recover(String nameFile);
 
     default void replace(String nameFileFound, NewPhoto newPhoto){
        this.store(newPhoto);
@@ -29,6 +29,23 @@ public interface PhotoLocalStorageService {
     @Getter
     class NewPhoto {
         private String fileName;
+        private String contentType;
         private InputStream inputStream;
     }
+
+    @Builder
+    @Getter
+    class RecoverPhoto {
+        private InputStream inputStream;
+        private String url;
+
+        public boolean hasUrl() {
+            return url != null;
+        }
+
+        public boolean hasInputStream() {
+            return inputStream != null;
+        }
+    }
+
 }

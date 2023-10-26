@@ -1,19 +1,18 @@
-package br.com.thallyta.algafood.services.photo_local_storage;
+package br.com.thallyta.algafood.services.storage.photo_local_storage;
 
 import br.com.thallyta.algafood.core.exceptions.StorageException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import br.com.thallyta.algafood.core.storage.StorageProperties;
+import br.com.thallyta.algafood.services.storage.PhotoStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
-public class PhotoLocalStorageServiceImpl implements PhotoLocalStorageService {
+public class PhotoLocalStorageService implements PhotoStorageService {
 
-    @Value("${algafood.storage.local.directory-photos}")
-    private Path directoryPhotos;
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Override
     public void store(NewPhoto newPhoto) {
@@ -36,17 +35,20 @@ public class PhotoLocalStorageServiceImpl implements PhotoLocalStorageService {
     }
 
     @Override
-    public InputStream recover(String nameFile) {
+    public RecoverPhoto recover(String nameFile) {
         try {
             Path pathFile = getDirectoryPhotos(nameFile);
-            return Files.newInputStream(pathFile);
+            return RecoverPhoto.builder()
+                    .inputStream(Files.newInputStream(pathFile))
+                    .build();
         } catch (Exception e) {
             throw new StorageException("Não foi possível recuperar o arquivo.", e);
         }
     }
 
     private Path getDirectoryPhotos(String fileName) {
-        return directoryPhotos.resolve(Path.of(fileName));
+        return storageProperties.getLocal().getDirectoryPhotos()
+                .resolve(Path.of(fileName));
     }
 
 }
