@@ -21,7 +21,7 @@ public class KitchenResponseDTOAssembler {
 
     public List<KitchenResponseDTO> toCollectionModel(List<Kitchen> kitchens) {
         return kitchens.stream()
-                .map(kitchen -> toKitchenResponse(kitchen))
+                .map(this::toKitchenResponse)
                 .collect(Collectors.toList());
     }
 }
