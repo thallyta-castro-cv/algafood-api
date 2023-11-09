@@ -1,0 +1,28 @@
+<body style="font: 14px Arial, Helvetica, sans-serif">
+    <h1 style="color: red; font-size: 26px">Pedido confirmado!</h1>
+    <p>${request.client.name}, seu pedido foi confirmado pelo restaurante e já
+        está sendo preparado.
+    </p>
+    <h2 style="font-size: 20px">${request.restaurant.name}</h2>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0"
+           style="max-width: 400px; color: #6F6F6F">
+            <#list request.items as item>
+                <tr>
+                    <td style="padding: 10px 0">${item.amount}x ${item.product.name}</td>
+                    <td style="width: 30px">${item.totalPrice?string.currency}</td>
+                </tr>
+            </#list>
+        <tr>
+            <td style="padding: 10px 0">Frete</td>
+            <td>${request.shippingFee?string.currency}</td>
+        </tr>
+        <tr style="font-weight: bold">
+            <td style="padding: 10px 0">Total</td>
+            <td>${request.totalValue?string.currency}</td>
+        </tr>
+    </table>
+
+    <h2 style="font-size: 20px">Forma de pagamento</h2>
+    <p style="color: #6F6F6F">${request.formPayment.description}</p>
+</body>
+</html>

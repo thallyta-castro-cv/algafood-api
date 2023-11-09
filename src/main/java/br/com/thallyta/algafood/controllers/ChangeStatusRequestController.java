@@ -14,7 +14,7 @@ public class ChangeStatusRequestController {
 
     @PutMapping("/confirm")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void confirmRequest(@PathVariable String code) {
+    public void confirmRequest(@PathVariable String code){
         changeStatusRequestService.confirmRequest(code);
     }
 
