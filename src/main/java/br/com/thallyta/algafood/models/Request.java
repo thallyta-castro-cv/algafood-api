@@ -1,11 +1,14 @@
 package br.com.thallyta.algafood.models;
 
+import br.com.thallyta.algafood.core.event.RequestCanceledEvent;
+import br.com.thallyta.algafood.core.event.RequestConfirmedEvent;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.models.enums.RequestStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,7 +21,7 @@ import java.util.UUID;
 @Table(name="tb_request")
 @Getter
 @Setter
-public class Request {
+public class Request extends AbstractAggregateRoot<Request> {
 
     @EqualsAndHashCode.Include
     @Id
@@ -86,11 +89,13 @@ public class Request {
     public void confirmRequest() {
         setRequestStatus(RequestStatus.CONFIRMADO);
         setConfirmationDate(OffsetDateTime.now());
+        registerEvent(new RequestConfirmedEvent(this));
     }
 
     public void cancelRequest() {
         setRequestStatus(RequestStatus.CANCELADO);
         setCancellationDate(OffsetDateTime.now());
+        registerEvent(new RequestCanceledEvent(this));
     }
 
     public void deliverRequest() {
