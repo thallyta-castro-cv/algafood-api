@@ -53,7 +53,8 @@ mvn clean install
 - feat/include-patterns -> Inclusão de DTO's e Mappers nos CRUD's para aplicação de boas práticas.
 - feat/advanced-api -> Modelagem avançada de API's usando sub-recursos para relacionamento, granularidade de recursos e conceitos abstratos e não-CRUD.
 - feat/search-reports-projections -> Implementação de pesquisas, relatorios e projeções no sistema.
-- feat/upload-download-files -> Implementação de download e upload de arquivos.
+- feat/upload-download-files -> Implementação de download e upload de arquivos com AWS S3 e armazenamento local.
+- feat/feat/send-transactional-email -> Implementação de envio de emails transacionais com AWS SES.
 
 ## Branches de referência - Testes
 - feat/unitary-tests -> Implementação de testes unitários com jUnit 5 e Mockito
