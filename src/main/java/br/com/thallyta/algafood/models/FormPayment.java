@@ -2,8 +2,10 @@ package br.com.thallyta.algafood.models;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name="tb_form_payments")
@@ -18,4 +20,7 @@ public class FormPayment {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @UpdateTimestamp
+    private OffsetDateTime updatedDate;
 }

@@ -8,11 +8,17 @@ import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;
 import br.com.thallyta.algafood.repositories.FormPaymentRepository;
 import br.com.thallyta.algafood.services.FormPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import javax.validation.Valid;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/forms-payment")
@@ -31,15 +37,34 @@ public class FormPaymentController {
     private FormPaymentDTODisassembler formPaymentDisassembler;
 
     @GetMapping
-    public List<FormPaymentResponseDTO> getAll(){
+    public ResponseEntity<List<FormPaymentResponseDTO>> getAll(ServletWebRequest request){
+        ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+        OffsetDateTime lastUpdatedDate = formPaymentRepository.getUpdatedDate();
+        String eTag = "0";
+
+        if(lastUpdatedDate != null){
+            eTag = String.valueOf(lastUpdatedDate.toEpochSecond());
+        }
+
+        if(request.checkNotModified(eTag)){
+            return null;
+        }
+
         List<FormPayment> formPayments = formPaymentService.getAll();
-        return formPaymentAssembler.toCollectionModel(formPayments);
+        List<FormPaymentResponseDTO> formPaymentResponseDTOS =  formPaymentAssembler.toCollectionModel(formPayments);
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .eTag(eTag)
+                .body(formPaymentResponseDTOS);
     }
 
     @GetMapping("/{id}")
-    public FormPaymentResponseDTO getById(@PathVariable Long id){
+    public ResponseEntity<FormPaymentResponseDTO> getById(@PathVariable Long id){
         FormPayment formPayment =  formPaymentService.findOrFail(id);
-        return formPaymentAssembler.toFormPaymentResponse(formPayment);
+        FormPaymentResponseDTO formPaymentResponseDTO = formPaymentAssembler.toFormPaymentResponse(formPayment);
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
+                .body(formPaymentResponseDTO);
     }
 
     @PostMapping
