@@ -55,6 +55,7 @@ mvn clean install
 - feat/search-reports-projections -> Implementação de pesquisas, relatorios e projeções no sistema.
 - feat/upload-download-files -> Implementação de download e upload de arquivos com AWS S3 e armazenamento local.
 - feat/send-transactional-email -> Implementação de envio de emails transacionais com AWS SES.
+- feat/api-client-js-java -> Implementação de cache e ptimizações gerais para consumo do cliente.
 
 ## Branches de referência - Testes
 - feat/unitary-tests -> Implementação de testes unitários com jUnit 5 e Mockito
