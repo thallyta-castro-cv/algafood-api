@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.controllers.openapi.CityControllerOpenApi;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.City;
@@ -7,7 +8,6 @@ import br.com.thallyta.algafood.models.assembler.request.CityRequestDTODisassemb
 import br.com.thallyta.algafood.models.assembler.response.CityResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.requests.CityRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
-import br.com.thallyta.algafood.repositories.CityRepository;
 import br.com.thallyta.algafood.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cities")
-public class CityController {
-
-    @Autowired
-    private CityRepository cityRepository;
+public class CityController implements CityControllerOpenApi {
 
     @Autowired
     private CityService cityService;
@@ -56,8 +53,8 @@ public class CityController {
     }
 
     @PutMapping("/{id}")
-    public CityResponseDTO update(@PathVariable Long id, @RequestBody @Valid CityRequestDTO cityRequestDTO) {
-
+    public CityResponseDTO update(@PathVariable Long id,
+                                  @RequestBody @Valid CityRequestDTO cityRequestDTO) {
         try {
             City cityFound = cityService.findOrFail(id);
             cityDisassembler.copyToDomainObject(cityRequestDTO, cityFound);
