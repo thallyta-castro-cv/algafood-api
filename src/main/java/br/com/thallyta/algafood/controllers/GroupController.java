@@ -1,25 +1,23 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.controllers.openapi.GroupControllerOpenApi;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.request.GroupRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.GroupResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.requests.GroupRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
-import br.com.thallyta.algafood.repositories.GroupRepository;
 import br.com.thallyta.algafood.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/groups")
-public class GroupController {
-
-    @Autowired
-    private GroupRepository groupRepository;
+@RequestMapping(path = "/groups", produces = MediaType.APPLICATION_JSON_VALUE)
+public class GroupController implements GroupControllerOpenApi {
 
     @Autowired
     private GroupService groupService;

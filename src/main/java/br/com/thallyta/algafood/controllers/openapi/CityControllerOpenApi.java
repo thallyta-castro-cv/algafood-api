@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Api(tags = "Cidades")
-public interface CityControllerOpenApi {
+public interface CityControllerOpenApi{
 
     @ApiOperation("Busca todas as cidades cadastradas")
     @GetMapping
