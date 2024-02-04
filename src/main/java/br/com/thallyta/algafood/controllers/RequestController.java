@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.openapi.RequestControllerOpenApi;
 import br.com.thallyta.algafood.models.Request;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.request.RequestRequestDTODisassembler;
@@ -26,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/requests")
-public class RequestController {
+public class RequestController implements RequestControllerOpenApi {
 
     @Autowired
     private RequestRepository requestRepository;

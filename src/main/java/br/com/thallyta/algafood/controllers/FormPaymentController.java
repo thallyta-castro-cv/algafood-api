@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.FormPaymentControllerOpenApi;
 import br.com.thallyta.algafood.models.FormPayment;
 import br.com.thallyta.algafood.models.assembler.request.FormPaymentDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.FormPaymentResponseDTOAssembler;
@@ -21,8 +22,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/forms-payment")
-public class FormPaymentController {
+@RequestMapping(path = "/forms-payment")
+public class FormPaymentController implements FormPaymentControllerOpenApi {
 
     @Autowired
     private FormPaymentRepository formPaymentRepository;

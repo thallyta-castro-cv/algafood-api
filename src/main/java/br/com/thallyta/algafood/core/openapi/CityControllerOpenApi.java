@@ -1,10 +1,9 @@
-package br.com.thallyta.algafood.controllers.openapi;
+package br.com.thallyta.algafood.core.openapi;
 
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.CityRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -12,8 +11,7 @@ import java.util.List;
 public interface CityControllerOpenApi{
 
     @ApiOperation("Busca todas as cidades cadastradas")
-    @GetMapping
-    public List<CityResponseDTO> getAll();
+    List<CityResponseDTO> getAll();
 
     @ApiOperation("Busca uma cidade por ID")
     @ApiResponses({
@@ -34,5 +32,5 @@ public interface CityControllerOpenApi{
 
     @ApiOperation("Deleta uma cidade por ID")
     @ApiResponse(code = 404, message = "Cidade não encontrada", response = LogExceptionAdapter.class)
-    public void delete(@ApiParam(value="ID de uma cidade", example = "1") Long id);
+    void delete(@ApiParam(value="ID de uma cidade", example = "1") Long id);
 }

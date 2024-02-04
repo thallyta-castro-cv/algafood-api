@@ -1,13 +1,22 @@
-package br.com.thallyta.algafood.core.openapi;
+package br.com.thallyta.algafood.core.openapi.config;
 
+import br.com.thallyta.algafood.core.openapi.RequestControllerOpenApi;
+import br.com.thallyta.algafood.core.openapi.models.KitchensModelOpenApi;
+import br.com.thallyta.algafood.core.openapi.models.PageableModelApi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
+import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
+import br.com.thallyta.algafood.models.dtos.responses.RequestSummaryResponseDTO;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import springfox.documentation.builders.*;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Response;
 import springfox.documentation.service.Tag;
@@ -36,9 +45,22 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(LogExceptionAdapter.class))
+                .ignoredParameterTypes(ServletWebRequest.class)
+                .directModelSubstitute(Pageable.class, PageableModelApi.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, KitchenResponseDTO.class),
+                        KitchensModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, RequestSummaryResponseDTO.class),
+                        RequestControllerOpenApi.class))
+                .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
-                        new Tag("Grupos", "Gerencia os grupos de usuários"));
+                      new Tag("Grupos", "Gerencia os grupos de usuários"),
+                      new Tag("Cozinhas", "Gerencia as cozinhas"),
+                      new Tag("Restaurantes", "Gerencia os restaurantes"),
+                      new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
+                      new Tag("Pedidos", "Gerencia os pedidos"));
     }
 
     public ApiInfo apiInfo() {

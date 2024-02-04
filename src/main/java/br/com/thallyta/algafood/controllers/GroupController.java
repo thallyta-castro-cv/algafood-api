@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.controllers.openapi.GroupControllerOpenApi;
+import br.com.thallyta.algafood.core.openapi.GroupControllerOpenApi;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.request.GroupRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.GroupResponseDTOAssembler;
@@ -54,7 +54,7 @@ public class GroupController implements GroupControllerOpenApi {
         return assembler.toGroupResponse(groupService.save(groupFound));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         groupService.delete(id);
