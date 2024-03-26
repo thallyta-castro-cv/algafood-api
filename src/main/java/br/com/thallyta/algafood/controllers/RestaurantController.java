@@ -2,19 +2,17 @@ package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.openapi.RestaurantControllerOpenApi;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.request.RestaurantRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.RestaurantResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.requests.RestaurantRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.RestaurantResponseDTO;
-import br.com.thallyta.algafood.models.views.RestaurantView;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;
 import br.com.thallyta.algafood.services.RestaurantService;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurants")
-public class RestaurantController {
+public class RestaurantController implements RestaurantControllerOpenApi {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -39,46 +37,9 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    /**
-     * Retorna todos os restaurantes com base nos parâmetros definidos no DTO especificado.
-     * Utilize o parâmetro 'getAll' para evitar ambiguidades ao realizar consultas.
-     * @return Uma lista de restaurantes que atendem aos critérios definidos no DTO.
-     */
-    @GetMapping(params="projection=getAll")
     public List<RestaurantResponseDTO> getAll(){
         List<Restaurant> restaurants = restaurantService.getAll();
         return restaurantAssembler.toCollectionModel(restaurants);
-    }
-
-    /**
-     * Determina a saída de dados com base na escolha entre retornar todos os dados ou utilizar visualizações específicas.
-     * @param projections Uma string que especifica a visualização desejada.
-     * @return Os dados de acordo com a visualização selecionada.
-     */
-    @GetMapping
-    public MappingJacksonValue getAllDynamically(@RequestParam(required = false) String projections) {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        List<RestaurantResponseDTO> responseDTO = restaurantAssembler.toCollectionModel(restaurants);
-        MappingJacksonValue restaurantsWrapper = new MappingJacksonValue(responseDTO);
-
-        if ("resume-restaurant".equals(projections)) {
-            restaurantsWrapper.setSerializationView(RestaurantView.ResumeRestaurant.class);
-        } else if ("complete".equals(projections)) {
-            restaurantsWrapper.setSerializationView(null);
-        }
-
-        return restaurantsWrapper;
-    }
-
-    /**
-     * Retorna um DTO contendo todos os restaurantes com campos anotados com @JsonView(RestaurantView.ResumeRestaurant.class).
-     * @return Um DTO contendo os restaurantes e os seguintes campos: id, nome, taxa de entrega, id da cozinha, nome da cozinha.
-     */
-
-    @JsonView(RestaurantView.ResumeRestaurant.class)
-    @GetMapping(params="projection=resume")
-    public List<RestaurantResponseDTO> getAllResume(){
-        return getAll();
     }
 
     @GetMapping("/{id}")
@@ -152,7 +113,7 @@ public class RestaurantController {
         }
     }
 
-    @DeleteMapping("/activations")
+    @DeleteMapping("/deactivations")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inactiveSeveral(@RequestBody List<Long> restaurantsId){
         try{
