@@ -2,7 +2,6 @@ package br.com.thallyta.algafood.core.storage;
 
 import br.com.thallyta.algafood.services.storage.PhotoStorageService;
 import br.com.thallyta.algafood.services.storage.photo_cloud_storage.PhotoS3StorageService;
-import br.com.thallyta.algafood.services.storage.photo_local_storage.PhotoLocalStorageService;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -30,10 +29,7 @@ public class StorageConfig {
 
     @Bean
     public PhotoStorageService photoStorageService() {
-        if(StorageProperties.StorageType.S3.equals(storageProperties.getType()))
-            return new PhotoS3StorageService();
-        else
-            return new PhotoLocalStorageService();
+         return new PhotoS3StorageService();
     }
 
 }

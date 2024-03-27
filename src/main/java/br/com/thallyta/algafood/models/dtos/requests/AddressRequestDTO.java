@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -26,6 +25,5 @@ public class AddressRequestDTO {
     private String neighborhood;
 
     @Valid
-    @NotNull(message = "O campo cidade deve ser informado")
     private CityIdRequestDTO city;
 }

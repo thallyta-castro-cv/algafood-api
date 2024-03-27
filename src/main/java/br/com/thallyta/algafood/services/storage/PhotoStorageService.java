@@ -42,10 +42,6 @@ public interface PhotoStorageService {
         public boolean hasUrl() {
             return url != null;
         }
-
-        public boolean hasInputStream() {
-            return inputStream != null;
-        }
     }
 
 }
