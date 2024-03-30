@@ -71,13 +71,6 @@ http://localhost:8080/swagger-ui/index.html#/
 - feat/unitary-tests -> Implementação de testes unitários com jUnit 5 e Mockito
 - feat/api-tests -> Implementação de testes de integração e api com banco de dados de teste
 
-# Resumo teórico
-Resumo sobre teoria e conceitos de Java com Spring no notion:
-https://www.notion.so/Ecossistema-Spring-197f2d4de72249b19e6e6978becfd735
-
-Resumo sobre teoria e conceitos de Java e JPA no notion:
-https://www.notion.so/Banco-de-dados-com-Java-e-JPA-bf6c88ac954f4bd7acb57384b67931ed
-
 # Autor
 <b>Thallyta Macedo Carvalho de Castro</b>
 
