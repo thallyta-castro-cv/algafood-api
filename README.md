@@ -21,6 +21,9 @@ O intuito deste projeto é servir de repositório base para consultas futuras de
 - MySql
 - jUnit 5
 - Mockito
+- Swagger
+- OpenApi 3
+- SpringFox
 
 ### Bibliotecas e plugins utilizados
 
@@ -42,6 +45,12 @@ Instale as dependências do maven com o comando:
 mvn clean install
 ```
 
+Consultar documentação da Api:
+
+```shell script
+http://localhost:8080/swagger-ui/index.html#/
+```
+
 ## Branches de referência - Desenvolvimento
 
 - master -> Projeto completo
@@ -56,6 +65,7 @@ mvn clean install
 - feat/upload-download-files -> Implementação de download e upload de arquivos com AWS S3 e armazenamento local.
 - feat/send-transactional-email -> Implementação de envio de emails transacionais com AWS SES.
 - feat/api-client-js-java -> Implementação de cache e ptimizações gerais para consumo do cliente.
+- feat/implements-api-docs -> Documentação da Api com Swagger OpenApi 3
 
 ## Branches de referência - Testes
 - feat/unitary-tests -> Implementação de testes unitários com jUnit 5 e Mockito
