@@ -21,18 +21,18 @@ import javax.validation.Valid;
 public interface RequestControllerOpenApi {
 
     @ApiOperation("Pesquisa os pedidos")
-    public Page<RequestSummaryResponseDTO> getAll(ListRequestParams params,
+    Page<RequestSummaryResponseDTO> getAll(ListRequestParams params,
                                                   @PageableDefault(size = 10) Pageable pageable);
 
     @ApiOperation("Busca um pedido por código")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Pedido não encontrado", response = LogExceptionAdapter.class)
     })
-    public RequestResponseDTO getById(@PathVariable String code);
+    RequestResponseDTO getById(@PathVariable String code);
 
     @ApiOperation("Registra um pedido")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Pedido registrado"),
     })
-    public RequestResponseDTO createRequest(@Valid @RequestBody RequestRequestDTO requestDTO);
+    RequestResponseDTO createRequest(@Valid @RequestBody RequestRequestDTO requestDTO);
 }

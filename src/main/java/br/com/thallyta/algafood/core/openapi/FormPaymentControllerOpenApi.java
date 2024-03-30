@@ -13,20 +13,20 @@ import java.util.List;
 public interface FormPaymentControllerOpenApi {
 
     @ApiOperation("Lista todas as formas de pagamento")
-    public ResponseEntity<List<FormPaymentResponseDTO>> getAll(ServletWebRequest request);
+    ResponseEntity<List<FormPaymentResponseDTO>> getAll(ServletWebRequest request);
 
     @ApiOperation("Busca uma forma de pagamento por id")
     @ApiResponses({
             @ApiResponse(code = 400, message = "ID da forma de pagamento inválido", response = LogExceptionAdapter.class),
             @ApiResponse(code = 404, message = "Forma de pagamento não encontrada", response = LogExceptionAdapter.class)
     })
-    public ResponseEntity<FormPaymentResponseDTO> getById(@ApiParam(value = "ID de uma forma de pagamento", example = "1") Long id);
+    ResponseEntity<FormPaymentResponseDTO> getById(@ApiParam(value = "ID de uma forma de pagamento", example = "1") Long id);
 
     @ApiOperation("Cadastra uma forma de pagamento")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Forma de pagamento cadastrada"),
     })
-    public FormPaymentResponseDTO create(
+    FormPaymentResponseDTO create(
             @ApiParam(name = "corpo", value = "Representação de uma nova forma de pagamento")
             FormPaymentRequestDTO formPaymentRequestDTO);
 
@@ -35,7 +35,7 @@ public interface FormPaymentControllerOpenApi {
             @ApiResponse(code = 200, message = "Forma de pagamento atualizada"),
             @ApiResponse(code = 404, message = "Forma de pagamento não encontrada",  response = LogExceptionAdapter.class)
     })
-    public FormPaymentResponseDTO update(
+    FormPaymentResponseDTO update(
             @ApiParam(value = "ID de uma forma de pagamento", example = "1")
             Long formPaymentId,
             @ApiParam(name = "corpo", value = "Representação de uma forma de pagamento com os novos dados")
@@ -46,5 +46,5 @@ public interface FormPaymentControllerOpenApi {
             @ApiResponse(code = 204, message = "Forma de pagamento excluída"),
             @ApiResponse(code = 404, message = "Forma de pagamento não encontrada",  response = LogExceptionAdapter.class)
     })
-    public void delete(Long formPaymentId);
+    void delete(Long formPaymentId);
 }

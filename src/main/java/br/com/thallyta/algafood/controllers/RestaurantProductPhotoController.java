@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
+import br.com.thallyta.algafood.core.openapi.RestaurantProductPhotoControllerOpenApi;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.ProductPhoto;
 import br.com.thallyta.algafood.models.assembler.response.PhotoProductResponseDTOAssembler;
@@ -24,7 +25,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
-public class RestaurantProductPhotoController {
+public class RestaurantProductPhotoController implements RestaurantProductPhotoControllerOpenApi {
 
     @Autowired
     private ProductService productService;
@@ -41,10 +42,10 @@ public class RestaurantProductPhotoController {
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoResponseDTO updateFile(@PathVariable  Long restaurantId,
                                               @PathVariable Long productId,
-                                              @Valid ProductPhotoRequestDTO productPhotoRequestDTO) throws IOException {
+                                              @Valid ProductPhotoRequestDTO productPhotoRequestDTO,
+                                              @RequestPart(required = true) MultipartFile file) throws IOException {
 
         Product product = productService.findOrFail(restaurantId, productId);
-        MultipartFile file = productPhotoRequestDTO.getFile();
 
         ProductPhoto photo = new ProductPhoto();
         photo.setProduct(product);
@@ -57,22 +58,15 @@ public class RestaurantProductPhotoController {
         return photoProductResponseDTOAssembler.toPhotoProductResponseDTO(photoSaved);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public ProductPhotoResponseDTO findById(@PathVariable Long restaurantId,
                                             @PathVariable Long productId) {
         ProductPhoto productPhoto = restaurantProductService.findOrFail(restaurantId, productId);
         return photoProductResponseDTOAssembler.toPhotoProductResponseDTO(productPhoto);
     }
 
-    /**
-     * Método que retorna o arquivo de uma foto de um produto de acordo com o tipo de arquivo informado pelo cliente na requisição
-     * @param restaurantId o id do restaurante
-     * @param productId o id do produto
-     * @param acceptHeader o tipo de arquivo que o cliente deseja receber no corpo da resposta da requisição
-     * @return a foto encontrada no corpo da requisição
-     */
-    @GetMapping
-    public ResponseEntity<InputStreamResource> findFile(@PathVariable Long restaurantId,
+    @GetMapping(produces = MediaType.ALL_VALUE)
+    public ResponseEntity<?> findFile(@PathVariable Long restaurantId,
                                                         @PathVariable Long productId,
                                                         @RequestHeader(name="accept") String acceptHeader)
                                                         throws HttpMediaTypeNotAcceptableException {

@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.RestaurantFormPaymentsControllerOpenApi;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.response.FormPaymentResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurants/{restaurantId}/form-payments")
-public class RestaurantFormPaymentsController {
+public class RestaurantFormPaymentsController implements RestaurantFormPaymentsControllerOpenApi {
 
     @Autowired
     private RestaurantService restaurantService;

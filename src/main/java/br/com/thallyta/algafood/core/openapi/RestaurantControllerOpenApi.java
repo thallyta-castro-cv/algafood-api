@@ -13,7 +13,7 @@ import java.util.List;
 @Api(tags = "Restaurantes")
 public interface RestaurantControllerOpenApi {
 
-    public List<RestaurantResponseDTO> getAll();
+    List<RestaurantResponseDTO> getAll();
 
     @ApiOperation("Busca um restaurante por ID")
     @ApiResponses({
@@ -25,17 +25,16 @@ public interface RestaurantControllerOpenApi {
     @ApiOperation("Cadastra um restaurante")
     @ApiResponses({@ApiResponse(code = 201, message = "Restaurante cadastrado")})
     RestaurantResponseDTO create(@ApiParam(name = "corpo", value = "Representação de um novo restaurante", required = true)
-                                            RestaurantRequestDTO restaurantRequestDTO);
+                                 RestaurantRequestDTO restaurantRequestDTO);
 
     @ApiOperation("Atualiza um restaurante por ID")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Restaurante atualizado"),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-     RestaurantResponseDTO update(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long id,
-
-                                        @ApiParam(name = "corpo", value = "Representação de um restaurante com os novos dados", required = true)
-                                        @RequestBody @Valid RestaurantRequestDTO restaurantRequestDTO);
+    RestaurantResponseDTO update(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long id,
+                                 @ApiParam(name = "corpo", value = "Representação de um restaurante com os novos dados", required = true)
+                                 @RequestBody @Valid RestaurantRequestDTO restaurantRequestDTO);
 
     public void delete(@PathVariable Long id);
 
@@ -44,14 +43,14 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(code = 204, message = "Restaurante ativado com sucesso"),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-     void active(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long id);
+    void active(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long id);
 
     @ApiOperation("Inativa um restaurante por ID")
     @ApiResponses({
             @ApiResponse(code = 204, message = "Restaurante inativado com sucesso"),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    public void inactive(@PathVariable Long id);
+    void inactive(@PathVariable Long id);
 
     @ApiOperation("Abre um restaurante por ID")
     @ApiResponses({
@@ -71,11 +70,11 @@ public interface RestaurantControllerOpenApi {
     @ApiResponses({
             @ApiResponse(code = 204, message = "Restaurantes ativados com sucesso")
     })
-    public void activeSeveral(@RequestBody List<Long> restaurantsId);
+    void activeSeveral(@RequestBody List<Long> restaurantsId);
 
     @ApiOperation("Inativa múltiplos restaurantes")
     @ApiResponses({
             @ApiResponse(code = 204, message = "Restaurantes ativados com sucesso")
     })
-    public void inactiveSeveral(@RequestBody List<Long> restaurantsId);
+    void inactiveSeveral(@RequestBody List<Long> restaurantsId);
 }

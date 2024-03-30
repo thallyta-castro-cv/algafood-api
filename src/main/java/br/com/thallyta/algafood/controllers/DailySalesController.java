@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.DailySalesControllerOpenapi;
 import br.com.thallyta.algafood.models.dtos.responses.DailySalesResponseDTO;
 import br.com.thallyta.algafood.models.params.ListDailySalesParams;
 import br.com.thallyta.algafood.repositories.DailySalesRepository;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/statistics")
-public class DailySalesController {
+public class DailySalesController implements DailySalesControllerOpenapi {
 
     @Autowired
     private DailySalesRepository dailySalesRepository;

@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.UserGroupControllerOpenApi;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.response.GroupResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users/{userId}/groups")
-public class UserGroupController {
+public class UserGroupController implements UserGroupControllerOpenApi {
 
     @Autowired
     private UserService userService;

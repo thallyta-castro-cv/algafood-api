@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.StateControllerOpenApi;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.request.StateRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.StateResponseDTOAssembler;
@@ -15,8 +16,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/states")
-public class StateController {
+@RequestMapping(path = "/states")
+public class StateController implements StateControllerOpenApi {
 
     @Autowired
     private StateRepository stateRepository;

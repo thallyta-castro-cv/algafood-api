@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.RestaurantProductControllerOpenApi;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.request.ProductRequestDTODisassembler;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products")
-public class RestaurantProductController {
+public class RestaurantProductController implements RestaurantProductControllerOpenApi {
 
     @Autowired
     private ProductRepository productRepository;

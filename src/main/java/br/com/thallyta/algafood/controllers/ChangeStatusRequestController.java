@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.ChangeStatusRequestControllerOpenApi;
 import br.com.thallyta.algafood.services.ChangeStatusRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/requests/{code}")
-public class ChangeStatusRequestController {
+public class ChangeStatusRequestController implements ChangeStatusRequestControllerOpenApi {
 
     @Autowired
     private ChangeStatusRequestService changeStatusRequestService;

@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.openapi.RestaurantUserResponsibleControllerOpenApi;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.response.UserResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.responses.UserResponseDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurants/{restaurantId}/responsible")
-public class RestaurantUserResponsibleController {
+public class RestaurantUserResponsibleController implements RestaurantUserResponsibleControllerOpenApi {
 
     @Autowired
     private RestaurantService restaurantService;
