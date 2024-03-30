@@ -49,6 +49,7 @@ Consultar documentação da Api:
 
 ```shell script
 http://localhost:8080/swagger-ui/index.html#/
+http://localhost:8080/v3/api-docs
 ```
 
 ## Branches de referência - Desenvolvimento
