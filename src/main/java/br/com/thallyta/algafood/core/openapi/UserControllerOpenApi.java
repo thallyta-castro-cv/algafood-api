@@ -7,14 +7,13 @@ import br.com.thallyta.algafood.models.dtos.requests.UserRequestDTO;
 import br.com.thallyta.algafood.models.dtos.requests.UserWithPasswordRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.UserResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Usuários")
 public interface UserControllerOpenApi {
 
     @ApiOperation("Lista os usuários")
-    List<UserResponseDTO> getAll();
+    CollectionModel<UserResponseDTO> getAll();
 
     @ApiOperation("Busca um usuário por ID")
     @ApiResponses({

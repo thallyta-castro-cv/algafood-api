@@ -6,10 +6,10 @@ import br.com.thallyta.algafood.models.assembler.response.UserResponseDTOAssembl
 import br.com.thallyta.algafood.models.dtos.responses.UserResponseDTO;
 import br.com.thallyta.algafood.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurants/{restaurantId}/responsible")
@@ -22,9 +22,12 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
     private UserResponseDTOAssembler userResponseDTOAssembler;
 
     @GetMapping
-    public List<UserResponseDTO> getAll(@PathVariable Long restaurantId) {
+    public CollectionModel<UserResponseDTO> getAll(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
-        return userResponseDTOAssembler.toCollectionModel(restaurant.getResponsible());
+        return userResponseDTOAssembler.toCollectionModel(restaurant.getResponsible())
+                .removeLinks()
+                .add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestaurantUserResponsibleController.class)
+                        .getAll(restaurantId)).withSelfRel());
     }
 
     @DeleteMapping("/{userId}")

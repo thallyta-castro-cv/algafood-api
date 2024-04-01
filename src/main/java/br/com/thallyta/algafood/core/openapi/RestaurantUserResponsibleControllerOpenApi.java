@@ -3,8 +3,7 @@ package br.com.thallyta.algafood.core.openapi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.responses.UserResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Restaurantes")
 public interface RestaurantUserResponsibleControllerOpenApi {
@@ -13,7 +12,7 @@ public interface RestaurantUserResponsibleControllerOpenApi {
     @ApiResponses({
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    List<UserResponseDTO> getAll(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
+    CollectionModel<UserResponseDTO> getAll(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
 
 
     @ApiOperation("Desassociação de restaurante com usuário responsável")
