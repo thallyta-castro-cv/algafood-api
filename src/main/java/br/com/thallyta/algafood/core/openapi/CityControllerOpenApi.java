@@ -4,14 +4,13 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.CityRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Cidades")
 public interface CityControllerOpenApi{
 
     @ApiOperation("Busca todas as cidades cadastradas")
-    List<CityResponseDTO> getAll();
+    CollectionModel<CityResponseDTO> getAll();
 
     @ApiOperation("Busca uma cidade por ID")
     @ApiResponses({

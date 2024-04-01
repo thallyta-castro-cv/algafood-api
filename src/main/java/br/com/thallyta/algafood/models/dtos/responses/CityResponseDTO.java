@@ -1,9 +1,14 @@
 package br.com.thallyta.algafood.models.dtos.responses;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
-@Data
-public class CityResponseDTO {
+@Getter
+@Setter
+@Relation(collectionRelation = "cities")
+public class CityResponseDTO extends RepresentationModel<CityResponseDTO> {
 
     private Long id;
     private String name;
