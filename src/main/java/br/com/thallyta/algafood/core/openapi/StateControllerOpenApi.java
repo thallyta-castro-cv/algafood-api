@@ -4,14 +4,13 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.StateRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.StateResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Estados")
 public interface StateControllerOpenApi {
 
     @ApiOperation("Lista os estados")
-    List<StateResponseDTO> getAll();
+    CollectionModel<StateResponseDTO> findAll();
 
     @ApiOperation("Busca um estado por ID")
     @ApiResponses({

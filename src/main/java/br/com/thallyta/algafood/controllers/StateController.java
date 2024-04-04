@@ -9,6 +9,7 @@ import br.com.thallyta.algafood.models.dtos.responses.StateResponseDTO;
 import br.com.thallyta.algafood.repositories.StateRepository;
 import br.com.thallyta.algafood.services.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class StateController implements StateControllerOpenApi {
     private StateResponseDTOAssembler stateAssembler;
 
     @GetMapping
-    public List<StateResponseDTO> getAll(){
+    public CollectionModel<StateResponseDTO> findAll(){
         List<State> states = stateService.getAll();
         return stateAssembler.toCollectionModel(states);
     }
