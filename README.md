@@ -54,23 +54,29 @@ http://localhost:8080/v3/api-docs
 
 ## Branches de referência - Desenvolvimento
 
-- master -> Projeto completo
-- feat/crud-basic -> Implementação de um CRUD da forma mais básica.
-- feat/crud-service -> Implementação do CRUD com a camada de serviço.
-- feat/crud-repository-jpa -> Implementação de recursos do jpa e padrão repository.
-- feat/migrations-flyway -> Implementação do flyway para criar as migrações.
-- feat/custom-exception-handle -> Implementação de tratamendo e modelagem de erros da API.
-- feat/include-patterns -> Inclusão de DTO's e Mappers nos CRUD's para aplicação de boas práticas.
-- feat/advanced-api -> Modelagem avançada de API's usando sub-recursos para relacionamento, granularidade de recursos e conceitos abstratos e não-CRUD.
-- feat/search-reports-projections -> Implementação de pesquisas, relatorios e projeções no sistema.
-- feat/upload-download-files -> Implementação de download e upload de arquivos com AWS S3 e armazenamento local.
-- feat/send-transactional-email -> Implementação de envio de emails transacionais com AWS SES.
-- feat/api-client-js-java -> Implementação de cache e ptimizações gerais para consumo do cliente.
-- feat/implements-api-docs -> Documentação da Api com Swagger OpenApi 3
+| Branch                        | Descrição                                                                                               |
+|-------------------------------|---------------------------------------------------------------------------------------------------------|
+| `master`                      | Projeto completo                                                                                        |
+| `feat/crud-basic`             | Implementação de um CRUD da forma mais básica.                                                          |
+| `feat/crud-service`           | Implementação do CRUD com a camada de serviço.                                                          |
+| `feat/crud-repository-jpa`    | Implementação de recursos do JPA e padrão repository.                                                   |
+| `feat/migrations-flyway`      | Implementação do Flyway para criar as migrações.                                                        |
+| `feat/custom-exception-handle`| Implementação de tratamento e modelagem de erros da API.                                                |
+| `feat/include-patterns`       | Inclusão de DTO's e Mappers nos CRUD's para aplicação de boas práticas.                                 |
+| `feat/advanced-api`           | Modelagem avançada de API's usando sub-recursos para relacionamento, granularidade de recursos e conceitos abstratos e não-CRUD. |
+| `feat/search-reports-projections` | Implementação de pesquisas, relatórios e projeções no sistema.                                          |
+| `feat/upload-download-files`  | Implementação de download e upload de arquivos com AWS S3 e armazenamento local.                        |
+| `feat/send-transactional-email`| Implementação de envio de emails transacionais com AWS SES.                                             |
+| `feat/api-client-js-java`     | Implementação de cache e otimizações gerais para consumo do cliente.                                    |
+| `feat/implements-api-docs`    | Documentação da API com Swagger OpenAPI 3.                                                              |
+
 
 ## Branches de referência - Testes
-- feat/unitary-tests -> Implementação de testes unitários com jUnit 5 e Mockito
-- feat/api-tests -> Implementação de testes de integração e api com banco de dados de teste
+| Branch               | Descrição                                                                            |
+|----------------------|--------------------------------------------------------------------------------------|
+| `feat/unitary-tests`  | Implementação de testes unitários com JUnit 5 e Mockito.                             |
+| `feat/api-tests`      | Implementação de testes de integração e API com banco de dados de teste.             |
+
 
 # Autor
 <b>Thallyta Macedo Carvalho de Castro</b>
