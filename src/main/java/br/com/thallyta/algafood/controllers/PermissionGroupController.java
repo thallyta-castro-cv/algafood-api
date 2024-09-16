@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.PermissionGroupControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.PermissionGroupControllerOpenApi;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.response.PermissionResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.responses.PermissionResponseDTO;

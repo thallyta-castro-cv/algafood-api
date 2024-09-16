@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.ChangeStatusRequestControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.ChangeStatusRequestControllerOpenApi;
 import br.com.thallyta.algafood.services.ChangeStatusRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

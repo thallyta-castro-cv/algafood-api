@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.RestaurantFormPaymentsControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.RestaurantFormPaymentsControllerOpenApi;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.response.FormPaymentResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;

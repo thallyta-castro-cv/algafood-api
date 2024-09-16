@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.GroupControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.GroupControllerOpenApi;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.request.GroupRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.GroupResponseDTOAssembler;

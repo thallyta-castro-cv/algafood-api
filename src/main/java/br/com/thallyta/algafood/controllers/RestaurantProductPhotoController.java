@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.core.openapi.RestaurantProductPhotoControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.RestaurantProductPhotoControllerOpenApi;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.ProductPhoto;
 import br.com.thallyta.algafood.models.assembler.response.PhotoProductResponseDTOAssembler;

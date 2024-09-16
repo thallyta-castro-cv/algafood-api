@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.StateControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.StateControllerOpenApi;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.request.StateRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.StateResponseDTOAssembler;

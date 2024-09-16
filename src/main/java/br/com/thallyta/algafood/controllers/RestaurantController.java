@@ -2,7 +2,7 @@ package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.core.openapi.RestaurantControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.RestaurantControllerOpenApi;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.request.RestaurantRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.RestaurantResponseDTOAssembler;

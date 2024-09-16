@@ -1,8 +1,8 @@
-package br.com.thallyta.algafood.core.openapi.config;
+package br.com.thallyta.algafood.controllers.openapi.config;
 
-import br.com.thallyta.algafood.core.openapi.OrderControllerOpenApi;
-import br.com.thallyta.algafood.core.openapi.models.KitchensModelOpenApi;
-import br.com.thallyta.algafood.core.openapi.models.PageableModelApi;
+import br.com.thallyta.algafood.controllers.openapi.OrderControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.models.KitchensModelOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.models.PageableModelApi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
 import br.com.thallyta.algafood.models.dtos.responses.OrderSummaryResponseDTO;

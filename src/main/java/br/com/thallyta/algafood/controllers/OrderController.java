@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.controllers;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.core.openapi.OrderControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.OrderControllerOpenApi;
 import br.com.thallyta.algafood.models.Request;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.request.OrderRequestDTODisassembler;

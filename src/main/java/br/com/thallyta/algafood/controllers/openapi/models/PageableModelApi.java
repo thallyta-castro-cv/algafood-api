@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.core.openapi.models;
+package br.com.thallyta.algafood.controllers.openapi.models;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

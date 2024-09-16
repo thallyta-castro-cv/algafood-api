@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.core.openapi.models;
+package br.com.thallyta.algafood.controllers.openapi.models;
 
 import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
 import io.swagger.annotations.ApiModel;

@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.core.openapi;
+package br.com.thallyta.algafood.controllers.openapi;
 
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.ProductRequestDTO;
