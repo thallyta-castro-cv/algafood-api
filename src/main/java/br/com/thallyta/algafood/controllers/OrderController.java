@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.core.data.PageWrapper;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.controllers.openapi.OrderControllerOpenApi;
 import br.com.thallyta.algafood.models.Request;
@@ -51,9 +52,10 @@ public class OrderController implements OrderControllerOpenApi {
     @GetMapping
     public PagedModel<OrderSummaryResponseDTO> getAll(ListRequestParams params,
                                                       @PageableDefault(size = 10) Pageable pageable) {
-        pageable = orderService.translatePageable(pageable);
-        Page<Request> requests = requestRepository.findAll(RequestSpecs.usingParams(params), pageable);
-        return pagedResourcesAssembler.toModel(requests, responseSummaryDTOAssembler);
+        Pageable pageableTranslate = orderService.translatePageable(pageable);
+        Page<Request> ordersPage = requestRepository.findAll(RequestSpecs.usingParams(params), pageableTranslate);
+        ordersPage = new PageWrapper<>(ordersPage, pageable);
+        return pagedResourcesAssembler.toModel(ordersPage, responseSummaryDTOAssembler);
     }
 
     @GetMapping("/{requestId}")
