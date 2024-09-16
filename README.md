@@ -1,7 +1,5 @@
 # Sistema de delivery de comida com Java e Spring Boot
-<img  align="center" alt="Thallyta-Js" height="300" width="400" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original-wordmark.svg" />
-
-### Projeto em Andamento!
+Projeto em Andamento!
 
 <b>Este projeto foi criado com Java 17 e Spring Framework 2.7.3</b>
 
