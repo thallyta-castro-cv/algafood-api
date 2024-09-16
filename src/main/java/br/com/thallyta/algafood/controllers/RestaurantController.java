@@ -37,6 +37,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     @Autowired
     private RestaurantService restaurantService;
 
+    @GetMapping()
     public List<RestaurantResponseDTO> getAll(){
         List<Restaurant> restaurants = restaurantService.getAll();
         return restaurantAssembler.toCollectionModel(restaurants);

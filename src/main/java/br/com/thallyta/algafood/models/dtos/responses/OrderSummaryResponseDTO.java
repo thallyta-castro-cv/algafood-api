@@ -2,13 +2,16 @@ package br.com.thallyta.algafood.models.dtos.responses;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-public class RequestSummaryResponseDTO {
+@Relation(collectionRelation = "requests")
+public class OrderSummaryResponseDTO extends RepresentationModel<OrderSummaryResponseDTO> {
 
     private String code;
     private BigDecimal subtotal;

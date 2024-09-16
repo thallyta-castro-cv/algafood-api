@@ -1,9 +1,14 @@
 package br.com.thallyta.algafood.models.dtos.responses;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
-@Data
-public class FormPaymentResponseDTO {
+@Relation(collectionRelation = "formPayments")
+@Getter
+@Setter
+public class FormPaymentResponseDTO extends RepresentationModel<FormPaymentResponseDTO> {
 
     private Long id;
     private String description;

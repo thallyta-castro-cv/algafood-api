@@ -1,7 +1,6 @@
 package br.com.thallyta.algafood.models.assembler.response;
 
 import br.com.thallyta.algafood.controllers.StateController;
-import br.com.thallyta.algafood.controllers.UserController;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.dtos.responses.StateResponseDTO;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +30,7 @@ public class StateResponseDTOAssembler
     @Override
     public @NotNull StateResponseDTO toModel(@NotNull State state) {
         StateResponseDTO stateDTO = modelMapper.map(state, StateResponseDTO.class);
-        stateDTO.add(linkTo(UserController.class)
+        stateDTO.add(linkTo(StateController.class)
                 .slash(stateDTO.getId()).withSelfRel());
         stateDTO.add(linkTo(StateController.class).withRel("states"));
         return stateDTO;

@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.core.modelmapper;
 
 import br.com.thallyta.algafood.models.RequestItem;
-import br.com.thallyta.algafood.models.dtos.requests.RequestItemRequestDTO;
+import br.com.thallyta.algafood.models.dtos.requests.OrderItemRequestDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ public class ModelMapperConfiguration {
     public ModelMapper modelMapper() {
         var modelMapper = new ModelMapper();
 
-        modelMapper.createTypeMap(RequestItemRequestDTO.class, RequestItem.class)
+        modelMapper.createTypeMap(OrderItemRequestDTO.class, RequestItem.class)
                 .addMappings(mapper -> mapper.skip(RequestItem::setId));
 
         return modelMapper;

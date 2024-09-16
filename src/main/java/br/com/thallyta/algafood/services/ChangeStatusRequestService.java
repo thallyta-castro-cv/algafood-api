@@ -11,28 +11,28 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChangeStatusRequestService {
 
     @Autowired
-    private RequestService requestService;
+    private OrderService orderService;
 
     @Autowired
     private RequestRepository requestRepository;
 
     @Transactional
     public void confirmRequest(String code){
-        Request request = requestService.findOrFail(code);
+        Request request = orderService.findOrFail(code);
         request.confirmRequest();
         requestRepository.save(request);
     }
 
     @Transactional
     public void cancelRequest(String code) {
-        Request request = requestService.findOrFail(code);
+        Request request = orderService.findOrFail(code);
         request.cancelRequest();
         requestRepository.save(request);
     }
 
     @Transactional
     public void deliverRequest(String code) {
-        Request request = requestService.findOrFail(code);
+        Request request = orderService.findOrFail(code);
         request.deliverRequest();
     }
 }

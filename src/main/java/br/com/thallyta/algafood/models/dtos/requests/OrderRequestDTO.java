@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class RequestRequestDTO {
+public class OrderRequestDTO {
 
     @Valid
     @NotNull
@@ -27,5 +27,5 @@ public class RequestRequestDTO {
     @Valid
     @Size(min = 1)
     @NotNull(message = "O item do pedido deve ser informado.")
-    private List<RequestItemRequestDTO> items;
+    private List<OrderItemRequestDTO> items;
 }

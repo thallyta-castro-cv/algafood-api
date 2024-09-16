@@ -8,7 +8,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Getter
 @Setter
-public class RequestItemRequestDTO {
+public class OrderItemRequestDTO {
 
     @NotNull(message = "O campo produto deve ser informado.")
     private Long productId;

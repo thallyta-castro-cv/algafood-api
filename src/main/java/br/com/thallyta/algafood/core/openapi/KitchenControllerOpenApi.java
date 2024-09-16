@@ -4,14 +4,14 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.KitchenRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
 import io.swagger.annotations.*;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 @Api(tags= "Cozinhas")
 public interface KitchenControllerOpenApi {
 
     @ApiOperation("Lista Todas as Cozinhas")
-    Page<KitchenResponseDTO> getAll(Pageable pageable);
+    PagedModel<KitchenResponseDTO> getAll(Pageable pageable);
 
 
     @ApiOperation("Busca uma Cozinha por ID")

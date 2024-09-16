@@ -1,11 +1,11 @@
 package br.com.thallyta.algafood.core.openapi.config;
 
-import br.com.thallyta.algafood.core.openapi.RequestControllerOpenApi;
+import br.com.thallyta.algafood.core.openapi.OrderControllerOpenApi;
 import br.com.thallyta.algafood.core.openapi.models.KitchensModelOpenApi;
 import br.com.thallyta.algafood.core.openapi.models.PageableModelApi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
-import br.com.thallyta.algafood.models.dtos.responses.RequestSummaryResponseDTO;
+import br.com.thallyta.algafood.models.dtos.responses.OrderSummaryResponseDTO;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,8 +51,8 @@ public class SpringFoxConfig {
                         typeResolver.resolve(Page.class, KitchenResponseDTO.class),
                         KitchensModelOpenApi.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(Page.class, RequestSummaryResponseDTO.class),
-                        RequestControllerOpenApi.class))
+                        typeResolver.resolve(Page.class, OrderSummaryResponseDTO.class),
+                        OrderControllerOpenApi.class))
                 .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
