@@ -58,7 +58,7 @@ public class OrderController implements OrderControllerOpenApi {
         return pagedResourcesAssembler.toModel(ordersPage, responseSummaryDTOAssembler);
     }
 
-    @GetMapping("/{requestId}")
+    @GetMapping("/{code}")
     public OrderResponseDTO getById(@PathVariable String code) {
         Request request = orderService.findOrFail(code);
         return responseDTOAssembler.toModel(request);

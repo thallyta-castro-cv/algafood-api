@@ -3,6 +3,7 @@ package br.com.thallyta.algafood.models.assembler.response;
 import br.com.thallyta.algafood.controllers.OrderController;
 import br.com.thallyta.algafood.controllers.RestaurantProductController;
 import br.com.thallyta.algafood.models.Request;
+import br.com.thallyta.algafood.models.assembler.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.responses.OrderResponseDTO;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,9 @@ public class OrderResponseDTOAssembler extends RepresentationModelAssemblerSuppo
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks links;
+
     public OrderResponseDTOAssembler() {
         super(OrderController.class, OrderResponseDTO.class);
     }
@@ -28,13 +32,11 @@ public class OrderResponseDTOAssembler extends RepresentationModelAssemblerSuppo
         OrderResponseDTO order = createModelWithId(request.getCode(), request);
         modelMapper.map(request, order);
 
-        order.add(linkTo(OrderController.class).withRel("requests"));
+        order.add(links.linkToOrders());
 
-        order.getItems().forEach(item -> {
-            item.add(linkTo(methodOn(RestaurantProductController.class)
-                    .finById(order.getRestaurantId(), item.getProductId()))
-                    .withRel("products"));
-        });
+        order.getItems().forEach(item -> item.add(linkTo(methodOn(RestaurantProductController.class)
+                .finById(order.getRestaurantId(), item.getProductId()))
+                .withRel("products")));
 
         return order;
     }
