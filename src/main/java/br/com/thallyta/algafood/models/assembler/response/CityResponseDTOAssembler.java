@@ -2,6 +2,7 @@ package br.com.thallyta.algafood.models.assembler.response;
 
 import br.com.thallyta.algafood.controllers.CityController;
 import br.com.thallyta.algafood.models.City;
+import br.com.thallyta.algafood.models.assembler.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
@@ -18,17 +19,19 @@ public class CityResponseDTOAssembler
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
     public CityResponseDTOAssembler() {
         super(CityController.class, CityResponseDTO.class);
     }
 
     @Override
     public @NotNull CityResponseDTO toModel(@NotNull City city) {
-        CityResponseDTO cityResponseDTO = modelMapper.map(city, CityResponseDTO.class);
-        cityResponseDTO.add(WebMvcLinkBuilder.linkTo(CityController.class)
-                .slash(cityResponseDTO.getId()).withSelfRel());
-        cityResponseDTO.add(WebMvcLinkBuilder.linkTo(CityController.class).withRel("cities"));
-        return cityResponseDTO;
+        CityResponseDTO cityDTO = createModelWithId(city.getId(), city);
+        modelMapper.map(city, cityDTO);
+        cityDTO.add(algaLinks.linkToCities("cities"));
+        return cityDTO;
     }
 
     @Override

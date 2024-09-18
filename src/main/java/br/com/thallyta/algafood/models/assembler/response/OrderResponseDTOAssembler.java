@@ -34,6 +34,12 @@ public class OrderResponseDTOAssembler extends RepresentationModelAssemblerSuppo
 
         order.add(links.linkToOrders());
 
+        order.getClient().add(
+                links.linkToUser(order.getClient().getId()));
+
+        order.getFormPayment().add(
+                links.linkToFormPayments(order.getFormPayment().getId()));
+
         order.getItems().forEach(item -> item.add(linkTo(methodOn(RestaurantProductController.class)
                 .finById(order.getRestaurantId(), item.getProductId()))
                 .withRel("products")));
