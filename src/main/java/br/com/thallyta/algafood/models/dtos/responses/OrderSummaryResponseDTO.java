@@ -19,8 +19,7 @@ public class OrderSummaryResponseDTO extends RepresentationModel<OrderSummaryRes
     private BigDecimal totalValue;
     private String requestStatus;
     private OffsetDateTime createdDate;
-    private Long restaurantId;
-    private String restaurantName;
+    private RestaurantOnlyNameResponseDTO restaurant;
     private Long clientId;
     private String clientName;
     private String clientEmail;

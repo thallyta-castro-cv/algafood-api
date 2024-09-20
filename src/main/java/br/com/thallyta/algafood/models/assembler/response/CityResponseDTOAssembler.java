@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,6 +35,7 @@ public class CityResponseDTOAssembler
 
     @Override
     public @NotNull CollectionModel<CityResponseDTO> toCollectionModel(@NotNull Iterable<? extends City> cities) {
-        return super.toCollectionModel(cities).add(WebMvcLinkBuilder.linkTo(CityController.class).withSelfRel());
+        return super.toCollectionModel(cities)
+                .add(algaLinks.linkToCities());
     }
 }

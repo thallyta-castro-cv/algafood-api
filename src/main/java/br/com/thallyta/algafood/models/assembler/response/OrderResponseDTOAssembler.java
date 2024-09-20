@@ -32,6 +32,18 @@ public class OrderResponseDTOAssembler extends RepresentationModelAssemblerSuppo
         OrderResponseDTO order = createModelWithId(request.getCode(), request);
         modelMapper.map(request, order);
 
+        if (request.canBeConfirmed()) {
+            order.add(links.linkToConfirmationOrder(order.getCode(), "confirm-order"));
+        }
+
+        if (request.canBeCanceled()) {
+            order.add(links.linkToCancelOrder(order.getCode(), "cancel-order"));
+        }
+
+        if (request.canBeDeliver()) {
+            order.add(links.linkToDeliverOrder(order.getCode(), "deliver-order"));
+        }
+
         order.add(links.linkToOrders());
 
         order.getClient().add(
@@ -41,7 +53,7 @@ public class OrderResponseDTOAssembler extends RepresentationModelAssemblerSuppo
                 links.linkToFormPayments(order.getFormPayment().getId()));
 
         order.getItems().forEach(item -> item.add(linkTo(methodOn(RestaurantProductController.class)
-                .finById(order.getRestaurantId(), item.getProductId()))
+                .finById(order.getRestaurant().getId(), item.getProductId()))
                 .withRel("products")));
 
         return order;

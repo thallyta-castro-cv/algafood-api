@@ -117,4 +117,16 @@ public class Request extends AbstractAggregateRoot<Request> {
         setCode(UUID.randomUUID().toString());
     }
 
+    public boolean canBeConfirmed() {
+        return getRequestStatus().changeStatusTo(RequestStatus.CONFIRMADO);
+    }
+
+    public boolean canBeDeliver() {
+        return getRequestStatus().changeStatusTo(RequestStatus.ENTREGUE);
+    }
+
+    public boolean canBeCanceled() {
+        return getRequestStatus().changeStatusTo(RequestStatus.CANCELADO);
+    }
+
 }

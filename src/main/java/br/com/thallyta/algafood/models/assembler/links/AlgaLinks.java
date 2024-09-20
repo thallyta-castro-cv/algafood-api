@@ -25,7 +25,7 @@ public class AlgaLinks {
         String ordersUrl = linkTo(OrderController.class).toUri().toString();
 
         return Link.of(UriTemplate.of(ordersUrl,
-                PAGINATION_VARIABLES.concat(filterVariables)), "pedidos");
+                PAGINATION_VARIABLES.concat(filterVariables)), "requests");
     }
 
     public Link linkToRestaurant(Long restaurantId, String rel) {
@@ -132,4 +132,42 @@ public class AlgaLinks {
     public Link linkToKitchens() {
         return linkToKitchens(IanaLinkRelations.SELF.value());
     }
+
+    public Link linkToConfirmationOrder(String code, String rel) {
+        return linkTo(methodOn(ChangeStatusOrderController.class)
+                .confirmRequest(code)).withRel(rel);
+    }
+
+    public Link linkToDeliverOrder(String code, String rel) {
+        return linkTo(methodOn(ChangeStatusOrderController.class)
+                .deliverRequest(code)).withRel(rel);
+    }
+
+    public Link linkToCancelOrder(String code, String rel) {
+        return linkTo(methodOn(ChangeStatusOrderController.class)
+                .cancelRequest(code)).withRel(rel);
+    }
+
+    public Link linkToRestaurants(String rel) {
+        return linkTo(RestaurantController.class).withRel(rel);
+    }
+
+    public Link linkToRestaurants() {
+        return linkToRestaurants(IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToRestaurantFormPayment(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantFormPaymentsController.class)
+                .getAll(restaurantId)).withRel(rel);
+    }
+
+    public Link linkToKitchen(Long kitchenId, String rel) {
+        return linkTo(methodOn(KitchenController.class)
+                .getById(kitchenId)).withRel(rel);
+    }
+
+    public Link linkToKitchen(Long kitchenId) {
+        return linkToKitchen(kitchenId, IanaLinkRelations.SELF.value());
+    }
+
 }

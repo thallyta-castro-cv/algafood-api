@@ -2,18 +2,26 @@ package br.com.thallyta.algafood.controllers.openapi;
 
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.RestaurantRequestDTO;
+import br.com.thallyta.algafood.models.dtos.responses.RestaurantBasicResponseDTO;
 import br.com.thallyta.algafood.models.dtos.responses.RestaurantResponseDTO;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "Restaurantes")
+@Api(tags = "Restaurants")
 public interface RestaurantControllerOpenApi {
 
-    List<RestaurantResponseDTO> getAll();
+    @ApiOperation(value = "Lista todos os restaurantes", response = RestaurantBasicResponseDTO.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "apenas-nome",
+                    name = "projecao", paramType = "query", type = "string")
+    })
+    CollectionModel<RestaurantResponseDTO> getAll();
 
     @ApiOperation("Busca um restaurante por ID")
     @ApiResponses({
@@ -43,28 +51,28 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(code = 204, message = "Restaurante ativado com sucesso"),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    void active(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long id);
+    ResponseEntity<Void> active(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long id);
 
     @ApiOperation("Inativa um restaurante por ID")
     @ApiResponses({
             @ApiResponse(code = 204, message = "Restaurante inativado com sucesso"),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    void inactive(@PathVariable Long id);
+    ResponseEntity<Void> inactive(@PathVariable Long id);
 
     @ApiOperation("Abre um restaurante por ID")
     @ApiResponses({
             @ApiResponse(code = 204, message = "Restaurante aberto com sucesso"),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    void open(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long restaurantId);
+    ResponseEntity<Void> open(@ApiParam(value = "ID de um restaurante", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Fecha um restaurante por ID")
     @ApiResponses({
             @ApiResponse(code = 204, message = "Restaurante fechado com sucesso"),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    void close( @ApiParam(value = "ID de um restaurante", example = "1", required = true) Long restaurantId);
+    ResponseEntity<Void> close( @ApiParam(value = "ID de um restaurante", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Ativa múltiplos restaurantes")
     @ApiResponses({

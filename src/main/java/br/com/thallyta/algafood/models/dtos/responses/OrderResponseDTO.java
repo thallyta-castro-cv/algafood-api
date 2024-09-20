@@ -32,8 +32,7 @@ public class OrderResponseDTO extends RepresentationModel<OrderResponseDTO> {
     private String addressCityName;
     private Long addressCityStateId;
     private String addressCityStateName;
-    private Long restaurantId;
-    private String restaurantName;
+    private RestaurantOnlyNameResponseDTO restaurant;
     private UserResponseDTO client;
     private FormPaymentResponseDTO formPayment;
     private List<OrderItemResponseDTO> items;

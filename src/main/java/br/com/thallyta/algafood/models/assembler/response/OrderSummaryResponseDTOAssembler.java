@@ -28,6 +28,19 @@ public class OrderSummaryResponseDTOAssembler extends
     public @NotNull OrderSummaryResponseDTO toModel(@NotNull Request request) {
         OrderSummaryResponseDTO order = createModelWithId(request.getCode(), request);
         modelMapper.map(request, order);
+
+        if (request.canBeConfirmed()) {
+            order.add(links.linkToConfirmationOrder(order.getCode(), "confirm-order"));
+        }
+
+        if (request.canBeCanceled()) {
+            order.add(links.linkToCancelOrder(order.getCode(), "cancel-order"));
+        }
+
+        if (request.canBeDeliver()) {
+            order.add(links.linkToDeliverOrder(order.getCode(), "deliver-order"));
+        }
+
         order.add(links.linkToOrders());
         return order;
     }
