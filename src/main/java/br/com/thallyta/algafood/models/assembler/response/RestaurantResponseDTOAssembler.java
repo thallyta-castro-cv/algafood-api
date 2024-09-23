@@ -36,6 +36,26 @@ public class RestaurantResponseDTOAssembler extends
         RestaurantResponseDTO restaurantDTO = createModelWithId(restaurant.getId(), restaurant);
         modelMapper.map(restaurant, restaurantDTO);
 
+        if (restaurant.allowsActive()) {
+            restaurantDTO.add(
+                    algaLinks.linkToRestaurantActive(restaurant.getId(), "active"));
+        }
+
+        if (restaurant.allowsInactive()) {
+            restaurantDTO.add(
+                    algaLinks.linkToRestaurantInactive(restaurant.getId(), "inactive"));
+        }
+
+        if (restaurant.allowsOpen()) {
+            restaurantDTO.add(
+                    algaLinks.linkToRestaurantOpen(restaurant.getId(), "open"));
+        }
+
+        if (restaurant.allowsClose()) {
+            restaurantDTO.add(
+                    algaLinks.linkToRestaurantClose(restaurant.getId(), "close"));
+        }
+
         restaurantDTO.add(algaLinks.linkToRestaurants("restaurants"));
 
         restaurantDTO.add(algaLinks.linkToRestaurantFormPayment(restaurant.getId(),

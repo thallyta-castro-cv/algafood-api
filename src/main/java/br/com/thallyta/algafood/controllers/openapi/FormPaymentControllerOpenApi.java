@@ -4,16 +4,15 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.FormPaymentRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.ServletWebRequest;
-
-import java.util.List;
 
 @Api(tags= "Formas de pagamento")
 public interface FormPaymentControllerOpenApi {
 
     @ApiOperation("Lista todas as formas de pagamento")
-    ResponseEntity<List<FormPaymentResponseDTO>> getAll(ServletWebRequest request);
+    ResponseEntity<CollectionModel<FormPaymentResponseDTO>> getAll(ServletWebRequest request);
 
     @ApiOperation("Busca uma forma de pagamento por id")
     @ApiResponses({

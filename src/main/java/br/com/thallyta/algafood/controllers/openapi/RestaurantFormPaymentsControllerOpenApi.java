@@ -3,8 +3,8 @@ package br.com.thallyta.algafood.controllers.openapi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Restaurantes")
 public interface RestaurantFormPaymentsControllerOpenApi {
@@ -13,7 +13,7 @@ public interface RestaurantFormPaymentsControllerOpenApi {
     @ApiResponses({
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    List<FormPaymentResponseDTO> getAll(@ApiParam(value = "ID do restaurante", example = "1", required = true)
+    CollectionModel<FormPaymentResponseDTO> getAll(@ApiParam(value = "ID do restaurante", example = "1", required = true)
                                                    Long restaurantId);
 
     @ApiOperation("Desassociação de restaurante com forma de pagamento")
@@ -22,8 +22,8 @@ public interface RestaurantFormPaymentsControllerOpenApi {
             @ApiResponse(code = 404, message = "Restaurante ou forma de pagamento não encontrado",
                     response = LogExceptionAdapter.class)
     })
-    void unbind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
-                       @ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long formPaymentId);
+    ResponseEntity<Void> unbind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
+                                @ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long formPaymentId);
 
     @ApiOperation("Associação de restaurante com forma de pagamento")
     @ApiResponses({
@@ -31,6 +31,6 @@ public interface RestaurantFormPaymentsControllerOpenApi {
             @ApiResponse(code = 404, message = "Restaurante ou forma de pagamento não encontrado",
                     response = LogExceptionAdapter.class)
     })
-    void bind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
+    ResponseEntity<Void> bind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
               @ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long formPaymentId);
 }

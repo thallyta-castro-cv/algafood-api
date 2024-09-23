@@ -73,4 +73,36 @@ public class Restaurant {
     public boolean notAcceptPaymentMethod(FormPayment formPayment) {
         return !acceptPaymentMethod(formPayment);
     }
+
+    public boolean isOpen() {
+        return this.open;
+    }
+
+    public boolean isClose() {
+        return !isOpen();
+    }
+
+    public boolean isInactive() {
+        return !isActive();
+    }
+
+    public boolean isActive() {
+        return this.active;
+    }
+
+    public boolean allowsOpen() {
+        return isActive() && isClose();
+    }
+
+    public boolean allowsActive() {
+        return isInactive();
+    }
+
+    public boolean allowsInactive() {
+        return isActive();
+    }
+
+    public boolean allowsClose() {
+        return isOpen();
+    }
 }

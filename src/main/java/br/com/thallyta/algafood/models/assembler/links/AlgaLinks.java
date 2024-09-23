@@ -161,6 +161,28 @@ public class AlgaLinks {
                 .getAll(restaurantId)).withRel(rel);
     }
 
+    public Link linkToRestaurantFormPayments(Long restaurantId) {
+        return linkToRestaurantFormPayment(restaurantId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToRestaurantFormPaymentUnbind(Long restaurantId, Long formPaymentId, String rel) {
+        return linkTo(methodOn(RestaurantFormPaymentsController.class)
+                .unbind(restaurantId, formPaymentId)).withRel(rel);
+    }
+
+    public Link linkToRestaurantFormPaymentBind(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantFormPaymentsController.class)
+                .bind(restaurantId, null)).withRel(rel);
+    }
+
+    public Link linkToFormPayments(String rel) {
+        return linkTo(FormPaymentController.class).withRel(rel);
+    }
+
+    public Link linkToFormPayments() {
+        return linkToFormPayments(IanaLinkRelations.SELF.value());
+    }
+
     public Link linkToKitchen(Long kitchenId, String rel) {
         return linkTo(methodOn(KitchenController.class)
                 .getById(kitchenId)).withRel(rel);
@@ -168,6 +190,38 @@ public class AlgaLinks {
 
     public Link linkToKitchen(Long kitchenId) {
         return linkToKitchen(kitchenId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToRestaurantOpen(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantController.class)
+                .open(restaurantId)).withRel(rel);
+    }
+
+    public Link linkToRestaurantClose(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantController.class)
+                .close(restaurantId)).withRel(rel);
+    }
+
+    public Link linkToRestaurantInactive(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantController.class)
+                .inactive(restaurantId)).withRel(rel);
+    }
+
+    public Link linkToRestaurantActive(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantController.class)
+                .active(restaurantId)).withRel(rel);
+    }
+
+    public Link linkToRestaurantUnbindResponsible(
+            Long restaurantId, Long userId, String rel) {
+
+        return linkTo(methodOn(RestaurantUserResponsibleController.class)
+                .unbind(restaurantId, userId)).withRel(rel);
+    }
+
+    public Link linkToRestaurantBindResponsible(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantUserResponsibleController.class)
+                .bind(restaurantId, null)).withRel(rel);
     }
 
 }

@@ -9,6 +9,7 @@ import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;
 import br.com.thallyta.algafood.repositories.FormPaymentRepository;
 import br.com.thallyta.algafood.services.FormPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
     private FormPaymentDTODisassembler formPaymentDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<FormPaymentResponseDTO>> getAll(ServletWebRequest request){
+    public ResponseEntity<CollectionModel<FormPaymentResponseDTO>> getAll(ServletWebRequest request){
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
         OffsetDateTime lastUpdatedDate = formPaymentRepository.getUpdatedDate();
         String eTag = "0";
@@ -52,7 +53,8 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
         }
 
         List<FormPayment> formPayments = formPaymentService.getAll();
-        List<FormPaymentResponseDTO> formPaymentResponseDTOS =  formPaymentAssembler.toCollectionModel(formPayments);
+        CollectionModel<FormPaymentResponseDTO> formPaymentResponseDTOS =  formPaymentAssembler.toCollectionModel(formPayments);
+
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
                 .eTag(eTag)
@@ -62,7 +64,7 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
     @GetMapping("/{id}")
     public ResponseEntity<FormPaymentResponseDTO> getById(@PathVariable Long id){
         FormPayment formPayment =  formPaymentService.findOrFail(id);
-        FormPaymentResponseDTO formPaymentResponseDTO = formPaymentAssembler.toFormPaymentResponse(formPayment);
+        FormPaymentResponseDTO formPaymentResponseDTO = formPaymentAssembler.toModel(formPayment);
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
                 .body(formPaymentResponseDTO);
@@ -72,14 +74,14 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
     @ResponseStatus(code = HttpStatus.CREATED)
     public FormPaymentResponseDTO create(@RequestBody @Valid FormPaymentRequestDTO formPaymentRequestDTO) {
         FormPayment formPayment = formPaymentDisassembler.toDomainObject(formPaymentRequestDTO);
-        return formPaymentAssembler.toFormPaymentResponse(formPaymentService.save(formPayment));
+        return formPaymentAssembler.toModel(formPaymentService.save(formPayment));
     }
 
     @PutMapping("/{id}")
     public FormPaymentResponseDTO update(@PathVariable Long id, @RequestBody @Valid FormPaymentRequestDTO formPaymentRequestDTO) {
         FormPayment formPaymentFound =  formPaymentService.findOrFail(id);
         formPaymentDisassembler.copyToDomainObject(formPaymentRequestDTO, formPaymentFound);
-        return formPaymentAssembler.toFormPaymentResponse(formPaymentService.save(formPaymentFound));
+        return formPaymentAssembler.toModel(formPaymentService.save(formPaymentFound));
     }
 
     @DeleteMapping("/{id}")

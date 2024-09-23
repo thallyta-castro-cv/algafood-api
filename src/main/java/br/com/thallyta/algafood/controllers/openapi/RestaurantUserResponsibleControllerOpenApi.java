@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.responses.UserResponseDTO;
 import io.swagger.annotations.*;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Restaurantes")
 public interface RestaurantUserResponsibleControllerOpenApi {
@@ -21,7 +22,7 @@ public interface RestaurantUserResponsibleControllerOpenApi {
             @ApiResponse(code = 404, message = "Restaurante ou usuário não encontrado",
                     response = LogExceptionAdapter.class)
     })
-    void unbind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
+    ResponseEntity<Void> unbind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
                 @ApiParam(value = "ID do usuário", example = "1", required = true) Long userId);
 
     @ApiOperation("Associação de restaurante com usuário responsável")
@@ -30,6 +31,6 @@ public interface RestaurantUserResponsibleControllerOpenApi {
             @ApiResponse(code = 404, message = "Restaurante ou usuário não encontrado",
                     response = LogExceptionAdapter.class)
     })
-    void bind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
+    ResponseEntity<Void> bind(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
               @ApiParam(value = "ID do usuário", example = "1", required = true) Long userId);
 }
