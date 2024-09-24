@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.models.assembler.links;
 
 import br.com.thallyta.algafood.controllers.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.hateoas.*;
 import org.springframework.stereotype.Component;
 
@@ -15,17 +16,29 @@ public class AlgaLinks {
             new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
             new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM));
 
-    public Link linkToOrders(){
-        TemplateVariables filterVariables = new TemplateVariables(
+    private static @NotNull TemplateVariables getTemplateVariables() {
+        return new TemplateVariables(
                 new TemplateVariable("clientId", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("restaurantId", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("createdDateStart", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("createdDateEnd", TemplateVariable.VariableType.REQUEST_PARAM));
 
+    }
+
+    public Link linkToOrders() {
+        TemplateVariables filterVariables = getTemplateVariables();
         String ordersUrl = linkTo(OrderController.class).toUri().toString();
 
         return Link.of(UriTemplate.of(ordersUrl,
                 PAGINATION_VARIABLES.concat(filterVariables)), "requests");
+    }
+
+    public Link linkToOrders(String rel) {
+        TemplateVariables filterVariables = getTemplateVariables();
+        String ordersUrl = linkTo(OrderController.class).toUri().toString();
+
+        return Link.of(UriTemplate.of(ordersUrl,
+                PAGINATION_VARIABLES.concat(filterVariables)), rel);
     }
 
     public Link linkToRestaurant(Long restaurantId, String rel) {
