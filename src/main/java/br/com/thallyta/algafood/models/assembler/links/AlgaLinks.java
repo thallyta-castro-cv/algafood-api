@@ -242,4 +242,39 @@ public class AlgaLinks {
         return linkToProductPhoto(restaurantId, productId, IanaLinkRelations.SELF.value());
     }
 
+    public Link linkToGroups(String rel) {
+        return linkTo(GroupController.class).withRel(rel);
+    }
+
+    public Link linkToGroups() {
+        return linkToGroups(IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToGroupPermissions(Long groupId, String rel) {
+        return linkTo(methodOn(PermissionGroupController.class)
+                .getAll(groupId)).withRel(rel);
+    }
+
+    public Link linkToPermissions(String rel) {
+        return linkTo(PermissionController.class).withRel(rel);
+    }
+
+    public Link linkToPermissions() {
+        return linkToPermissions(IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToGroupPermissions(Long groupId) {
+        return linkToGroupPermissions(groupId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToGroupPermissionsBind(Long groupId, String rel) {
+        return linkTo(methodOn(PermissionGroupController.class)
+                .bind(groupId, null)).withRel(rel);
+    }
+
+    public Link linkToGroupPermissionsUnbind(Long groupId, Long permissionId, String rel) {
+        return linkTo(methodOn(PermissionGroupController.class)
+                .unbind(groupId, permissionId)).withRel(rel);
+    }
+
 }

@@ -3,8 +3,7 @@ package br.com.thallyta.algafood.controllers.openapi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Usuários")
 public interface UserGroupControllerOpenApi {
@@ -13,7 +12,7 @@ public interface UserGroupControllerOpenApi {
     @ApiResponses({
             @ApiResponse(code = 404, message = "Usuário não encontrado", response = LogExceptionAdapter.class)
     })
-    List<GroupResponseDTO> getAll(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId);
+    CollectionModel<GroupResponseDTO> getAll(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId);
 
     @ApiOperation("Desassociação de grupo com usuário")
     @ApiResponses({

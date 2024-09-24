@@ -8,6 +8,7 @@ import br.com.thallyta.algafood.models.dtos.requests.GroupRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
 import br.com.thallyta.algafood.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class GroupController implements GroupControllerOpenApi {
     private GroupRequestDTODisassembler disassembler;
 
     @GetMapping
-    public List<GroupResponseDTO> getAll(){
+    public CollectionModel<GroupResponseDTO> getAll(){
         List<Group> groups = groupService.getAll();
         return assembler.toCollectionModel(groups);
     }
@@ -37,21 +38,21 @@ public class GroupController implements GroupControllerOpenApi {
     @GetMapping("/{id}")
     public GroupResponseDTO getById(@PathVariable Long id){
         Group group =  groupService.findOrFail(id);
-        return assembler.toGroupResponse(group);
+        return assembler.toModel(group);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public GroupResponseDTO create(@RequestBody @Valid GroupRequestDTO groupRequestDTO) {
         Group group = disassembler.toDomainObject(groupRequestDTO);
-        return assembler.toGroupResponse(groupService.save(group));
+        return assembler.toModel(groupService.save(group));
     }
 
     @PutMapping("/{id}")
     public GroupResponseDTO update(@PathVariable Long id, @RequestBody @Valid GroupRequestDTO groupRequestDTO) {
         Group groupFound =  groupService.findOrFail(id);
         disassembler.copyToDomainObject(groupRequestDTO, groupFound);
-        return assembler.toGroupResponse(groupService.save(groupFound));
+        return assembler.toModel(groupService.save(groupFound));
     }
 
     @DeleteMapping(value = "/{id}")

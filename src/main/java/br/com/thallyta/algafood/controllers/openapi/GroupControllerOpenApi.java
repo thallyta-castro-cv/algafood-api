@@ -4,15 +4,14 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.GroupRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Grupos")
 public interface GroupControllerOpenApi {
 
 
     @ApiOperation("Lista todos os grupos")
-    List<GroupResponseDTO> getAll();
+    CollectionModel<GroupResponseDTO> getAll();
 
     @ApiOperation("Busca um grupo por ID")
     @ApiResponses({

@@ -6,10 +6,9 @@ import br.com.thallyta.algafood.models.assembler.response.GroupResponseDTOAssemb
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
 import br.com.thallyta.algafood.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users/{userId}/groups")
@@ -22,9 +21,9 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     private GroupResponseDTOAssembler groupResponseDTOAssembler;
 
     @GetMapping
-    public List<GroupResponseDTO> getAll(@PathVariable Long userId) {
+    public CollectionModel<GroupResponseDTO> getAll(@PathVariable Long userId) {
         User user = userService.findOrFail(userId);
-        return groupResponseDTOAssembler.toCollectionModel(user.getGroups());
+        return groupResponseDTOAssembler.toCollectionModel(user.getGroups()).removeLinks();
     }
 
     @DeleteMapping("/{groupId}")
