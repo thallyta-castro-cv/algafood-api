@@ -3,6 +3,7 @@ package br.com.thallyta.algafood.models.assembler.links;
 import br.com.thallyta.algafood.controllers.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.hateoas.*;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -298,6 +299,23 @@ public class AlgaLinks {
     public Link linkToUserGroupUnbind(Long userId, Long grupoId, String rel) {
         return linkTo(methodOn(UserGroupController.class)
                 .unbind(userId, grupoId)).withRel(rel);
+    }
+
+    public Link linkToStatistics(String rel) {
+        return linkTo(StatisticsController.class).withRel(rel);
+    }
+
+    public Link linkToStatisticsDailySales(String rel) {
+        TemplateVariables filterVariables = new TemplateVariables(
+                new TemplateVariable("restaurantId", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("createdDateStart", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("createdDateEnd", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("timeOffset", TemplateVariable.VariableType.REQUEST_PARAM));
+
+        String ordersUrl = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(StatisticsController.class)
+                .getDailySales(null, null)).toUri().toString();
+
+        return Link.of(UriTemplate.of(ordersUrl, filterVariables), LinkRelation.of(rel));
     }
 
 }

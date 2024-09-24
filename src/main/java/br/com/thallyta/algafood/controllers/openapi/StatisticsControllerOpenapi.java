@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.openapi;
 
+import br.com.thallyta.algafood.controllers.StatisticsController;
 import br.com.thallyta.algafood.models.dtos.responses.DailySalesResponseDTO;
 import br.com.thallyta.algafood.models.params.ListDailySalesParams;
 import io.swagger.annotations.*;
@@ -7,7 +8,10 @@ import io.swagger.annotations.*;
 import java.util.List;
 
 @Api(tags = "Estatísticas")
-public interface DailySalesControllerOpenapi {
+public interface StatisticsControllerOpenapi {
+
+    @ApiOperation(value = "Estatísticas", hidden = true)
+    StatisticsController.StatisticsModel statistics();
 
     @ApiOperation("Consulta estatísticas de vendas diárias")
     @ApiImplicitParams({

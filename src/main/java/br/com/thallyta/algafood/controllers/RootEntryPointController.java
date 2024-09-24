@@ -30,6 +30,7 @@ public class RootEntryPointController {
         rootEntryPointModel.add(algaLinks.linkToFormPayments("form-payments"));
         rootEntryPointModel.add(algaLinks.linkToStates("states"));
         rootEntryPointModel.add(algaLinks.linkToCities("cities"));
+        rootEntryPointModel.add(algaLinks.linkToStatistics("statistics"));
 
         return rootEntryPointModel;
     }
