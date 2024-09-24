@@ -277,4 +277,14 @@ public class AlgaLinks {
                 .unbind(groupId, permissionId)).withRel(rel);
     }
 
+    public Link linkToUserGroupBind(Long userId, String rel) {
+        return linkTo(methodOn(UserGroupController.class)
+                .bind(userId, null)).withRel(rel);
+    }
+
+    public Link linkToUserGroupUnbind(Long userId, Long grupoId, String rel) {
+        return linkTo(methodOn(UserGroupController.class)
+                .unbind(userId, grupoId)).withRel(rel);
+    }
+
 }

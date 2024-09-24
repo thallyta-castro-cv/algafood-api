@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
 import io.swagger.annotations.*;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Usuários")
 public interface UserGroupControllerOpenApi {
@@ -20,8 +21,8 @@ public interface UserGroupControllerOpenApi {
             @ApiResponse(code = 404, message = "Usuário ou grupo não encontrado",
                     response = LogExceptionAdapter.class)
     })
-    void unbind(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId,
-                @ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId);
+    ResponseEntity<Void> unbind(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId,
+                                @ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId);
 
     @ApiOperation("Associação de grupo com usuário")
     @ApiResponses({
@@ -29,6 +30,6 @@ public interface UserGroupControllerOpenApi {
             @ApiResponse(code = 404, message = "Usuário ou grupo não encontrado",
                     response = LogExceptionAdapter.class)
     })
-    void bind(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId,
+    ResponseEntity<Void> bind(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId,
               @ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId);
 }
