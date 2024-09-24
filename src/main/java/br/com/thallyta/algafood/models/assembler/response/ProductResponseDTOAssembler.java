@@ -34,6 +34,9 @@ public class ProductResponseDTOAssembler extends
 
         productDTO.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
 
+        productDTO.add(algaLinks.linkToProductPhoto(
+                product.getRestaurant().getId(), product.getId(), "photo"));
+
         return productDTO;
     }
 

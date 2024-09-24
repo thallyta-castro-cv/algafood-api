@@ -55,14 +55,14 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         photo.setFileName(file.getOriginalFilename());
         ProductPhoto photoSaved = restaurantProductService.save(photo, file.getInputStream());
 
-        return photoProductResponseDTOAssembler.toPhotoProductResponseDTO(photoSaved);
+        return photoProductResponseDTOAssembler.toModel(photoSaved);
     }
 
     @GetMapping
     public ProductPhotoResponseDTO findById(@PathVariable Long restaurantId,
                                             @PathVariable Long productId) {
         ProductPhoto productPhoto = restaurantProductService.findOrFail(restaurantId, productId);
-        return photoProductResponseDTOAssembler.toPhotoProductResponseDTO(productPhoto);
+        return photoProductResponseDTOAssembler.toModel(productPhoto);
     }
 
     @GetMapping(produces = MediaType.ALL_VALUE)

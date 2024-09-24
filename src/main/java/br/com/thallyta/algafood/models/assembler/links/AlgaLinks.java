@@ -233,4 +233,13 @@ public class AlgaLinks {
         return linkToProducts(restaurantId, IanaLinkRelations.SELF.value());
     }
 
+    public Link linkToProductPhoto(Long restaurantId, Long productId, String rel) {
+        return linkTo(methodOn(RestaurantProductPhotoController.class)
+                .findById(restaurantId, productId)).withRel(rel);
+    }
+
+    public Link linkToProductPhoto(Long restaurantId, Long productId) {
+        return linkToProductPhoto(restaurantId, productId, IanaLinkRelations.SELF.value());
+    }
+
 }
