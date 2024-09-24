@@ -3,6 +3,7 @@ package br.com.thallyta.algafood.controllers;
 import br.com.thallyta.algafood.controllers.openapi.RestaurantProductControllerOpenApi;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.Restaurant;
+import br.com.thallyta.algafood.models.assembler.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.request.ProductRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.ProductResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.requests.ProductRequestDTO;
@@ -11,6 +12,7 @@ import br.com.thallyta.algafood.repositories.ProductRepository;
 import br.com.thallyta.algafood.services.ProductService;
 import br.com.thallyta.algafood.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,20 +38,30 @@ public class RestaurantProductController implements RestaurantProductControllerO
     @Autowired
     private ProductRequestDTODisassembler productDisassembler;
 
-    @GetMapping
-    public List<ProductResponseDTO> getAll(@PathVariable Long restaurantId,
-                                           @RequestParam(required = false) boolean includeActiveOnly) {
-        Restaurant restaurant = restaurantService.findOrFail(restaurantId);
-        List<Product> products =  includeActiveOnly ? productRepository.findByActiveByRestaurant(restaurant) :
-                productRepository.findByRestaurant(restaurant);
+    @Autowired
+    private AlgaLinks algaLinks;
 
-        return productAssembler.toCollectionModel(products);
+    @GetMapping
+    public CollectionModel<ProductResponseDTO> getAll(@PathVariable Long restaurantId,
+                                                      @RequestParam(required = false) Boolean includeActiveOnly) {
+        Restaurant restaurant = restaurantService.findOrFail(restaurantId);
+
+        List<Product> allProducts = null;
+
+        if (Boolean.TRUE.equals(includeActiveOnly)) {
+            allProducts = productRepository.findByRestaurant(restaurant);
+        } else {
+            allProducts = productRepository.findByActiveByRestaurant(restaurant);
+        }
+
+        return productAssembler.toCollectionModel(allProducts)
+                .add(algaLinks.linkToProducts(restaurantId));
     }
 
     @GetMapping("/{productId}")
     public ProductResponseDTO finById(@PathVariable Long restaurantId, @PathVariable Long productId) {
         Product product = productService.findOrFail(restaurantId, productId);
-        return productAssembler.toProductResponse(product);
+        return productAssembler.toModel(product);
     }
 
     @PostMapping
@@ -60,7 +72,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
         Product product = productDisassembler.toDomainObject(productRequest);
         product.setRestaurant(restaurant);
         product = productService.save(product);
-        return productAssembler.toProductResponse(product);
+        return productAssembler.toModel(product);
     }
 
     @PutMapping("/{productId}")
@@ -69,6 +81,6 @@ public class RestaurantProductController implements RestaurantProductControllerO
         Product currentProduct = productService.findOrFail(restaurantId, productId);
         productDisassembler.copyToDomainObject(productRequestDTO, currentProduct);
         currentProduct = productService.save(currentProduct);
-        return productAssembler.toProductResponse(currentProduct);
+        return productAssembler.toModel(currentProduct);
     }
 }

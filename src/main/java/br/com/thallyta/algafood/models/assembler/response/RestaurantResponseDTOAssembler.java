@@ -56,6 +56,8 @@ public class RestaurantResponseDTOAssembler extends
                     algaLinks.linkToRestaurantClose(restaurant.getId(), "close"));
         }
 
+        restaurantDTO.add(algaLinks.linkToProducts(restaurant.getId(), "products"));
+
         restaurantDTO.add(algaLinks.linkToRestaurants("restaurants"));
 
         restaurantDTO.add(algaLinks.linkToRestaurantFormPayment(restaurant.getId(),

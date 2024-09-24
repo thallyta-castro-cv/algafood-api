@@ -4,8 +4,7 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.ProductRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.ProductResponseDTO;
 import io.swagger.annotations.*;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Produtos")
 public interface RestaurantProductControllerOpenApi {
@@ -15,9 +14,9 @@ public interface RestaurantProductControllerOpenApi {
             @ApiResponse(code = 400, message = "ID do restaurante inválido", response = LogExceptionAdapter.class),
             @ApiResponse(code = 404, message = "Restaurante não encontrado", response = LogExceptionAdapter.class)
     })
-    List<ProductResponseDTO> getAll(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
-                                           @ApiParam(value = "Indica se deve ou não incluir produtos inativos no resultado da listagem",
-                                                   example = "false", defaultValue = "false") boolean includeActiveOnly);
+    CollectionModel<ProductResponseDTO> getAll(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
+                                               @ApiParam(value = "Indica se deve ou não incluir produtos inativos no resultado da listagem",
+                                                   example = "false", defaultValue = "false") Boolean includeActiveOnly);
 
     @ApiOperation("Cadastra um produto de um restaurante")
     @ApiResponses({

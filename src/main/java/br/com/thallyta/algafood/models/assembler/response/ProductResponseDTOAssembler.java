@@ -1,27 +1,46 @@
 package br.com.thallyta.algafood.models.assembler.response;
 
+import br.com.thallyta.algafood.controllers.RestaurantProductController;
 import br.com.thallyta.algafood.models.Product;
+import br.com.thallyta.algafood.models.assembler.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.responses.ProductResponseDTO;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
-public class ProductResponseDTOAssembler {
+public class ProductResponseDTOAssembler extends
+        RepresentationModelAssemblerSupport<Product, ProductResponseDTO> {
+
+    @Autowired
+    private AlgaLinks algaLinks;
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProductResponseDTO toProductResponse(Product product) {
-        return modelMapper.map(product, ProductResponseDTO.class);
+    public ProductResponseDTOAssembler() {
+        super(RestaurantProductController.class, ProductResponseDTO.class);
     }
 
-    public List<ProductResponseDTO> toCollectionModel(List<Product> products) {
-        return products.stream()
-                .map(this::toProductResponse)
-                .collect(Collectors.toList());
+    @Override
+    public @NotNull ProductResponseDTO toModel(@NotNull Product product) {
+        ProductResponseDTO productDTO = createModelWithId(
+                product.getId(), product, product.getRestaurant().getId());
+
+        modelMapper.map(product, productDTO);
+
+        productDTO.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
+
+        return productDTO;
+    }
+
+
+    public @NotNull CollectionModel<ProductResponseDTO> toCollectionModel(
+            @NotNull Iterable<? extends Product> entities, Long restaurantId) {
+        return super.toCollectionModel(entities)
+                .add(algaLinks.linkToProducts(restaurantId));
     }
 }
