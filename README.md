@@ -16,6 +16,7 @@ O intuito deste projeto é servir de repositório base para consultas futuras de
 - Java
 - Spring Boot
 - Spring Data JPA
+- Spring Hateoas
 - MySql
 - jUnit 5
 - Mockito
@@ -115,7 +116,8 @@ spring.freemarker.settings.locale=pt_BR
 | `feat/upload-download-files`  | Implementação de download e upload de arquivos com AWS S3 e armazenamento local.                        |
 | `feat/send-transactional-email`| Implementação de envio de emails transacionais com AWS SES.                                             |
 | `feat/api-client-js-java`     | Implementação de cache e otimizações gerais para consumo do cliente.                                    |
-| `feat/implements-api-docs`    | Documentação da API com Swagger OpenAPI 3.                                                              |
+| `feat/implements-api-docs`    | Documentação da API com Swagger OpenAPI 3 (legado).                                                            |
+| `feat/discoverability-hateoas`| Implementação de descoberta e HATEOAS no modelo HAL com Spring Hateoas                                  |
 
 
 ## Branches de referência - Testes
