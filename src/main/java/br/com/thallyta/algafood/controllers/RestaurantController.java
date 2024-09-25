@@ -1,8 +1,8 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.controllers.openapi.RestaurantControllerOpenApi;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.core.openapi.RestaurantControllerOpenApi;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.request.RestaurantRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.RestaurantResponseDTOAssembler;
@@ -12,7 +12,9 @@ import br.com.thallyta.algafood.repositories.RestaurantRepository;
 import br.com.thallyta.algafood.services.RestaurantService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,7 +39,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     @Autowired
     private RestaurantService restaurantService;
 
-    public List<RestaurantResponseDTO> getAll(){
+    @GetMapping()
+    public CollectionModel<RestaurantResponseDTO> getAll(){
         List<Restaurant> restaurants = restaurantService.getAll();
         return restaurantAssembler.toCollectionModel(restaurants);
     }
@@ -45,7 +48,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     @GetMapping("/{id}")
     public RestaurantResponseDTO getById(@PathVariable Long id){
         Restaurant restaurant = restaurantService.findOrFail(id);
-        return restaurantAssembler.toRestaurantResponse(restaurant);
+        return restaurantAssembler.toModel(restaurant);
     }
 
     @PostMapping
@@ -53,7 +56,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     public RestaurantResponseDTO create(@RequestBody @Valid RestaurantRequestDTO restaurantRequestDTO) {
         try {
             Restaurant restaurant = restaurantDisassembler.toDomainObject(restaurantRequestDTO);
-            return restaurantAssembler.toRestaurantResponse(restaurantService.save(restaurant));
+            return restaurantAssembler.toModel(restaurantService.save(restaurant));
         } catch (NotFoundException e) {
             throw new NotFoundException("Restaurante não existe!");
         } catch (BadRequestException exception){
@@ -66,7 +69,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         try {
             Restaurant restaurantFound = restaurantService.findOrFail(id);
             restaurantDisassembler.copyToDomainObject(restaurantRequestDTO, restaurantFound);
-            return restaurantAssembler.toRestaurantResponse(restaurantService.save(restaurantFound));
+            return restaurantAssembler.toModel(restaurantService.save(restaurantFound));
         } catch (NotFoundException e) {
             throw new NotFoundException("Restaurante não existe!");
         }
@@ -80,26 +83,30 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
     @PutMapping("/{id}/active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void active(@PathVariable Long id){
+    public ResponseEntity<Void> active(@PathVariable Long id){
         restaurantService.active(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}/inactive")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void inactive(@PathVariable Long id){
+    public ResponseEntity<Void> inactive(@PathVariable Long id){
         restaurantService.inactive(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{restaurantId}/open")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void open(@PathVariable Long restaurantId) {
+    public ResponseEntity<Void> open(@PathVariable Long restaurantId) {
         restaurantService.open(restaurantId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{restaurantId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void close(@PathVariable Long restaurantId) {
+    public ResponseEntity<Void> close(@PathVariable Long restaurantId) {
         restaurantService.close(restaurantId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/activations")

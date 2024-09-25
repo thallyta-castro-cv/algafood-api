@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.UserControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.UserControllerOpenApi;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.request.UserRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.UserResponseDTOAssembler;
@@ -11,6 +11,7 @@ import br.com.thallyta.algafood.models.dtos.responses.UserResponseDTO;
 import br.com.thallyta.algafood.repositories.UserRepository;
 import br.com.thallyta.algafood.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class UserController implements UserControllerOpenApi {
     private UserRequestDTODisassembler userRequestDisassembler;
 
     @GetMapping
-    public List<UserResponseDTO> getAll() {
+    public CollectionModel<UserResponseDTO> getAll() {
         List<User> allUsers = userRepository.findAll();
         return userResponseAssembler.toCollectionModel(allUsers);
     }
@@ -59,7 +60,6 @@ public class UserController implements UserControllerOpenApi {
         User currentUser = userService.findOrFail(userId);
         userRequestDisassembler.copyToDomainObject(userInput, currentUser);
         currentUser = userService.save(currentUser);
-
         return userResponseAssembler.toModel(currentUser);
     }
 

@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.controllers.CityController;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.common.mocks.CityMock;
@@ -86,7 +85,7 @@ class CityControllerTest {
     @Order(2)
     void whenGetByIdThenReturnSuccess() {
         when(cityService.findOrFail(startCity().getId())).thenReturn(startCity());
-        when(cityResponseDTOAssembler.toCityResponse(startCity())).thenReturn(startCityDTO());
+        when(cityResponseDTOAssembler.toModel(startCity())).thenReturn(startCityDTO());
 
         CityResponseDTO responseDTO = cityController.getById(startCity().getId());
 
@@ -103,7 +102,7 @@ class CityControllerTest {
     void whenCreateThenReturnCreated() {
         when(cityDisassembler.toDomainObject(any(CityRequestDTO.class))).thenReturn(startCity());
         when(cityService.save(any(City.class))).thenReturn(startCity());
-        when(cityResponseDTOAssembler.toCityResponse(any(City.class))).thenReturn(startCityDTO());
+        when(cityResponseDTOAssembler.toModel(any(City.class))).thenReturn(startCityDTO());
 
         CityResponseDTO result = cityController.create(cityMock.cityRequestDTO());
 
@@ -115,7 +114,7 @@ class CityControllerTest {
 
         verify(cityService, times(1)).save(any(City.class));
         verify(cityDisassembler, times(1)).toDomainObject(any(CityRequestDTO.class));
-        verify(cityResponseDTOAssembler, times(1)).toCityResponse(any(City.class));
+        verify(cityResponseDTOAssembler, times(1)).toModel(any(City.class));
     }
 
     @Test
@@ -135,7 +134,7 @@ class CityControllerTest {
         when(cityService.findOrFail(startCity().getId())).thenReturn(startCity());
         when(cityDisassembler.toDomainObject(any(CityRequestDTO.class))).thenReturn(startCity());
         when(cityService.save(any(City.class))).thenReturn(startCity());
-        when(cityResponseDTOAssembler.toCityResponse(any(City.class))).thenReturn(startCityDTO());
+        when(cityResponseDTOAssembler.toModel(any(City.class))).thenReturn(startCityDTO());
 
         CityResponseDTO result = cityController.update(startCity().getId(), cityMock.cityRequestDTO());
 

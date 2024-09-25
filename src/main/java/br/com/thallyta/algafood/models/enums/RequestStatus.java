@@ -27,4 +27,8 @@ public enum RequestStatus {
         return !newStatus.previousStatus.contains(this);
     }
 
+    public boolean changeStatusTo(RequestStatus newStatus) {
+        return !doesNotChangeStatusTo(newStatus);
+    }
+
 }

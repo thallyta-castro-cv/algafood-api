@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.StateControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.StateControllerOpenApi;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.request.StateRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.response.StateResponseDTOAssembler;
@@ -9,6 +9,7 @@ import br.com.thallyta.algafood.models.dtos.responses.StateResponseDTO;
 import br.com.thallyta.algafood.repositories.StateRepository;
 import br.com.thallyta.algafood.services.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,30 +32,34 @@ public class StateController implements StateControllerOpenApi {
     @Autowired
     private StateResponseDTOAssembler stateAssembler;
 
+    @Override
     @GetMapping
-    public List<StateResponseDTO> getAll(){
+    public CollectionModel<StateResponseDTO> findAll(){
         List<State> states = stateService.getAll();
         return stateAssembler.toCollectionModel(states);
     }
 
+    @Override
     @GetMapping("/{id}")
     public StateResponseDTO getById(@PathVariable Long id){
         State state =  stateService.findOrFail(id);
-        return stateAssembler.toStateResponse(state);
+        return stateAssembler.toModel(state);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public StateResponseDTO create(@RequestBody @Valid StateRequestDTO stateRequestDTO) {
         State state = stateDisassembler.toDomainObject(stateRequestDTO);
-        return stateAssembler.toStateResponse(stateService.save(state));
+        return stateAssembler.toModel(stateService.save(state));
     }
 
+    @Override
     @PutMapping("/{id}")
     public StateResponseDTO update(@PathVariable Long id, @RequestBody @Valid StateRequestDTO stateRequestDTO) {
         State stateFound = stateService.findOrFail(id);
         stateDisassembler.copyToDomainObject(stateRequestDTO, stateFound);
-        return stateAssembler.toStateResponse(stateService.save(stateFound)) ;
+        return stateAssembler.toModel(stateService.save(stateFound)) ;
     }
 
     @DeleteMapping("/{id}")

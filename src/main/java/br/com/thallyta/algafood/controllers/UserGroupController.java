@@ -1,15 +1,16 @@
 package br.com.thallyta.algafood.controllers;
 
-import br.com.thallyta.algafood.core.openapi.UserGroupControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.UserGroupControllerOpenApi;
 import br.com.thallyta.algafood.models.User;
+import br.com.thallyta.algafood.models.assembler.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.response.GroupResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.responses.GroupResponseDTO;
 import br.com.thallyta.algafood.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users/{userId}/groups")
@@ -19,23 +20,36 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     private UserService userService;
 
     @Autowired
+    private AlgaLinks algaLinks;
+
+    @Autowired
     private GroupResponseDTOAssembler groupResponseDTOAssembler;
 
     @GetMapping
-    public List<GroupResponseDTO> getAll(@PathVariable Long userId) {
+    public CollectionModel<GroupResponseDTO> getAll(@PathVariable Long userId) {
         User user = userService.findOrFail(userId);
-        return groupResponseDTOAssembler.toCollectionModel(user.getGroups());
+
+        CollectionModel<GroupResponseDTO> groupDTO = groupResponseDTOAssembler.toCollectionModel(user.getGroups())
+                .removeLinks()
+                .add(algaLinks.linkToUserGroupBind(userId, "bind"));
+
+        groupDTO.getContent().forEach(group -> group.add(algaLinks.linkToUserGroupUnbind(
+                userId, group.getId(), "unbind")));
+
+        return groupDTO;
     }
 
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void unbind(@PathVariable Long userId, @PathVariable Long groupId) {
+    public ResponseEntity<Void> unbind(@PathVariable Long userId, @PathVariable Long groupId) {
         userService.unbindGroup(userId, groupId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void bind(@PathVariable Long userId, @PathVariable Long groupId) {
+    public ResponseEntity<Void> bind(@PathVariable Long userId, @PathVariable Long groupId) {
         userService.bindGroup(userId, groupId);
+        return ResponseEntity.noContent().build();
     }
 }
