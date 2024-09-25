@@ -1,9 +1,12 @@
-package br.com.thallyta.algafood.controllers.openapi.config;
+package br.com.thallyta.algafood.core.springfox;
 
 import br.com.thallyta.algafood.controllers.openapi.OrderControllerOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.models.CitiesModelOpenApi;
 import br.com.thallyta.algafood.controllers.openapi.models.KitchensModelOpenApi;
+import br.com.thallyta.algafood.controllers.openapi.models.LinksModelOpenApi;
 import br.com.thallyta.algafood.controllers.openapi.models.PageableModelApi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
+import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
 import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
 import br.com.thallyta.algafood.models.dtos.responses.OrderSummaryResponseDTO;
 import com.fasterxml.classmate.TypeResolver;
@@ -11,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Links;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,12 +52,16 @@ public class SpringFoxConfig {
                 .additionalModels(typeResolver.resolve(LogExceptionAdapter.class))
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .directModelSubstitute(Pageable.class, PageableModelApi.class)
+                .directModelSubstitute(Links.class, LinksModelOpenApi.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(Page.class, KitchenResponseDTO.class),
                         KitchensModelOpenApi.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(Page.class, OrderSummaryResponseDTO.class),
                         OrderControllerOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, CityResponseDTO.class),
+                        CitiesModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
