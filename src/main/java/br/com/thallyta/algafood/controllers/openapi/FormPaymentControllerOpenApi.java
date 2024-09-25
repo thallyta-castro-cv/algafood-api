@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.openapi;
 
+import br.com.thallyta.algafood.controllers.openapi.models.FormPaymentsModelOpenApi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.requests.FormPaymentRequestDTO;
 import br.com.thallyta.algafood.models.dtos.responses.FormPaymentResponseDTO;
@@ -11,7 +12,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 @Api(tags= "Formas de pagamento")
 public interface FormPaymentControllerOpenApi {
 
-    @ApiOperation("Lista todas as formas de pagamento")
+    @ApiOperation(value = "Lista as formas de pagamento")
+    @io.swagger.annotations.ApiResponses(value = {
+            @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = FormPaymentsModelOpenApi.class)
+    })
     ResponseEntity<CollectionModel<FormPaymentResponseDTO>> getAll(ServletWebRequest request);
 
     @ApiOperation("Busca uma forma de pagamento por id")

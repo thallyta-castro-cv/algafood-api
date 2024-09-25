@@ -1,18 +1,11 @@
 package br.com.thallyta.algafood.core.springfox;
 
-import br.com.thallyta.algafood.controllers.openapi.OrderControllerOpenApi;
-import br.com.thallyta.algafood.controllers.openapi.models.CitiesModelOpenApi;
-import br.com.thallyta.algafood.controllers.openapi.models.KitchensModelOpenApi;
-import br.com.thallyta.algafood.controllers.openapi.models.LinksModelOpenApi;
-import br.com.thallyta.algafood.controllers.openapi.models.PageableModelApi;
+import br.com.thallyta.algafood.controllers.openapi.models.*;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
-import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
-import br.com.thallyta.algafood.models.dtos.responses.KitchenResponseDTO;
-import br.com.thallyta.algafood.models.dtos.responses.OrderSummaryResponseDTO;
+import br.com.thallyta.algafood.models.dtos.responses.*;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
@@ -58,11 +51,32 @@ public class SpringFoxConfig {
                         typeResolver.resolve(PagedModel.class, KitchenResponseDTO.class),
                         KitchensModelOpenApi.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(Page.class, OrderSummaryResponseDTO.class),
-                        OrderControllerOpenApi.class))
+                        typeResolver.resolve(PagedModel.class, OrderSummaryResponseDTO.class),
+                        OrdersModelOpenApi.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, CityResponseDTO.class),
                         CitiesModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, StateResponseDTO.class),
+                        StatesModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, FormPaymentResponseDTO.class),
+                        FormPaymentsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, GroupResponseDTO.class),
+                        GroupsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, PermissionResponseDTO.class),
+                        PermissionsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, ProductResponseDTO.class),
+                        ProductsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, UserResponseDTO.class),
+                        UsersModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, RestaurantResponseDTO.class),
+                        RestaurantsModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .tags(new Tag("Cidades", "Gerencia as cidades"),

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "Restaurants")
+@Api(tags = "Restaurantes")
 public interface RestaurantControllerOpenApi {
 
     @ApiOperation(value = "Lista todos os restaurantes", response = RestaurantBasicResponseDTO.class)
