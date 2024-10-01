@@ -118,6 +118,7 @@ spring.freemarker.settings.locale=pt_BR
 | `feat/api-client-js-java`     | Implementação de cache e otimizações gerais para consumo do cliente.                                    |
 | `feat/implements-api-docs`    | Documentação da API com Swagger OpenAPI 3 (legado).                                                            |
 | `feat/discoverability-hateoas`| Implementação de descoberta e HATEOAS no modelo HAL com Spring Hateoas                                  |
+| `feat/version-api`| Implementação de versionamento de API por URI, mantendo v1 para as APIs existentes e criando v2 para o novo recurso de cozinhas, visando melhor organização e evolução das funcionalidades sem quebrar compatibilidade com a versão anterior.                                  |
 
 
 ## Branches de referência - Testes
