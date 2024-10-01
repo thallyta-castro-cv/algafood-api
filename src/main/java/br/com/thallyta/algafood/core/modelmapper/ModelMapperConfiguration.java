@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.core.modelmapper;
 
 import br.com.thallyta.algafood.models.RequestItem;
-import br.com.thallyta.algafood.models.dtos.requests.OrderItemRequestDTO;
+import br.com.thallyta.algafood.models.dtos.v1.requests.OrderItemRequestDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

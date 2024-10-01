@@ -1,8 +1,11 @@
 package br.com.thallyta.algafood.core.springfox;
 
-import br.com.thallyta.algafood.controllers.openapi.models.*;
+import br.com.thallyta.algafood.controllers.v1.openapi.models.*;
+import br.com.thallyta.algafood.controllers.v2.openapi.models.KitchensModelV2OpenApi;
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
-import br.com.thallyta.algafood.models.dtos.responses.*;
+import br.com.thallyta.algafood.models.dtos.v1.responses.*;
+import br.com.thallyta.algafood.models.dtos.v2.response.KitchenResponseV2DTO;
+import org.springframework.core.io.Resource;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,28 +20,35 @@ import org.springframework.web.context.request.ServletWebRequest;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.net.URL;
 
 @Configuration
 public class SpringFoxConfig {
 
     @Bean
-    public Docket apiDocket() {
+    public Docket apiDocketV1() {
         var typeResolver = new TypeResolver();
 
         return new Docket(DocumentationType.OAS_30)
+                .groupName("V1")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("br.com.thallyta.algafood.controllers"))
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.ant("/v1/**"))
                 .build()
-                .apiInfo(apiInfo())
+                .apiInfo(apiInfoV1())
                 .globalResponses(HttpMethod.GET, globalGetResponseMessages())
                 .globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
@@ -77,11 +87,11 @@ public class SpringFoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, RestaurantResponseDTO.class),
                         RestaurantsModelOpenApi.class))
-                .apiInfo(apiInfo())
+                .apiInfo(apiInfoV1())
                 .useDefaultResponseMessages(false)
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
                       new Tag("Grupos", "Gerencia os grupos de usuários"),
-                      new Tag("Cozinhas", "Gerencia as cozinhas"),
+                      new Tag("Cozinhas", "Gerencia as cozinhas na versão 1"),
                       new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
                       new Tag("Pedidos", "Gerencia os pedidos"),
                       new Tag("Restaurantes", "Gerencia os restaurantes"),
@@ -92,11 +102,50 @@ public class SpringFoxConfig {
                       new Tag("Permissões", "Gerencia as permissões"));
     }
 
-    public ApiInfo apiInfo() {
+
+    @Bean
+    public Docket apiDocketV2() {
+        var typeResolver = new TypeResolver();
+
+        return new Docket(DocumentationType.OAS_30)
+                .groupName("V2")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("br.com.thallyta.algafood.controllers"))
+                .paths(PathSelectors.ant("/v2/**"))
+                .build()
+                .useDefaultResponseMessages(false)
+                .globalResponses(HttpMethod.GET, globalGetResponseMessages())
+                .globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(LogExceptionAdapter.class))
+                .ignoredParameterTypes(ServletWebRequest.class,
+                        URL.class, URI.class, URLStreamHandler.class, Resource.class,
+                        File.class, InputStream.class)
+                .directModelSubstitute(Pageable.class, PageableModelApi.class)
+                .directModelSubstitute(Links.class, LinksModelOpenApi.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(PagedModel.class, KitchenResponseV2DTO.class),
+                        KitchensModelV2OpenApi.class))
+                .apiInfo(apiInfoV2())
+                .tags(new Tag("Cozinhas", "Gerencia as cozinhas na versão 2"));
+    }
+
+    public ApiInfo apiInfoV1() {
         return new ApiInfoBuilder()
                 .title("Algafood Api")
                 .description("API aberta para clientes e restaurantes")
                 .version("1")
+                .contact(new Contact("AlgaFood", "www.algafood.com", "contato@algafood.com"))
+                .build();
+    }
+
+    public ApiInfo apiInfoV2() {
+        return new ApiInfoBuilder()
+                .title("Algafood Api")
+                .description("API aberta para clientes e restaurantes")
+                .version("2")
+                .contact(new Contact("AlgaFood", "www.algafood.com", "contato@algafood.com"))
                 .build();
     }
 

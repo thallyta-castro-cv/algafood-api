@@ -1,7 +1,7 @@
 package br.com.thallyta.algafood.common.mocks;
 
 import br.com.thallyta.algafood.models.State;
-import br.com.thallyta.algafood.models.dtos.requests.StateIdRequestDTO;
+import br.com.thallyta.algafood.models.dtos.v1.requests.StateIdRequestDTO;
 
 import java.util.ArrayList;
 import java.util.List;

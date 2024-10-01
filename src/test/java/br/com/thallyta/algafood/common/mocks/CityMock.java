@@ -1,8 +1,8 @@
 package br.com.thallyta.algafood.common.mocks;
 
 import br.com.thallyta.algafood.models.City;
-import br.com.thallyta.algafood.models.dtos.requests.CityRequestDTO;
-import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
+import br.com.thallyta.algafood.models.dtos.v1.requests.CityRequestDTO;
+import br.com.thallyta.algafood.models.dtos.v1.responses.CityResponseDTO;
 
 import java.util.LinkedList;
 import java.util.List;

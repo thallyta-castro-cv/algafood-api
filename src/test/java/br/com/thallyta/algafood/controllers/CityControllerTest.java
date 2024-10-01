@@ -1,15 +1,16 @@
 package br.com.thallyta.algafood.controllers;
 
+import br.com.thallyta.algafood.controllers.v1.CityController;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.common.mocks.CityMock;
 import br.com.thallyta.algafood.common.mocks.StateMock;
 import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.State;
-import br.com.thallyta.algafood.models.assembler.request.CityRequestDTODisassembler;
-import br.com.thallyta.algafood.models.assembler.response.CityResponseDTOAssembler;
-import br.com.thallyta.algafood.models.dtos.requests.CityRequestDTO;
-import br.com.thallyta.algafood.models.dtos.responses.CityResponseDTO;
+import br.com.thallyta.algafood.models.assembler.v1.request.CityRequestDTODisassembler;
+import br.com.thallyta.algafood.models.assembler.v1.response.CityResponseDTOAssembler;
+import br.com.thallyta.algafood.models.dtos.v1.requests.CityRequestDTO;
+import br.com.thallyta.algafood.models.dtos.v1.responses.CityResponseDTO;
 import br.com.thallyta.algafood.repositories.CityRepository;
 import br.com.thallyta.algafood.services.CityService;
 import org.junit.jupiter.api.BeforeEach;
