@@ -104,6 +104,35 @@ server.compression.enable=true
 
 ```
 
+## Configurando Loggly para o Projeto
+
+Para habilitar o envio de logs para o Loggly, siga os passos abaixo:
+
+### 1. Criar uma Conta no Loggly
+1. Acesse [Loggly](https://www.loggly.com/).
+2. Faça o cadastro para criar sua conta ou faça login, caso já possua uma.
+
+### 2. Gerar o Token de Autenticação
+1. Após o login, vá até o painel do Loggly.
+2. Navegue até **Source Setup** e selecione a opção **Customer Tokens**.
+3. Clique em **Generate Token** para criar um novo token de autenticação.
+4. Copie o token gerado, pois ele será necessário nas etapas seguintes.
+
+### 3. Configurar o Token no Projeto
+
+1. No arquivo `application.properties` do seu projeto, adicione a seguinte propriedade, substituindo `seu-token-logging-aqui` pelo token gerado no Loggly:
+
+     ```properties
+    logging.loggly.token=seu-token-logging-aqui
+    ```
+    
+3. Salve o arquivo.
+
+### 4. Verificar a Configuração
+1. Execute o projeto e monitore os logs.
+2. Acesse o painel do Loggly para confirmar se os logs estão sendo enviados corretamente.
+
+
 ## Branches de referência - Desenvolvimento
 
 | Branch                        | Descrição                                                                                               |
