@@ -19,6 +19,7 @@
 		<java.version>17</java.version>
 		<squiggly.version>1.3.8</squiggly.version>
 		<springfox.version>3.0.0</springfox.version>
+		<logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
 	</properties>
 
 	<dependencies>
@@ -147,7 +148,14 @@
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-loggly</artifactId>
+			<version>${logback-ext-loggly.version}</version>
+		</dependency>
+
+
+	</dependencies>
 
 	<build>
 		<plugins>

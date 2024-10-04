@@ -9,6 +9,7 @@ import br.com.thallyta.algafood.models.adapters.LogExceptionFieldsAdapter;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.TypeMismatchException;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -49,24 +51,28 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<Object> handleNotFoundException(NotFoundException exception, WebRequest request) {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusNotFound, exception);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusNotFound, request);
     }
 
     @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<Object> handleBadRequestException(BadRequestException exception, WebRequest request) {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusBadRequest, request);
     }
 
     @ExceptionHandler({EntityExceptionInUse.class})
     public ResponseEntity<Object> handleConflictException(EntityExceptionInUse exception, WebRequest request) {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusConflict, exception);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusConflict, request);
     }
 
     @ExceptionHandler({ValidateMessageException.class})
     public ResponseEntity<Object> handleValidateMessageException(ValidateMessageException exception, WebRequest request) {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusNotFound, exception);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusNotFound, request);
     }
 
@@ -76,6 +82,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 + "Tente novamente e se o problema persistir, entre em contato "
                 + "com o administrador do sistema.";
         LogExceptionAdapter error = new LogExceptionAdapter(httpInternalError, exception, message);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpInternalError, request);
     }
 
@@ -101,6 +108,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         String message = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception, message);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, headers, status, request);
     }
 
@@ -126,6 +134,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getRequestURL());
 
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusNotFound, exception, message);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, headers, status, request);
     }
 
@@ -168,6 +177,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception, message, problemFields);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, headers, status, request);
     }
 
@@ -183,6 +193,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 path, exception.getValue(), exception.getTargetType().getSimpleName());
 
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception, message);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, headers, status, request);
     }
 
@@ -197,6 +208,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                         +" Corrija ou remova essa propriedade e tente novamente.", path);
 
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception, message);
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, headers, status, request);
     }
 
@@ -208,7 +220,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 + Objects.requireNonNull(exception.getRequiredType()).getSimpleName() + ".";
 
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusBadRequest, exception, message);
-
+        log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, headers, status, request);
     }
     
