@@ -14,6 +14,7 @@ import br.com.thallyta.algafood.models.dtos.v1.responses.OrderSummaryResponseDTO
 import br.com.thallyta.algafood.models.params.ListRequestParams;
 import br.com.thallyta.algafood.repositories.RequestRepository;
 import br.com.thallyta.algafood.repositories.specs.RequestSpecs;
+import br.com.thallyta.algafood.services.AccessService;
 import br.com.thallyta.algafood.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,6 +49,8 @@ public class OrderController implements OrderControllerOpenApi {
     @Autowired
     private PagedResourcesAssembler<Request> pagedResourcesAssembler;
 
+    @Autowired
+    private AccessService accessService;
 
     @GetMapping
     public PagedModel<OrderSummaryResponseDTO> getAll(ListRequestParams params,
@@ -70,7 +73,7 @@ public class OrderController implements OrderControllerOpenApi {
         try {
             Request newRequest = requestDTODisassembler.toDomainObject(requestDTO);
             newRequest.setClient(new User());
-            newRequest.getClient().setId(1L);
+            newRequest.getClient().setId(accessService.getUserId());
             newRequest = orderService.issueRequest(newRequest);
             return responseDTOAssembler.toModel(newRequest);
         } catch (Exception e) {

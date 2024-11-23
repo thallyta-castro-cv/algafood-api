@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.KitchenControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.assembler.v1.request.KitchenRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.v1.response.KitchenResponseDTOAssembler;
@@ -35,12 +36,14 @@ public class KitchenController implements KitchenControllerOpenApi {
     private PagedResourcesAssembler<Kitchen> pagedResourcesAssembler;
 
     @GetMapping
+    @CheckSecurity.Kitchen.CanGet
     public PagedModel<KitchenResponseDTO> getAll(Pageable pageable){
         Page<Kitchen> kitchens = kitchenService.getAll(pageable);
         return pagedResourcesAssembler.toModel(kitchens, kitchenAssembler);
     }
 
     @GetMapping("/{id}")
+    @CheckSecurity.Kitchen.CanGet
     public KitchenResponseDTO getById(@PathVariable Long id){
         Kitchen kitchen = kitchenService.findOrFail(id);
         return kitchenAssembler.toModel(kitchen);
@@ -48,20 +51,24 @@ public class KitchenController implements KitchenControllerOpenApi {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
+    @CheckSecurity.Kitchen.CanEdit
     public KitchenResponseDTO create(@RequestBody @Valid KitchenRequestDTO kitchenRequestDTO) {
         Kitchen kitchen = kitchenDisassembler.toDomainObject(kitchenRequestDTO);
         return kitchenAssembler.toModel(kitchenService.save(kitchen));
     }
 
     @PutMapping("/{id}")
+    @CheckSecurity.Kitchen.CanEdit
     public KitchenResponseDTO update(@PathVariable Long id, @RequestBody @Valid KitchenRequestDTO kitchenRequestDTO) {
         Kitchen kitchenFound = kitchenService.findOrFail(id);
+        kitchenFound.setName(kitchenRequestDTO.getName());
         kitchenDisassembler.toModel(kitchenFound);
         return kitchenAssembler.toModel(kitchenService.save(kitchenFound));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Kitchen.CanEdit
     public void delete(@PathVariable Long id) {
             kitchenService.delete(id);
     }

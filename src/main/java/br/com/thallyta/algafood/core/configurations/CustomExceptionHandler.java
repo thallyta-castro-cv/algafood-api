@@ -20,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -47,6 +48,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     private static final HttpStatus httpStatusBadRequest = HttpStatus.BAD_REQUEST;
     private static final HttpStatus httpStatusConflict = HttpStatus.CONFLICT;
     private static final HttpStatus httpInternalError = HttpStatus.INTERNAL_SERVER_ERROR;
+    private static final HttpStatus httpAccessDenied = HttpStatus.UNAUTHORIZED;
 
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<Object> handleNotFoundException(NotFoundException exception, WebRequest request) {
@@ -74,6 +76,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusNotFound, exception);
         log.error(String.valueOf(error));
         return handleExceptionInternal(exception, error, new HttpHeaders(), httpStatusNotFound, request);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(ValidateMessageException exception, WebRequest request) {
+        String message = "Você não possui permissão para executar essa operação.";
+        LogExceptionAdapter error = new LogExceptionAdapter(httpAccessDenied, exception, message);
+        log.error(String.valueOf(error));
+        return handleExceptionInternal(exception, error, new HttpHeaders(), httpAccessDenied, request);
     }
 
     @ExceptionHandler({Exception.class})

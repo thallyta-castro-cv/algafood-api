@@ -41,8 +41,8 @@ public class User {
         return getPassword().equals(password);
     }
 
-    public boolean passwordDoesNotMatchWith(String password) {
-        return !passwordMatchWith(password);
+    public boolean isNew() {
+        return getId() == null;
     }
 
 }

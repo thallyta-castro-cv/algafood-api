@@ -6,6 +6,7 @@ import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,9 @@ public class UserService {
     @Autowired
     private GroupService groupService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public User save(User user) {
         userRepository.detachUser(user);
@@ -28,6 +32,11 @@ public class UserService {
         if(userFound.isPresent() && !userFound.get().equals(user)){
             throw new ValidateMessageException("Já existe um usuário com o email " + user.getEmail());
         }
+
+        if (user.isNew()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         return userRepository.save(user);
     }
 
@@ -35,11 +44,11 @@ public class UserService {
     public void updatePassword(Long userId, String currentPassword, String newPassword) {
         User user = findOrFail(userId);
 
-        if (user.passwordDoesNotMatchWith(currentPassword)) {
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             throw new ValidateMessageException("Senha atual informada não coincide com a senha do usuário.");
         }
 
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
     }
 
     public User findOrFail(Long userId) {
