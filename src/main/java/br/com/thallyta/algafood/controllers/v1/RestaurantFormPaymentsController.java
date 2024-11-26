@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.RestaurantFormPaymentsControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.FormPaymentResponseDTOAssembler;
@@ -26,6 +27,7 @@ public class RestaurantFormPaymentsController implements RestaurantFormPaymentsC
     private AlgaLinks algaLinks;
 
     @GetMapping
+    @CheckSecurity.Restaurants.CanGet
     public CollectionModel<FormPaymentResponseDTO> getAll(@PathVariable Long restaurantId){
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
@@ -44,6 +46,7 @@ public class RestaurantFormPaymentsController implements RestaurantFormPaymentsC
 
     @DeleteMapping("/{formPaymentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Restaurants.CanEdit
     public ResponseEntity<Void> unbind(@PathVariable Long restaurantId, @PathVariable Long formPaymentId) {
         restaurantService.unbindFormPayment(restaurantId, formPaymentId);
         return ResponseEntity.noContent().build();
@@ -51,6 +54,7 @@ public class RestaurantFormPaymentsController implements RestaurantFormPaymentsC
 
     @PutMapping("/{formPaymentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Restaurants.CanEdit
     public ResponseEntity<Void> bind(@PathVariable Long restaurantId, @PathVariable Long formPaymentId) {
         restaurantService.bindFormPayment(restaurantId, formPaymentId);
         return ResponseEntity.noContent().build();

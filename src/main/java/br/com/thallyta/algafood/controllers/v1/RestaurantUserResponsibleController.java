@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.RestaurantUserResponsibleControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.UserResponseDTOAssembler;
@@ -26,6 +27,7 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
     private UserResponseDTOAssembler userResponseDTOAssembler;
 
     @GetMapping
+    @CheckSecurity.Restaurants.CanGet
     public CollectionModel<UserResponseDTO> getAll(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
@@ -43,6 +45,7 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Restaurants.CanEdit
     public ResponseEntity<Void> unbind(@PathVariable Long restaurantId, @PathVariable Long userId) {
         restaurantService.unbindResponsible(restaurantId, userId);
         return ResponseEntity.noContent().build();
@@ -50,6 +53,7 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
 
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Restaurants.CanEdit
     public ResponseEntity<Void> bind(@PathVariable Long restaurantId, @PathVariable Long userId) {
         restaurantService.bindResponsible(restaurantId, userId);
         return ResponseEntity.noContent().build();

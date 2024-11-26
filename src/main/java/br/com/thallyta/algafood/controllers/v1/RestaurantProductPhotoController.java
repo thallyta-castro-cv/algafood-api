@@ -2,6 +2,7 @@ package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.controllers.v1.openapi.RestaurantProductPhotoControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.ProductPhoto;
 import br.com.thallyta.algafood.models.assembler.v1.response.PhotoProductResponseDTOAssembler;
@@ -40,6 +41,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
     private PhotoStorageService photoLocalStorageService;
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @CheckSecurity.Restaurants.CanEdit
     public ProductPhotoResponseDTO updateFile(@PathVariable  Long restaurantId,
                                               @PathVariable Long productId,
                                               @Valid ProductPhotoRequestDTO productPhotoRequestDTO,
@@ -59,6 +61,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
     }
 
     @GetMapping
+    @CheckSecurity.Restaurants.CanGet
     public ProductPhotoResponseDTO findById(@PathVariable Long restaurantId,
                                             @PathVariable Long productId) {
         ProductPhoto productPhoto = restaurantProductService.findOrFail(restaurantId, productId);
@@ -93,6 +96,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Restaurants.CanEdit
     public void delete(@PathVariable Long restaurantId,
                         @PathVariable Long productId) {
         restaurantProductService.delete(restaurantId, productId);

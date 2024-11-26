@@ -11,15 +11,30 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface CheckSecurity {
 
     public @interface Kitchen {
+
         @Retention(RUNTIME)
         @Target(METHOD)
-        @PreAuthorize("hasAuthority('EDITAR_COZINHAS')")
+        @PreAuthorize("hasAuthority('EDITAR_COZINHAS') and hasAuthority('SCOPE_WRITE')")
         public @interface CanEdit {}
 
         @Retention(RUNTIME)
         @Target(METHOD)
-        @PreAuthorize("isAuthenticated()")
+        @PreAuthorize("isAuthenticated() and hasAuthority('SCOPE_READ')")
         public @interface CanGet {}
+
+    }
+
+    public @interface Restaurants {
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_RESTAURANTES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanEdit { }
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanGet { }
 
     }
 }

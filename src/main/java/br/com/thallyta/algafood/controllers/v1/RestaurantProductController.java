@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.RestaurantProductControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
@@ -42,6 +43,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
     private AlgaLinks algaLinks;
 
     @GetMapping
+    @CheckSecurity.Restaurants.CanGet
     public CollectionModel<ProductResponseDTO> getAll(@PathVariable Long restaurantId,
                                                       @RequestParam(required = false) Boolean includeActiveOnly) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
@@ -59,6 +61,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
     }
 
     @GetMapping("/{productId}")
+    @CheckSecurity.Restaurants.CanGet
     public ProductResponseDTO finById(@PathVariable Long restaurantId, @PathVariable Long productId) {
         Product product = productService.findOrFail(restaurantId, productId);
         return productAssembler.toModel(product);
@@ -66,6 +69,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @CheckSecurity.Restaurants.CanEdit
     public ProductResponseDTO save(@PathVariable Long restaurantId,
                                   @RequestBody @Valid ProductRequestDTO productRequest) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
@@ -76,6 +80,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
     }
 
     @PutMapping("/{productId}")
+    @CheckSecurity.Restaurants.CanEdit
     public ProductResponseDTO update(@PathVariable Long restaurantId, @PathVariable Long productId,
                                   @RequestBody @Valid ProductRequestDTO productRequestDTO) {
         Product currentProduct = productService.findOrFail(restaurantId, productId);
