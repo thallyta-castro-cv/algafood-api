@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, RestaurantQueries {
@@ -21,4 +20,12 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, R
            "join fetch restaurant.kitchen ")
     @NotNull
     List<Restaurant> findAll();
+
+    @Query("select case when count(1) > 0 then true else false end " +
+            "from Restaurant restaurant " +
+            "join restaurant.responsible responsible " +
+            "where restaurant.id = :restaurantId " +
+            "and responsible.id = :userId")
+    boolean existsResponsible(@Param("restaurantId") Long restaurantId,
+                              @Param("userId") Long userId);
 }

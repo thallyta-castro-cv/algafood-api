@@ -105,7 +105,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
     @PutMapping("/{restaurantId}/open")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManagerOperation
     public ResponseEntity<Void> open(@PathVariable Long restaurantId) {
         restaurantService.open(restaurantId);
         return ResponseEntity.noContent().build();
@@ -113,7 +113,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
     @PutMapping("/{restaurantId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManagerOperation
     public ResponseEntity<Void> close(@PathVariable Long restaurantId) {
         restaurantService.close(restaurantId);
         return ResponseEntity.noContent().build();

@@ -46,7 +46,7 @@ public class RestaurantFormPaymentsController implements RestaurantFormPaymentsC
 
     @DeleteMapping("/{formPaymentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManagerOperation
     public ResponseEntity<Void> unbind(@PathVariable Long restaurantId, @PathVariable Long formPaymentId) {
         restaurantService.unbindFormPayment(restaurantId, formPaymentId);
         return ResponseEntity.noContent().build();
@@ -54,7 +54,7 @@ public class RestaurantFormPaymentsController implements RestaurantFormPaymentsC
 
     @PutMapping("/{formPaymentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManagerOperation
     public ResponseEntity<Void> bind(@PathVariable Long restaurantId, @PathVariable Long formPaymentId) {
         restaurantService.bindFormPayment(restaurantId, formPaymentId);
         return ResponseEntity.noContent().build();

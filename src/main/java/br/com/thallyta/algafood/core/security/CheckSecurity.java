@@ -26,10 +26,17 @@ public @interface CheckSecurity {
 
     public @interface Restaurants {
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_RESTAURANTES')")
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') "
+                + " and hasAuthority('EDITAR_RESTAURANTES') ")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanEdit { }
+
+        @PreAuthorize("(hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_RESTAURANTES')) "
+                + " or @accessService.manageRestaurant(#restaurantId)")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanManagerOperation { }
 
         @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
         @Retention(RUNTIME)

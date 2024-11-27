@@ -69,7 +69,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManagerOperation
     public ProductResponseDTO save(@PathVariable Long restaurantId,
                                   @RequestBody @Valid ProductRequestDTO productRequest) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
@@ -80,7 +80,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
     }
 
     @PutMapping("/{productId}")
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManagerOperation
     public ProductResponseDTO update(@PathVariable Long restaurantId, @PathVariable Long productId,
                                   @RequestBody @Valid ProductRequestDTO productRequestDTO) {
         Product currentProduct = productService.findOrFail(restaurantId, productId);
