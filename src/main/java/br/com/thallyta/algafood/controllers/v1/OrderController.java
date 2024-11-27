@@ -1,8 +1,9 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.v1.openapi.OrderControllerOpenApi;
 import br.com.thallyta.algafood.core.data.PageWrapper;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.controllers.v1.openapi.OrderControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Request;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.v1.request.OrderRequestDTODisassembler;
@@ -58,10 +59,11 @@ public class OrderController implements OrderControllerOpenApi {
         Pageable pageableTranslate = orderService.translatePageable(pageable);
         Page<Request> ordersPage = requestRepository.findAll(RequestSpecs.usingParams(params), pageableTranslate);
         ordersPage = new PageWrapper<>(ordersPage, pageable);
-        return pagedResourcesAssembler.toModel(ordersPage, responseSummaryDTOAssembler);
+         return pagedResourcesAssembler.toModel(ordersPage, responseSummaryDTOAssembler);
     }
 
     @GetMapping("/{code}")
+    @CheckSecurity.Order.CanGetUnique
     public OrderResponseDTO getById(@PathVariable String code) {
         Request request = orderService.findOrFail(code);
         return responseDTOAssembler.toModel(request);

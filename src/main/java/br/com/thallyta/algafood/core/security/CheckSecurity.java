@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.core.security;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.lang.annotation.Retention;
@@ -42,6 +43,18 @@ public @interface CheckSecurity {
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }
+
+    }
+
+    public @interface Order {
+
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or "
+                     + "@accessService.getUserId() == returnObject.client.id or "
+                     + "@accessService.manageRestaurant(returnObject.restaurant.id)")
+        public @interface CanGetUnique {}
 
     }
 }
