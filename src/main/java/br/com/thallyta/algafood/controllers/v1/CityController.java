@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.core.api.ResourceUriHelper;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.controllers.v1.openapi.CityControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.assembler.v1.request.CityRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.v1.response.CityResponseDTOAssembler;
@@ -33,12 +34,14 @@ public class CityController implements CityControllerOpenApi {
     private CityResponseDTOAssembler cityAssembler;
 
     @GetMapping
+    @CheckSecurity.Cities.CanGet
     public CollectionModel<CityResponseDTO> getAll(){
         List<City> cities = cityService.getAll();
         return cityAssembler.toCollectionModel(cities);
     }
 
     @GetMapping("/{id}")
+    @CheckSecurity.Cities.CanGet
     public CityResponseDTO getById(@PathVariable Long id){
         City city = cityService.findOrFail(id);
         return cityAssembler.toModel(city);
@@ -46,6 +49,7 @@ public class CityController implements CityControllerOpenApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @CheckSecurity.Cities.CanEdit
     public CityResponseDTO create(@RequestBody @Valid CityRequestDTO cityRequestDTO) {
         try {
             City city = cityDisassembler.toDomainObject(cityRequestDTO);
@@ -58,6 +62,7 @@ public class CityController implements CityControllerOpenApi {
     }
 
     @PutMapping("/{id}")
+    @CheckSecurity.Cities.CanEdit
     public CityResponseDTO update(@PathVariable Long id,
                                   @RequestBody @Valid CityRequestDTO cityRequestDTO) {
         try {
@@ -71,6 +76,7 @@ public class CityController implements CityControllerOpenApi {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.Cities.CanEdit
     public void delete(@PathVariable Long id) {
         cityService.delete(id);
     }

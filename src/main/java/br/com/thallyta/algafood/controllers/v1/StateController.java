@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.StateControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.v1.request.StateRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.v1.response.StateResponseDTOAssembler;
@@ -34,6 +35,7 @@ public class StateController implements StateControllerOpenApi {
 
     @Override
     @GetMapping
+    @CheckSecurity.States.CanGet
     public CollectionModel<StateResponseDTO> findAll(){
         List<State> states = stateService.getAll();
         return stateAssembler.toCollectionModel(states);
@@ -41,6 +43,7 @@ public class StateController implements StateControllerOpenApi {
 
     @Override
     @GetMapping("/{id}")
+    @CheckSecurity.States.CanGet
     public StateResponseDTO getById(@PathVariable Long id){
         State state =  stateService.findOrFail(id);
         return stateAssembler.toModel(state);
@@ -49,6 +52,7 @@ public class StateController implements StateControllerOpenApi {
     @Override
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
+    @CheckSecurity.States.CanEdit
     public StateResponseDTO create(@RequestBody @Valid StateRequestDTO stateRequestDTO) {
         State state = stateDisassembler.toDomainObject(stateRequestDTO);
         return stateAssembler.toModel(stateService.save(state));
@@ -56,6 +60,7 @@ public class StateController implements StateControllerOpenApi {
 
     @Override
     @PutMapping("/{id}")
+    @CheckSecurity.States.CanEdit
     public StateResponseDTO update(@PathVariable Long id, @RequestBody @Valid StateRequestDTO stateRequestDTO) {
         State stateFound = stateService.findOrFail(id);
         stateDisassembler.copyToDomainObject(stateRequestDTO, stateFound);
@@ -64,6 +69,7 @@ public class StateController implements StateControllerOpenApi {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.States.CanEdit
     public void delete(@PathVariable Long id) {
        stateService.delete(id);
     }
