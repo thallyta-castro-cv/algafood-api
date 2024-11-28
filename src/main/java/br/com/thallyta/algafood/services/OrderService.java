@@ -3,7 +3,7 @@ package br.com.thallyta.algafood.services;
 import br.com.thallyta.algafood.core.data.PageableTranslator;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.Request;
-import br.com.thallyta.algafood.repositories.RequestRepository;
+import br.com.thallyta.algafood.repositories.OrderRepository;
 import br.com.thallyta.algafood.validates.OrderValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class OrderService {
 
     @Autowired
-    private RequestRepository requestRepository;
+    private OrderRepository requestRepository;
 
     @Autowired
     private OrderValidate orderValidate;

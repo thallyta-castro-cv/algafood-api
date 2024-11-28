@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.ChangeStatusOrderControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.services.ChangeStatusRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ public class ChangeStatusOrderController implements ChangeStatusOrderControllerO
 
     @PutMapping("/confirm")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @CheckSecurity.Order.CanManageOrder
     public ResponseEntity<Void> confirmRequest(@PathVariable String code){
         changeStatusRequestService.confirmRequest(code);
         return ResponseEntity.noContent().build();
@@ -23,6 +25,7 @@ public class ChangeStatusOrderController implements ChangeStatusOrderControllerO
 
     @PutMapping("/deliver")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @CheckSecurity.Order.CanManageOrder
     public ResponseEntity<Void> deliverRequest(@PathVariable String code) {
         changeStatusRequestService.deliverRequest(code);
         return ResponseEntity.noContent().build();
@@ -30,6 +33,7 @@ public class ChangeStatusOrderController implements ChangeStatusOrderControllerO
 
     @PutMapping("/cancel")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @CheckSecurity.Order.CanManageOrder
     public ResponseEntity<Void> cancelRequest(@PathVariable String code) {
         changeStatusRequestService.cancelRequest(code);
         return ResponseEntity.noContent().build();

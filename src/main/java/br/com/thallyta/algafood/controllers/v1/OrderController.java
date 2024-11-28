@@ -13,7 +13,7 @@ import br.com.thallyta.algafood.models.dtos.v1.requests.OrderRequestDTO;
 import br.com.thallyta.algafood.models.dtos.v1.responses.OrderResponseDTO;
 import br.com.thallyta.algafood.models.dtos.v1.responses.OrderSummaryResponseDTO;
 import br.com.thallyta.algafood.models.params.ListRequestParams;
-import br.com.thallyta.algafood.repositories.RequestRepository;
+import br.com.thallyta.algafood.repositories.OrderRepository;
 import br.com.thallyta.algafood.repositories.specs.RequestSpecs;
 import br.com.thallyta.algafood.services.AccessService;
 import br.com.thallyta.algafood.services.OrderService;
@@ -33,7 +33,7 @@ import javax.validation.Valid;
 public class OrderController implements OrderControllerOpenApi {
 
     @Autowired
-    private RequestRepository requestRepository;
+    private OrderRepository requestRepository;
 
     @Autowired
     private OrderService orderService;
@@ -54,6 +54,7 @@ public class OrderController implements OrderControllerOpenApi {
     private AccessService accessService;
 
     @GetMapping
+    @CheckSecurity.Order.CanSearch
     public PagedModel<OrderSummaryResponseDTO> getAll(ListRequestParams params,
                                                       @PageableDefault(size = 10) Pageable pageable) {
         Pageable pageableTranslate = orderService.translatePageable(pageable);
@@ -71,7 +72,8 @@ public class OrderController implements OrderControllerOpenApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderResponseDTO createRequest(@Valid  @RequestBody OrderRequestDTO requestDTO) {
+    @CheckSecurity.Order.CanCreate
+    public OrderResponseDTO createOrder(@Valid  @RequestBody OrderRequestDTO requestDTO) {
         try {
             Request newRequest = requestDTODisassembler.toDomainObject(requestDTO);
             newRequest.setClient(new User());

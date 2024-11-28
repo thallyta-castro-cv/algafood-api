@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.services;
 
+import br.com.thallyta.algafood.repositories.OrderRepository;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,9 @@ public class AccessService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -23,6 +27,15 @@ public class AccessService {
     }
 
     public boolean manageRestaurant(Long restaurantId) {
+        if (restaurantId == null) {
+            return false;
+        }
+
         return restaurantRepository.existsResponsible(restaurantId, getUserId());
     }
+
+    public boolean manageOrderRestaurant(String code) {
+        return orderRepository.isOrderManageFor(code, getUserId());
+    }
+
 }

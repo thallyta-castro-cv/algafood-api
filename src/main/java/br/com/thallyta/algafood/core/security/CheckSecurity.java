@@ -56,5 +56,23 @@ public @interface CheckSecurity {
                      + "@accessService.manageRestaurant(returnObject.restaurant.id)")
         public @interface CanGetUnique {}
 
+        @PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULTAR_PEDIDOS') or "
+                + "@accessService.getUserId() == #params.clientId or"
+                + "@accessService.manageRestaurant(#params.restaurantId))")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanSearch {}
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and isAuthenticated()")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanCreate {}
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('GERENCIAR_PEDIDOS') or "
+                + "@accessService.manageOrderRestaurant(#code))")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanManageOrder {}
+
     }
 }

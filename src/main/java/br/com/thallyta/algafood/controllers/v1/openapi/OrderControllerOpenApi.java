@@ -34,5 +34,5 @@ public interface OrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(code = 201, message = "Pedido registrado"),
     })
-    OrderResponseDTO createRequest(@Valid @RequestBody OrderRequestDTO requestDTO);
+    OrderResponseDTO createOrder(@Valid @RequestBody OrderRequestDTO requestDTO);
 }
