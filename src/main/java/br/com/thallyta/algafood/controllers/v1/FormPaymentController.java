@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.FormPaymentControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.FormPayment;
 import br.com.thallyta.algafood.models.assembler.v1.request.FormPaymentDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.v1.response.FormPaymentResponseDTOAssembler;
@@ -39,6 +40,7 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
     private FormPaymentDTODisassembler formPaymentDisassembler;
 
     @GetMapping
+    @CheckSecurity.FormPayment.CanGet
     public ResponseEntity<CollectionModel<FormPaymentResponseDTO>> getAll(ServletWebRequest request){
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
         OffsetDateTime lastUpdatedDate = formPaymentRepository.getUpdatedDate();
@@ -62,6 +64,7 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
     }
 
     @GetMapping("/{id}")
+    @CheckSecurity.FormPayment.CanGet
     public ResponseEntity<FormPaymentResponseDTO> getById(@PathVariable Long id){
         FormPayment formPayment =  formPaymentService.findOrFail(id);
         FormPaymentResponseDTO formPaymentResponseDTO = formPaymentAssembler.toModel(formPayment);
@@ -72,12 +75,14 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
+    @CheckSecurity.FormPayment.CanEdit
     public FormPaymentResponseDTO create(@RequestBody @Valid FormPaymentRequestDTO formPaymentRequestDTO) {
         FormPayment formPayment = formPaymentDisassembler.toDomainObject(formPaymentRequestDTO);
         return formPaymentAssembler.toModel(formPaymentService.save(formPayment));
     }
 
     @PutMapping("/{id}")
+    @CheckSecurity.FormPayment.CanEdit
     public FormPaymentResponseDTO update(@PathVariable Long id, @RequestBody @Valid FormPaymentRequestDTO formPaymentRequestDTO) {
         FormPayment formPaymentFound =  formPaymentService.findOrFail(id);
         formPaymentDisassembler.copyToDomainObject(formPaymentRequestDTO, formPaymentFound);
@@ -86,6 +91,7 @@ public class FormPaymentController implements FormPaymentControllerOpenApi {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.FormPayment.CanEdit
     public void delete(@PathVariable Long id) {
         formPaymentService.delete(id);
     }
