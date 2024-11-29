@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.PermissionGroupControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.PermissionResponseDTOAssembler;
@@ -26,6 +27,7 @@ public class PermissionGroupController implements PermissionGroupControllerOpenA
     private PermissionResponseDTOAssembler permissionResponseDTOAssembler;
 
     @GetMapping
+    @CheckSecurity.UserGroupsPermissions.CanGet
     public CollectionModel<PermissionResponseDTO> getAll(@PathVariable Long groupId) {
         Group group = groupService.findOrFail(groupId);
 
@@ -45,6 +47,7 @@ public class PermissionGroupController implements PermissionGroupControllerOpenA
 
     @DeleteMapping("/{permissionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.UserGroupsPermissions.CanEdit
     public ResponseEntity<Void> unbind(@PathVariable Long groupId, @PathVariable Long permissionId) {
         groupService.unbindPermission(groupId, permissionId);
         return ResponseEntity.noContent().build();
@@ -52,6 +55,7 @@ public class PermissionGroupController implements PermissionGroupControllerOpenA
 
     @PutMapping("/{permissionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.UserGroupsPermissions.CanEdit
     public ResponseEntity<Void> bind(@PathVariable Long groupId, @PathVariable Long permissionId) {
         groupService.bindPermission(groupId, permissionId);
         return ResponseEntity.noContent().build();

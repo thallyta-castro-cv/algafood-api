@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.UserGroupControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.GroupResponseDTOAssembler;
@@ -26,6 +27,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     private GroupResponseDTOAssembler groupResponseDTOAssembler;
 
     @GetMapping
+    @CheckSecurity.UserGroupsPermissions.CanGet
     public CollectionModel<GroupResponseDTO> getAll(@PathVariable Long userId) {
         User user = userService.findOrFail(userId);
 
@@ -41,6 +43,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
 
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.UserGroupsPermissions.CanEdit
     public ResponseEntity<Void> unbind(@PathVariable Long userId, @PathVariable Long groupId) {
         userService.unbindGroup(userId, groupId);
         return ResponseEntity.noContent().build();
@@ -48,6 +51,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
 
     @PutMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.UserGroupsPermissions.CanEdit
     public ResponseEntity<Void> bind(@PathVariable Long userId, @PathVariable Long groupId) {
         userService.bindGroup(userId, groupId);
         return ResponseEntity.noContent().build();

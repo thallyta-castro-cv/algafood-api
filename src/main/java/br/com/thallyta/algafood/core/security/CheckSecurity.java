@@ -117,4 +117,31 @@ public @interface CheckSecurity {
         public @interface CanGet { }
 
     }
+
+    public @interface UserGroupsPermissions {
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and "
+                + "@accessService.getUserId() == #userId")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanChangeOwnPassword { }
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES') or "
+                + "@accessService.getUserId() == #userId)")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanChangeUser { }
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanEdit { }
+
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('CONSULTAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanGet { }
+
+    }
 }

@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.PermissionControllerOpenApi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Permission;
 import br.com.thallyta.algafood.models.assembler.v1.response.PermissionResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.v1.responses.PermissionResponseDTO;
@@ -24,6 +25,7 @@ public class PermissionController implements PermissionControllerOpenApi {
     private PermissionResponseDTOAssembler permissionAssembler;
 
     @GetMapping
+    @CheckSecurity.UserGroupsPermissions.CanGet
     public CollectionModel<PermissionResponseDTO> getAll() {
         List<Permission> allPermissions = permissionRepository.findAll();
         return permissionAssembler.toCollectionModel(allPermissions);
