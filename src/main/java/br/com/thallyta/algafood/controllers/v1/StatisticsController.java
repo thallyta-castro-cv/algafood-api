@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.v1.openapi.StatisticsControllerOpenapi;
+import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.v1.responses.DailySalesResponseDTO;
 import br.com.thallyta.algafood.models.params.ListDailySalesParams;
@@ -27,6 +28,7 @@ public class StatisticsController implements StatisticsControllerOpenapi {
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @CheckSecurity.Statistics.CanGet
     public StatisticsModel statistics() {
         var statisticsModel = new StatisticsModel();
         statisticsModel.add(algaLinks.linkToStatisticsDailySales("daily-sales"));
@@ -34,6 +36,7 @@ public class StatisticsController implements StatisticsControllerOpenapi {
     }
 
     @GetMapping("/daily-sales")
+    @CheckSecurity.Statistics.CanGet
     public List<DailySalesResponseDTO> getDailySales(ListDailySalesParams params,
                                                      @RequestParam(required= false, defaultValue = "+00:00") String timeOffset){
        return dailySalesRepository.getDailySales(params, timeOffset);

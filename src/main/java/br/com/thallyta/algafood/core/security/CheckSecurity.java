@@ -52,12 +52,12 @@ public @interface CheckSecurity {
         @Target(METHOD)
         @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
         @PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or "
-                     + "@accessService.getUserId() == returnObject.client.id or "
+                     + "@accessService.userAuthenticatedEquals(returnObject.client.id) or "
                      + "@accessService.manageRestaurant(returnObject.restaurant.id)")
         public @interface CanGetUnique {}
 
         @PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULTAR_PEDIDOS') or "
-                + "@accessService.getUserId() == #params.clientId or"
+                + "@accessService.userAuthenticatedEquals(#params.clientId) or"
                 + "@accessService.manageRestaurant(#params.restaurantId))")
         @Retention(RUNTIME)
         @Target(METHOD)
@@ -121,13 +121,13 @@ public @interface CheckSecurity {
     public @interface UserGroupsPermissions {
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and "
-                + "@accessService.getUserId() == #userId")
+                + "@accessService.userAuthenticatedEquals(#userId)")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanChangeOwnPassword { }
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES') or "
-                + "@accessService.getUserId() == #userId)")
+                + "@accessService.userAuthenticatedEquals(#userId))")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanChangeUser { }
@@ -139,6 +139,16 @@ public @interface CheckSecurity {
 
 
         @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('CONSULTAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface CanGet { }
+
+    }
+
+    public @interface Statistics {
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and "
+                + "hasAuthority('GERAR_RELATORIOS')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }

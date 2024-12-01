@@ -38,4 +38,9 @@ public class AccessService {
         return orderRepository.isOrderManageFor(code, getUserId());
     }
 
+    public boolean userAuthenticatedEquals(Long userId) {
+        return getUserId() != null && userId != null
+                && getUserId().equals(userId);
+    }
+
 }
