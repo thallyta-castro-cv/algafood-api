@@ -6,6 +6,7 @@ import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.FormPaymentResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.v1.responses.FormPaymentResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import br.com.thallyta.algafood.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -26,6 +27,9 @@ public class RestaurantFormPaymentsController implements RestaurantFormPaymentsC
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AccessService accessService;
+
     @GetMapping
     @CheckSecurity.Restaurants.CanGet
     public CollectionModel<FormPaymentResponseDTO> getAll(@PathVariable Long restaurantId){
@@ -34,12 +38,15 @@ public class RestaurantFormPaymentsController implements RestaurantFormPaymentsC
         CollectionModel<FormPaymentResponseDTO> formPaymentResponseDTO =
                 formPaymentResponseDTOAssembler.toCollectionModel(
                         restaurant.getFormsPayment()).removeLinks()
-                        .add(algaLinks.linkToRestaurantFormPayments(restaurantId))
-                        .add(algaLinks.linkToRestaurantFormPaymentBind(restaurantId, "bind"));
+                        .add(algaLinks.linkToRestaurantFormPayments(restaurantId));
 
-        formPaymentResponseDTO.getContent().forEach(formPayment ->
-                formPayment.add(algaLinks.linkToRestaurantFormPaymentUnbind(
-                        restaurantId, formPayment.getId(), "unbind")));
+        if (accessService.canManageOperationRestaurant(restaurantId)) {
+            formPaymentResponseDTO.add(algaLinks.linkToRestaurantFormPaymentBind(restaurantId, "bind"));
+
+            formPaymentResponseDTO.getContent().forEach(formPayment ->
+                    formPayment.add(algaLinks.linkToRestaurantFormPaymentUnbind(
+                            restaurantId, formPayment.getId(), "unbind")));
+        }
 
         return formPaymentResponseDTO;
     }

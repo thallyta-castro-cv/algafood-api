@@ -6,6 +6,7 @@ import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.PermissionResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.v1.responses.PermissionResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import br.com.thallyta.algafood.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -26,6 +27,9 @@ public class PermissionGroupController implements PermissionGroupControllerOpenA
     @Autowired
     private PermissionResponseDTOAssembler permissionResponseDTOAssembler;
 
+    @Autowired
+    private AccessService accessService;
+
     @GetMapping
     @CheckSecurity.UserGroupsPermissions.CanGet
     public CollectionModel<PermissionResponseDTO> getAll(@PathVariable Long groupId) {
@@ -34,13 +38,14 @@ public class PermissionGroupController implements PermissionGroupControllerOpenA
         CollectionModel<PermissionResponseDTO> permissionDTO =
                 permissionResponseDTOAssembler.toCollectionModel(group.getPermissions())
                 .removeLinks()
-                .add(algaLinks.linkToGroupPermissions(groupId))
-                .add(algaLinks.linkToGroupPermissionsBind(groupId, "bind"));
+                .add(algaLinks.linkToGroupPermissions(groupId));
 
-        permissionDTO.getContent().forEach(permission -> {
-            permission.add(algaLinks.linkToGroupPermissionsUnbind(
-                    groupId, permission.getId(), "unbind"));
-        });
+        if (accessService.canEditUserGroupPermission()) {
+            permissionDTO.add(algaLinks.linkToGroupPermissionsBind(groupId, "bind"));
+
+            permissionDTO.getContent().forEach(permission -> permission.add(algaLinks.linkToGroupPermissionsUnbind(
+                    groupId, permission.getId(), "unbind")));
+        }
 
         return permissionDTO;
     }

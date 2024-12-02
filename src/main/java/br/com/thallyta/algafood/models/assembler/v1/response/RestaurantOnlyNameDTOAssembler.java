@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.controllers.v1.RestaurantController;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.v1.responses.RestaurantOnlyNameResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class RestaurantOnlyNameDTOAssembler
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AccessService accessService;
+
     public RestaurantOnlyNameDTOAssembler() {
         super(RestaurantController.class, RestaurantOnlyNameResponseDTO.class);
     }
@@ -32,14 +36,21 @@ public class RestaurantOnlyNameDTOAssembler
 
         modelMapper.map(restaurant, restaurantDTO);
 
-        restaurantDTO.add(algaLinks.linkToRestaurants("restaurants"));
+        if (accessService.canGetRestaurants()) {
+            restaurantDTO.add(algaLinks.linkToRestaurants("restaurants"));
+        }
 
         return restaurantDTO;
     }
 
     @Override
-    public @NotNull CollectionModel<RestaurantOnlyNameResponseDTO> toCollectionModel(Iterable<? extends Restaurant> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToRestaurants());
+    public @NotNull CollectionModel<RestaurantOnlyNameResponseDTO> toCollectionModel(@NotNull Iterable<? extends Restaurant> entities) {
+        CollectionModel<RestaurantOnlyNameResponseDTO> collectionModel = super.toCollectionModel(entities);
+
+        if (accessService.canGetRestaurants()) {
+            collectionModel.add(algaLinks.linkToRestaurants());
+        }
+
+        return collectionModel;
     }
 }

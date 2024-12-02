@@ -20,26 +20,24 @@ public @interface CheckSecurity {
 
         @Retention(RUNTIME)
         @Target(METHOD)
-        @PreAuthorize("isAuthenticated() and hasAuthority('SCOPE_READ')")
+        @PreAuthorize("@accessService.canGetKitchens()")
         public @interface CanGet {}
 
     }
 
     public @interface Restaurants {
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') "
-                + " and hasAuthority('EDITAR_RESTAURANTES') ")
+        @PreAuthorize("@accessService.canManageRegisterRestaurants()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanEdit { }
 
-        @PreAuthorize("(hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_RESTAURANTES')) "
-                + " or @accessService.manageRestaurant(#restaurantId)")
+        @PreAuthorize("@accessService.canManageOperationRestaurant(#restaurantId)")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanManagerOperation { }
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @PreAuthorize("@accessService.canGetRestaurants()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }
@@ -56,9 +54,7 @@ public @interface CheckSecurity {
                      + "@accessService.manageRestaurant(returnObject.restaurant.id)")
         public @interface CanGetUnique {}
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULTAR_PEDIDOS') or "
-                + "@accessService.userAuthenticatedEquals(#params.clientId) or"
-                + "@accessService.manageRestaurant(#params.restaurantId))")
+        @PreAuthorize("@accessService.canSearchOrders(#params.clientId, #params.restaurantId)")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanSearch {}
@@ -68,8 +64,7 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface CanCreate {}
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('GERENCIAR_PEDIDOS') or "
-                + "@accessService.manageOrderRestaurant(#code))")
+        @PreAuthorize("@accessService.canManageOrders(#code)")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanManageOrder {}
@@ -83,7 +78,7 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface CanEdit { }
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @PreAuthorize("@accessService.canGetFormPayment()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }
@@ -97,7 +92,7 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface CanEdit { }
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @PreAuthorize("@accessService.canGetCities()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }
@@ -111,7 +106,7 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface CanEdit { }
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @PreAuthorize("@accessService.canGetStates()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }
@@ -132,13 +127,12 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface CanChangeUser { }
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @PreAuthorize("@accessService.canEditUserGroupPermission()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanEdit { }
 
-
-        @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('CONSULTAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @PreAuthorize("@accessService.canGetUserGroupPermission()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }
@@ -147,8 +141,7 @@ public @interface CheckSecurity {
 
     public @interface Statistics {
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and "
-                + "hasAuthority('GERAR_RELATORIOS')")
+        @PreAuthorize("@accessService.canGetStatistics()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface CanGet { }

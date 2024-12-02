@@ -1,6 +1,7 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
+import br.com.thallyta.algafood.services.AccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.MediaType;
@@ -17,20 +18,46 @@ public class RootEntryPointController {
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AccessService accessService;
+
     @GetMapping
     public RootEntryPointModel root() {
         var rootEntryPointModel = new RootEntryPointModel();
 
-        rootEntryPointModel.add(algaLinks.linkToKitchens("kitchens"));
-        rootEntryPointModel.add(algaLinks.linkToOrders("requests"));
-        rootEntryPointModel.add(algaLinks.linkToRestaurants("restaurants"));
-        rootEntryPointModel.add(algaLinks.linkToGroups("groups"));
-        rootEntryPointModel.add(algaLinks.linkToUsers("users"));
-        rootEntryPointModel.add(algaLinks.linkToPermissions("permissions"));
-        rootEntryPointModel.add(algaLinks.linkToFormPayments("form-payments"));
-        rootEntryPointModel.add(algaLinks.linkToStates("states"));
-        rootEntryPointModel.add(algaLinks.linkToCities("cities"));
-        rootEntryPointModel.add(algaLinks.linkToStatistics("statistics"));
+        if (accessService.canGetKitchens()){
+            rootEntryPointModel.add(algaLinks.linkToKitchens("kitchens"));
+        }
+
+        if (accessService.canSearchOrders()) {
+            rootEntryPointModel.add(algaLinks.linkToOrders("requests"));
+        }
+
+        if (accessService.canGetRestaurants()) {
+            rootEntryPointModel.add(algaLinks.linkToRestaurants("restaurants"));
+        }
+
+        if (accessService.canGetUserGroupPermission()) {
+            rootEntryPointModel.add(algaLinks.linkToGroups("groups"));
+            rootEntryPointModel.add(algaLinks.linkToUsers("users"));
+            rootEntryPointModel.add(algaLinks.linkToPermissions("permissions"));
+        }
+
+        if (accessService.canGetFormPayment()) {
+            rootEntryPointModel.add(algaLinks.linkToFormPayments("form-payments"));
+        }
+
+        if (accessService.canGetStates()) {
+            rootEntryPointModel.add(algaLinks.linkToStates("states"));
+        }
+
+        if (accessService.canGetCities()){
+            rootEntryPointModel.add(algaLinks.linkToCities("cities"));
+        }
+
+        if (accessService.canGetStatistics()) {
+            rootEntryPointModel.add(algaLinks.linkToStatistics("statistics"));
+        }
 
         return rootEntryPointModel;
     }

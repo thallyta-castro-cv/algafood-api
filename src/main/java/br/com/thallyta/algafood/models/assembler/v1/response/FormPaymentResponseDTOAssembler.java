@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.controllers.v1.FormPaymentController;
 import br.com.thallyta.algafood.models.FormPayment;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.v1.responses.FormPaymentResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class FormPaymentResponseDTOAssembler extends
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AccessService accessService;
+
     public FormPaymentResponseDTOAssembler() {
         super(FormPaymentController.class, FormPaymentResponseDTO.class);
     }
@@ -31,13 +35,22 @@ public class FormPaymentResponseDTOAssembler extends
                 createModelWithId(formPayment.getId(), formPayment);
 
         modelMapper.map(formPayment, formPaymentDTO);
-        formPaymentDTO.add(algaLinks.linkToFormPayments("form-payments"));
+
+        if (accessService.canGetFormPayment()){
+            formPaymentDTO.add(algaLinks.linkToFormPayments("form-payments"));
+        }
+
         return formPaymentDTO;
     }
 
     @Override
     public @NotNull CollectionModel<FormPaymentResponseDTO> toCollectionModel(@NotNull Iterable<? extends FormPayment> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToFormPayments());
+        CollectionModel<FormPaymentResponseDTO> collectionModel = super.toCollectionModel(entities);
+
+        if (accessService.canGetFormPayment()) {
+            collectionModel.add(algaLinks.linkToFormPayments());
+        }
+
+        return collectionModel;
     }
 }

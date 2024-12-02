@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.controllers.v1.StateController;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.v1.responses.StateResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class StateResponseDTOAssembler
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AccessService accessService;
+
     public StateResponseDTOAssembler() {
         super(StateController.class, StateResponseDTO.class);
     }
@@ -29,13 +33,22 @@ public class StateResponseDTOAssembler
     public @NotNull StateResponseDTO toModel(@NotNull State state) {
         StateResponseDTO stateDTO = createModelWithId(state.getId(), state);
         modelMapper.map(state, stateDTO);
-        stateDTO.add(algaLinks.linkToStates("states"));
+
+        if (accessService.canGetStates()){
+            stateDTO.add(algaLinks.linkToStates("states"));
+        }
+
         return stateDTO;
     }
 
     @Override
     public @NotNull CollectionModel<StateResponseDTO> toCollectionModel(@NotNull Iterable<? extends State> states) {
-        return super.toCollectionModel(states)
-                .add(algaLinks.linkToStates());
+        CollectionModel<StateResponseDTO> collectionModel = super.toCollectionModel(states);
+
+        if (accessService.canGetStates()) {
+            collectionModel.add(algaLinks.linkToStates());
+        }
+
+        return collectionModel;
     }
 }

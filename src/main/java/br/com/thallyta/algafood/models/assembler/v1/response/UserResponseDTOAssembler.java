@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.controllers.v1.UserController;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.v1.responses.UserResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class UserResponseDTOAssembler
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AccessService accessService;
+
     public UserResponseDTOAssembler() {
         super(UserController.class, UserResponseDTO.class);
     }
@@ -29,8 +33,12 @@ public class UserResponseDTOAssembler
     public @NotNull UserResponseDTO toModel(@NotNull User user) {
         UserResponseDTO userResponseDTO = createModelWithId(user.getId(), user);
         modelMapper.map(user, userResponseDTO);
-        userResponseDTO.add(algaLinks.linkToUsers("users"));
-        userResponseDTO.add(algaLinks.linkToUserGroups(user.getId(), "user-groups"));
+
+        if (accessService.canGetUserGroupPermission()){
+            userResponseDTO.add(algaLinks.linkToUsers("users"));
+            userResponseDTO.add(algaLinks.linkToUserGroups(user.getId(), "user-groups"));
+        }
+
         return userResponseDTO;
     }
 

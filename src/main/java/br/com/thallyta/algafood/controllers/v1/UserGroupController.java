@@ -6,6 +6,7 @@ import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.GroupResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.v1.responses.GroupResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import br.com.thallyta.algafood.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -26,17 +27,23 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     @Autowired
     private GroupResponseDTOAssembler groupResponseDTOAssembler;
 
+    @Autowired
+    private AccessService accessService;
+
     @GetMapping
     @CheckSecurity.UserGroupsPermissions.CanGet
     public CollectionModel<GroupResponseDTO> getAll(@PathVariable Long userId) {
         User user = userService.findOrFail(userId);
 
         CollectionModel<GroupResponseDTO> groupDTO = groupResponseDTOAssembler.toCollectionModel(user.getGroups())
-                .removeLinks()
-                .add(algaLinks.linkToUserGroupBind(userId, "bind"));
+                .removeLinks();
 
-        groupDTO.getContent().forEach(group -> group.add(algaLinks.linkToUserGroupUnbind(
-                userId, group.getId(), "unbind")));
+        if (accessService.canGetUserGroupPermission()) {
+            groupDTO.add(algaLinks.linkToUserGroupBind(userId, "bind"));
+
+            groupDTO.getContent().forEach(group -> group.add(algaLinks.linkToUserGroupUnbind(
+                    userId, group.getId(), "unbind")));
+        }
 
         return groupDTO;
     }

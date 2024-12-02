@@ -6,6 +6,7 @@ import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.UserResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.v1.responses.UserResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import br.com.thallyta.algafood.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -26,6 +27,9 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
     @Autowired
     private UserResponseDTOAssembler userResponseDTOAssembler;
 
+    @Autowired
+    private AccessService accessService;
+
     @GetMapping
     @CheckSecurity.Restaurants.CanGet
     public CollectionModel<UserResponseDTO> getAll(@PathVariable Long restaurantId) {
@@ -34,11 +38,14 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
         CollectionModel<UserResponseDTO> userDTO = userResponseDTOAssembler
                 .toCollectionModel(restaurant.getResponsible())
                 .removeLinks()
-                .add(algaLinks.linkToRestaurantUserResponsible(restaurantId))
-                .add(algaLinks.linkToRestaurantBindResponsible(restaurantId, "bind"));
+                .add(algaLinks.linkToRestaurantUserResponsible(restaurantId));
 
-        userDTO.getContent().forEach(user -> user.add(algaLinks.linkToRestaurantUnbindResponsible(
-                restaurantId, user.getId(), "unbind")));
+        if (accessService.canManageRegisterRestaurants()) {
+             userDTO.add(algaLinks.linkToRestaurantBindResponsible(restaurantId, "bind"));
+
+            userDTO.getContent().forEach(user -> user.add(algaLinks.linkToRestaurantUnbindResponsible(
+                    restaurantId, user.getId(), "unbind")));
+        }
 
         return userDTO;
     }

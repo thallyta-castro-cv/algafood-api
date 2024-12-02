@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.controllers.v1.KitchenController;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.v1.responses.KitchenResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class KitchenResponseDTOAssembler extends RepresentationModelAssemblerSup
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AccessService accessService;
+
     public KitchenResponseDTOAssembler() {
         super(KitchenController.class, KitchenResponseDTO.class);
     }
@@ -27,7 +31,11 @@ public class KitchenResponseDTOAssembler extends RepresentationModelAssemblerSup
     public @NotNull KitchenResponseDTO toModel(@NotNull Kitchen kitchen) {
         KitchenResponseDTO kitchenDTO = createModelWithId(kitchen.getId(), kitchen);
         modelMapper.map(kitchen, kitchenDTO);
-        kitchenDTO.add(algaLinks.linkToKitchens("kitchens"));
+
+        if (accessService.canGetKitchens()) {
+            kitchenDTO.add(algaLinks.linkToKitchens("kitchens"));
+        }
+
         return kitchenDTO;
     }
 }

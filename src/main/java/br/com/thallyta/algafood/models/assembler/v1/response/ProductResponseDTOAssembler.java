@@ -4,6 +4,7 @@ import br.com.thallyta.algafood.controllers.v1.RestaurantProductController;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.dtos.v1.responses.ProductResponseDTO;
+import br.com.thallyta.algafood.services.AccessService;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class ProductResponseDTOAssembler extends
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AccessService accessService;
+
     public ProductResponseDTOAssembler() {
         super(RestaurantProductController.class, ProductResponseDTO.class);
     }
@@ -32,10 +36,12 @@ public class ProductResponseDTOAssembler extends
 
         modelMapper.map(product, productDTO);
 
-        productDTO.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
+        if (accessService.canGetRestaurants()){
+            productDTO.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
 
-        productDTO.add(algaLinks.linkToProductPhoto(
-                product.getRestaurant().getId(), product.getId(), "photo"));
+            productDTO.add(algaLinks.linkToProductPhoto(
+                    product.getRestaurant().getId(), product.getId(), "photo"));
+        }
 
         return productDTO;
     }
