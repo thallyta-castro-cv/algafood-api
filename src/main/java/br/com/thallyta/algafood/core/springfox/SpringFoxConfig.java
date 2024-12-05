@@ -5,10 +5,10 @@ import br.com.thallyta.algafood.controllers.v2.openapi.models.KitchensModelV2Ope
 import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
 import br.com.thallyta.algafood.models.dtos.v1.responses.*;
 import br.com.thallyta.algafood.models.dtos.v2.response.KitchenResponseV2DTO;
-import org.springframework.core.io.Resource;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
@@ -19,21 +19,20 @@ import org.springframework.http.MediaType;
 import org.springframework.web.context.request.ServletWebRequest;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLStreamHandler;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import java.net.URL;
 
 @Configuration
 public class SpringFoxConfig {
@@ -87,6 +86,9 @@ public class SpringFoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, RestaurantResponseDTO.class),
                         RestaurantsModelOpenApi.class))
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(List.of(authenticationScheme()))
+                .securityContexts(List.of(securityContext()))
                 .apiInfo(apiInfoV1())
                 .useDefaultResponseMessages(false)
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
@@ -102,6 +104,21 @@ public class SpringFoxConfig {
                       new Tag("Permissões", "Gerencia as permissões"));
     }
 
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(securityReference()).build();
+    }
+
+    private List<SecurityReference> securityReference() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return List.of(new SecurityReference("Authorization", authorizationScopes));
+    }
+
+    private HttpAuthenticationScheme authenticationScheme() {
+        return HttpAuthenticationScheme.JWT_BEARER_BUILDER.name("Authorization").build();
+    }
 
     @Bean
     public Docket apiDocketV2() {
@@ -127,6 +144,9 @@ public class SpringFoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(PagedModel.class, KitchenResponseV2DTO.class),
                         KitchensModelV2OpenApi.class))
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(List.of(authenticationScheme()))
+                .securityContexts(List.of(securityContext()))
                 .apiInfo(apiInfoV2())
                 .tags(new Tag("Cozinhas", "Gerencia as cozinhas na versão 2"));
     }
@@ -213,5 +233,4 @@ public class SpringFoxConfig {
                 .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
                         q -> q.name("Exception Adapter Response").namespace("br.com.thallyta.algafood.models.adapters")))));
     }
-
 }
