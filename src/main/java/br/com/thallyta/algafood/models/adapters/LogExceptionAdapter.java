@@ -1,8 +1,6 @@
 package br.com.thallyta.algafood.models.adapters;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,23 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel("Exception Adapter Response")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LogExceptionAdapter {
 
-    @ApiModelProperty(example="404")
     private Integer status;
-
-    @ApiModelProperty(example = "Not Found")
     private String title;
-
-    @ApiModelProperty(example = "Não foi encontrado recurso com o id informado")
     private String message;
-
-    @ApiModelProperty(example = "NotFoundException")
     private String className;
-
-    @ApiModelProperty(value = "Informa os campos que estão com erro de tipo de dados ou formatação")
     private List<LogExceptionFieldsAdapter> fields;
 
     public LogExceptionAdapter(HttpStatus httpStatus, Exception exception) {

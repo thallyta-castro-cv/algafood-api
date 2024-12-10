@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v2;
 
-import br.com.thallyta.algafood.controllers.v2.openapi.KitchenControllerV2OpenApi;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.assembler.v2.request.KitchenRequestDTODisassemblerV2;
 import br.com.thallyta.algafood.models.assembler.v2.response.KitchenResponseDTOAssemblerV2;
@@ -21,7 +20,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/v2/kitchens")
-public class KitchenControllerV2 implements KitchenControllerV2OpenApi {
+public class KitchenControllerV2 {
 
     @Autowired
     private KitchenRepository kitchenRepository;

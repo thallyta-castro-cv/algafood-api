@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.UserControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.v1.request.UserRequestDTODisassembler;
@@ -21,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/v1/users")
-public class UserController implements UserControllerOpenApi {
+public class UserController {
 
     @Autowired
     private UserRepository userRepository;

@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.PermissionControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Permission;
 import br.com.thallyta.algafood.models.assembler.v1.response.PermissionResponseDTOAssembler;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/permissions")
-public class PermissionController implements PermissionControllerOpenApi {
+public class PermissionController {
 
     @Autowired
     private PermissionRepository permissionRepository;

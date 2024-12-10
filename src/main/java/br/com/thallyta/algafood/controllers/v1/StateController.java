@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.StateControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.v1.request.StateRequestDTODisassembler;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/states")
-public class StateController implements StateControllerOpenApi {
+public class StateController {
 
     @Autowired
     private StateRepository stateRepository;
@@ -33,7 +32,6 @@ public class StateController implements StateControllerOpenApi {
     @Autowired
     private StateResponseDTOAssembler stateAssembler;
 
-    @Override
     @GetMapping
     @CheckSecurity.States.CanGet
     public CollectionModel<StateResponseDTO> findAll(){
@@ -41,7 +39,6 @@ public class StateController implements StateControllerOpenApi {
         return stateAssembler.toCollectionModel(states);
     }
 
-    @Override
     @GetMapping("/{id}")
     @CheckSecurity.States.CanGet
     public StateResponseDTO getById(@PathVariable Long id){
@@ -49,7 +46,6 @@ public class StateController implements StateControllerOpenApi {
         return stateAssembler.toModel(state);
     }
 
-    @Override
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     @CheckSecurity.States.CanEdit
@@ -58,7 +54,6 @@ public class StateController implements StateControllerOpenApi {
         return stateAssembler.toModel(stateService.save(state));
     }
 
-    @Override
     @PutMapping("/{id}")
     @CheckSecurity.States.CanEdit
     public StateResponseDTO update(@PathVariable Long id, @RequestBody @Valid StateRequestDTO stateRequestDTO) {

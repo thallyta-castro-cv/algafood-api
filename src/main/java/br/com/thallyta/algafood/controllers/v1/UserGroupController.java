@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.UserGroupControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/v1/users/{userId}/groups")
-public class UserGroupController implements UserGroupControllerOpenApi {
+public class UserGroupController {
 
     @Autowired
     private UserService userService;

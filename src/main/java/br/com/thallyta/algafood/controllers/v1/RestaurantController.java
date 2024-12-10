@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.RestaurantControllerOpenApi;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
@@ -23,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/restaurants")
-public class RestaurantController implements RestaurantControllerOpenApi {
+public class RestaurantController {
 
     @Autowired
     private ModelMapper modelMapper;

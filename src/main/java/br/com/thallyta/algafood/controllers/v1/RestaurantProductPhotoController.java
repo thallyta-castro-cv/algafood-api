@@ -1,7 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
-import br.com.thallyta.algafood.controllers.v1.openapi.RestaurantProductPhotoControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Product;
 import br.com.thallyta.algafood.models.ProductPhoto;
@@ -26,7 +25,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/v1/restaurants/{restaurantId}/products/{productId}/photo")
-public class RestaurantProductPhotoController implements RestaurantProductPhotoControllerOpenApi {
+public class RestaurantProductPhotoController {
 
     @Autowired
     private ProductService productService;

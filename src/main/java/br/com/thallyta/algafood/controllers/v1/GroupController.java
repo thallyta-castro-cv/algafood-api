@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.GroupControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.v1.request.GroupRequestDTODisassembler;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/groups", produces = MediaType.APPLICATION_JSON_VALUE)
-public class GroupController implements GroupControllerOpenApi {
+public class GroupController {
 
     @Autowired
     private GroupService groupService;

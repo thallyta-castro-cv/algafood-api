@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.KitchenControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.assembler.v1.request.KitchenRequestDTODisassembler;
@@ -21,7 +20,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/v1/kitchens", produces = MediaType.APPLICATION_JSON_VALUE)
-public class KitchenController implements KitchenControllerOpenApi {
+public class KitchenController {
 
     @Autowired
     private KitchenService kitchenService;

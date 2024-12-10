@@ -1,6 +1,5 @@
 package br.com.thallyta.algafood.controllers.v1;
 
-import br.com.thallyta.algafood.controllers.v1.openapi.PermissionGroupControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/v1/groups/{groupId}/permissions")
-public class PermissionGroupController implements PermissionGroupControllerOpenApi {
+public class PermissionGroupController {
 
     @Autowired
     private GroupService groupService;
