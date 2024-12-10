@@ -1,11 +1,11 @@
-package br.com.thallyta.algafood.core.configurations;
+package br.com.thallyta.algafood.controllers.configurations;
 
+import br.com.thallyta.algafood.controllers.configurations.adapters.LogExceptionAdapter;
+import br.com.thallyta.algafood.controllers.configurations.adapters.LogExceptionFieldsAdapter;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.EntityExceptionInUse;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.exceptions.ValidateMessageException;
-import br.com.thallyta.algafood.models.adapters.LogExceptionAdapter;
-import br.com.thallyta.algafood.models.adapters.LogExceptionFieldsAdapter;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;

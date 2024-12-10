@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.CityControllerOpenApi;
 import br.com.thallyta.algafood.core.api.ResourceUriHelper;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/cities", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CityController {
+public class CityController implements CityControllerOpenApi {
 
     @Autowired
     private CityService cityService;

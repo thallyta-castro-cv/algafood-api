@@ -1,4 +1,4 @@
-package br.com.thallyta.algafood.models.adapters;
+package br.com.thallyta.algafood.controllers.configurations.adapters;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
