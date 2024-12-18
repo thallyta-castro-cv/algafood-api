@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.KitchenControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Kitchen;
 import br.com.thallyta.algafood.models.assembler.v1.request.KitchenRequestDTODisassembler;
@@ -14,13 +15,14 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/v1/kitchens", produces = MediaType.APPLICATION_JSON_VALUE)
-public class KitchenController {
+public class KitchenController implements KitchenControllerOpenApi {
 
     @Autowired
     private KitchenService kitchenService;
@@ -68,8 +70,9 @@ public class KitchenController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.Kitchen.CanEdit
-    public void delete(@PathVariable Long id) {
-            kitchenService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        kitchenService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
