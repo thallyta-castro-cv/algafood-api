@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.RestaurantControllerOpenApi;
 import br.com.thallyta.algafood.core.exceptions.BadRequestException;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/restaurants")
-public class RestaurantController {
+public class RestaurantController implements RestaurantControllerOpenApi {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -82,8 +83,9 @@ public class RestaurantController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.Restaurants.CanEdit
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         restaurantService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/active")
@@ -121,24 +123,28 @@ public class RestaurantController {
     @PutMapping("/activations")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.Restaurants.CanEdit
-    public void activeSeveral(@RequestBody List<Long> restaurantsId){
+    public ResponseEntity<Void> activeSeveral(@RequestBody List<Long> restaurantsId){
         try{
             restaurantService.active(restaurantsId);
         }catch(NotFoundException e){
            throw new BadRequestException("Um ou mais restaurantes não estão cadastrados no sistema!" +
                    " Verifique os restaurantes informados e tente novamente.");
         }
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/deactivations")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.Restaurants.CanEdit
-    public void inactiveSeveral(@RequestBody List<Long> restaurantsId){
+    public ResponseEntity<Void> inactiveSeveral(@RequestBody List<Long> restaurantsId){
         try{
             restaurantService.inactive(restaurantsId);
         }catch(NotFoundException e) {
             throw new BadRequestException("Um ou mais restaurantes não estão cadastrados no sistema!" +
                     " Verifique os restaurantes informados e tente novamente.");
         }
+
+        return ResponseEntity.noContent().build();
     }
 }
