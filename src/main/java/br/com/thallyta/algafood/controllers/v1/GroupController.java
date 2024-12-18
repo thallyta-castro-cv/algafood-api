@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.GroupControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Group;
 import br.com.thallyta.algafood.models.assembler.v1.request.GroupRequestDTODisassembler;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/groups", produces = MediaType.APPLICATION_JSON_VALUE)
-public class GroupController {
+public class GroupController implements GroupControllerOpenApi {
 
     @Autowired
     private GroupService groupService;
@@ -62,8 +64,9 @@ public class GroupController {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.UserGroupsPermissions.CanEdit
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         groupService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
