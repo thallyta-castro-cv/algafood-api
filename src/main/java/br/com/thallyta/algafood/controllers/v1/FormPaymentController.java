@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.FormPaymentsControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.FormPayment;
 import br.com.thallyta.algafood.models.assembler.v1.request.FormPaymentDTODisassembler;
@@ -24,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(path = "/v1/forms-payment")
-public class FormPaymentController {
+public class FormPaymentController implements FormPaymentsControllerOpenApi {
 
     @Autowired
     private FormPaymentRepository formPaymentRepository;
@@ -91,7 +92,8 @@ public class FormPaymentController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.FormPayment.CanEdit
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         formPaymentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

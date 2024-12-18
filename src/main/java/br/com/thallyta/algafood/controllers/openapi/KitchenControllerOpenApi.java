@@ -26,9 +26,9 @@ public interface KitchenControllerOpenApi {
     @Operation(summary = "Busca uma cozinha por ID", responses = {
             @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "400", description = "ID da cozinha inválido",
-                    content = @Content(schema = @Schema(ref = "Problema"))),
+                    content = @Content(schema = @Schema(ref = "Problem Details"))),
             @ApiResponse(responseCode = "404", description = "Cozinha não encontrada",
-                    content = @Content(schema = @Schema(ref = "Problema")))
+                    content = @Content(schema = @Schema(ref = "Problem Details")))
     })
     KitchenResponseDTO getById(@Parameter(description = "ID de uma cozinha", example = "1", required = true) Long id);
 
@@ -48,7 +48,7 @@ public interface KitchenControllerOpenApi {
     @Operation(summary = "Exclui uma cozinha por ID", responses = {
             @ApiResponse(responseCode = "204", description = "Cozinha excluída"),
             @ApiResponse(responseCode = "404", description = "Cozinha não encontrada",
-                    content = @Content(schema = @Schema(ref = "Problema")))
+                    content = @Content(schema = @Schema(ref = "Problem Details")))
     })
     ResponseEntity<Void> delete(@Parameter(description = "ID de uma cozinha", example = "1", required = true) Long id);
 }
