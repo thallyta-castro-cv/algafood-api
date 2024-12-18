@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.ChangeStatusOrderControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.services.ChangeStatusRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/v1/requests/{code}")
-public class ChangeStatusOrderController {
+public class ChangeStatusOrderController implements ChangeStatusOrderControllerOpenApi {
 
     @Autowired
     private ChangeStatusRequestService changeStatusRequestService;
