@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.StateControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.State;
 import br.com.thallyta.algafood.models.assembler.v1.request.StateRequestDTODisassembler;
@@ -11,6 +12,7 @@ import br.com.thallyta.algafood.services.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v1/states")
-public class StateController {
+public class StateController implements StateControllerOpenApi {
 
     @Autowired
     private StateRepository stateRepository;
@@ -65,7 +67,8 @@ public class StateController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.States.CanEdit
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
        stateService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
