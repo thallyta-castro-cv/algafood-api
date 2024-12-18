@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.OrderControllerOpenApi;
 import br.com.thallyta.algafood.core.data.PageWrapper;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
@@ -29,7 +30,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/v1/requests")
-public class OrderController {
+public class OrderController implements OrderControllerOpenApi {
 
     @Autowired
     private OrderRepository requestRepository;
