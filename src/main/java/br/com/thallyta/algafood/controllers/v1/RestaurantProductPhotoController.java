@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.RestaurantProductPhotoControllerOpenApi;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Product;
@@ -25,7 +26,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/v1/restaurants/{restaurantId}/products/{productId}/photo")
-public class RestaurantProductPhotoController {
+public class RestaurantProductPhotoController implements RestaurantProductPhotoControllerOpenApi {
 
     @Autowired
     private ProductService productService;
@@ -43,10 +44,11 @@ public class RestaurantProductPhotoController {
     @CheckSecurity.Restaurants.CanManagerOperation
     public ProductPhotoResponseDTO updateFile(@PathVariable  Long restaurantId,
                                               @PathVariable Long productId,
-                                              @Valid ProductPhotoRequestDTO productPhotoRequestDTO,
-                                              @RequestPart(required = true) MultipartFile file) throws IOException {
+                                              @Valid ProductPhotoRequestDTO productPhotoRequestDTO) throws IOException {
 
         Product product = productService.findOrFail(restaurantId, productId);
+
+        MultipartFile file = productPhotoRequestDTO.getFile();
 
         ProductPhoto photo = new ProductPhoto();
         photo.setProduct(product);
@@ -96,9 +98,10 @@ public class RestaurantProductPhotoController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.Restaurants.CanManagerOperation
-    public void delete(@PathVariable Long restaurantId,
+    public ResponseEntity<Void> delete(@PathVariable Long restaurantId,
                         @PathVariable Long productId) {
         restaurantProductService.delete(restaurantId, productId);
+        return ResponseEntity.noContent().build();
     }
 
 }

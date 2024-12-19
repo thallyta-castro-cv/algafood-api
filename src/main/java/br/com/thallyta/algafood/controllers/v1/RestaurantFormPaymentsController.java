@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.RestaurantFormPaymentControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/v1/restaurants/{restaurantId}/form-payments")
-public class RestaurantFormPaymentsController {
+public class RestaurantFormPaymentsController implements RestaurantFormPaymentControllerOpenApi {
 
     @Autowired
     private RestaurantService restaurantService;
