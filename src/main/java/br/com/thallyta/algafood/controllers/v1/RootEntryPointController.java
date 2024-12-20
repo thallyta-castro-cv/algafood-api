@@ -2,6 +2,7 @@ package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.services.AccessService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ public class RootEntryPointController {
     private AccessService accessService;
 
     @GetMapping
+    @Operation(hidden = true)
     public RootEntryPointModel root() {
         var rootEntryPointModel = new RootEntryPointModel();
 
