@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.UserControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.User;
 import br.com.thallyta.algafood.models.assembler.v1.request.UserRequestDTODisassembler;
@@ -13,6 +14,7 @@ import br.com.thallyta.algafood.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/v1/users")
-public class UserController {
+public class UserController implements UserControllerOpenApi {
 
     @Autowired
     private UserRepository userRepository;
@@ -70,7 +72,8 @@ public class UserController {
     @PutMapping("/{userId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CheckSecurity.UserGroupsPermissions.CanChangeOwnPassword
-    public void updatePassword(@PathVariable Long userId, @RequestBody @Valid UserPasswordRequestDTO password) {
+    public ResponseEntity<Void> updatePassword(@PathVariable Long userId, @RequestBody @Valid UserPasswordRequestDTO password) {
         userService.updatePassword(userId, password.getCurrentPassword(), password.getNewPassword());
+        return ResponseEntity.noContent().build();
     }
 }
