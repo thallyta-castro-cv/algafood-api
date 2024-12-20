@@ -1,5 +1,6 @@
 package br.com.thallyta.algafood.controllers.v1;
 
+import br.com.thallyta.algafood.controllers.openapi.RestaurantUserResponsibleControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Restaurant;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/v1/restaurants/{restaurantId}/responsible")
-public class RestaurantUserResponsibleController{
+public class RestaurantUserResponsibleController implements RestaurantUserResponsibleControllerOpenApi {
 
     @Autowired
     private RestaurantService restaurantService;
