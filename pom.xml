@@ -21,7 +21,6 @@
 		<logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
 		<oauth2-oidc-sdk.version>10.4</oauth2-oidc-sdk.version>
 		<jaxb-core.version>4.0.1</jaxb-core.version>
-		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
 		<springdoc.version>1.6.9</springdoc.version>
 	</properties>
 
@@ -153,18 +152,6 @@
 			<groupId>com.nimbusds</groupId>
 			<artifactId>oauth2-oidc-sdk</artifactId>
 			<version>${oauth2-oidc-sdk.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-jwt</artifactId>
-			<version>1.1.1.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>${spring-security-oauth2.version}</version>
 		</dependency>
 
 		<dependency>
