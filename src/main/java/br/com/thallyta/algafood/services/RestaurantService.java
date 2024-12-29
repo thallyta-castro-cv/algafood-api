@@ -4,7 +4,7 @@ import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.models.City;
 import br.com.thallyta.algafood.models.FormPayment;
 import br.com.thallyta.algafood.models.Restaurant;
-import br.com.thallyta.algafood.models.User;
+import br.com.thallyta.algafood.models.UserSystem;
 import br.com.thallyta.algafood.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -96,14 +96,14 @@ public class RestaurantService {
     @Transactional
     public void unbindResponsible(Long restaurantId, Long userId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        User user = userService.findOrFail(userId);
+        UserSystem user = userService.findOrFail(userId);
         restaurant.getResponsible().remove(user);
     }
 
     @Transactional
     public void bindResponsible(Long restaurantId, Long userId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        User user = userService.findOrFail(userId);
+        UserSystem user = userService.findOrFail(userId);
         restaurant.getResponsible().add(user);
     }
 

@@ -71,7 +71,7 @@ public class Request extends AbstractAggregateRoot<Request> {
 
     @ManyToOne
     @JoinColumn(name = "user_client_id", nullable = false)
-    private User client;
+    private UserSystem client;
 
     @OneToMany(mappedBy = "request", cascade = CascadeType.ALL)
     private List<RequestItem> items = new ArrayList<>();

@@ -1,6 +1,6 @@
 package br.com.thallyta.algafood.core.authorizationserver;
 
-import br.com.thallyta.algafood.models.User;
+import br.com.thallyta.algafood.models.UserSystem;
 import br.com.thallyta.algafood.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,13 +23,17 @@ public class JpaUserDetailService implements UserDetailsService {
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username)
+        UserSystem user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com e-mail informado"));
 
-        return new AuthUser(user, getAuthorities(user));
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                getAuthorities(user)
+        );
     }
 
-    private Collection<GrantedAuthority> getAuthorities(User user) {
+    private Collection<GrantedAuthority> getAuthorities(UserSystem user) {
         return user.getGroups().stream()
                 .flatMap(group -> group.getPermissions().stream())
                 .map(permission -> new SimpleGrantedAuthority(permission.getName().toUpperCase()))

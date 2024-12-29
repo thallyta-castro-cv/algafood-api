@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name="tb_users")
 @Data
-public class User {
+public class UserSystem {
 
     @EqualsAndHashCode.Include
     @Id
@@ -41,13 +41,6 @@ public class User {
         return getId() == null;
     }
 
-    public User() {}
-
-    public User(Long id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
+    public UserSystem() {}
 
 }

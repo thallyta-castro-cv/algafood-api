@@ -64,7 +64,7 @@ public class Restaurant {
     @JoinTable(name = "tb_restaurant_responsible",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> responsible = new HashSet<>();
+    private Set<UserSystem> responsible = new HashSet<>();
 
     public boolean acceptPaymentMethod(FormPayment formPayment) {
         return getFormsPayment().contains(formPayment);

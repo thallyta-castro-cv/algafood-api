@@ -2,7 +2,7 @@ package br.com.thallyta.algafood.controllers.v1;
 
 import br.com.thallyta.algafood.controllers.openapi.UserGroupControllerOpenApi;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
-import br.com.thallyta.algafood.models.User;
+import br.com.thallyta.algafood.models.UserSystem;
 import br.com.thallyta.algafood.models.assembler.v1.links.AlgaLinks;
 import br.com.thallyta.algafood.models.assembler.v1.response.GroupResponseDTOAssembler;
 import br.com.thallyta.algafood.models.dtos.v1.responses.GroupResponseDTO;
@@ -33,7 +33,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     @GetMapping
     @CheckSecurity.UserGroupsPermissions.CanGet
     public CollectionModel<GroupResponseDTO> getAll(@PathVariable Long userId) {
-        User user = userService.findOrFail(userId);
+        UserSystem user = userService.findOrFail(userId);
 
         CollectionModel<GroupResponseDTO> groupDTO = groupResponseDTOAssembler.toCollectionModel(user.getGroups())
                 .removeLinks();

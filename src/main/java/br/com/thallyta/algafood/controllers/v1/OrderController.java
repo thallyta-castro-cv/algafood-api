@@ -5,7 +5,7 @@ import br.com.thallyta.algafood.core.data.PageWrapper;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.security.CheckSecurity;
 import br.com.thallyta.algafood.models.Request;
-import br.com.thallyta.algafood.models.User;
+import br.com.thallyta.algafood.models.UserSystem;
 import br.com.thallyta.algafood.models.assembler.v1.request.OrderRequestDTODisassembler;
 import br.com.thallyta.algafood.models.assembler.v1.response.OrderResponseDTOAssembler;
 import br.com.thallyta.algafood.models.assembler.v1.response.OrderSummaryResponseDTOAssembler;
@@ -76,7 +76,7 @@ public class OrderController implements OrderControllerOpenApi {
     public OrderResponseDTO createOrder(@Valid  @RequestBody OrderRequestDTO requestDTO) {
         try {
             Request newRequest = requestDTODisassembler.toDomainObject(requestDTO);
-            newRequest.setClient(new User());
+            newRequest.setClient(new UserSystem());
             newRequest.getClient().setId(accessService.getUserId());
             newRequest = orderService.issueRequest(newRequest);
             return responseDTOAssembler.toModel(newRequest);

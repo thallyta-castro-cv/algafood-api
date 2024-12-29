@@ -26,7 +26,7 @@ public class OrderValidate {
 
     public void validateRequest(Request request) {
         City city = cityService.findOrFail(request.getAddress().getCity().getId());
-        User client = userService.findOrFail(request.getClient().getId());
+        UserSystem client = userService.findOrFail(request.getClient().getId());
         Restaurant restaurant = restaurantService.findOrFail(request.getRestaurant().getId());
         FormPayment formPayment = formPaymentService.findOrFail(request.getFormPayment().getId());
 

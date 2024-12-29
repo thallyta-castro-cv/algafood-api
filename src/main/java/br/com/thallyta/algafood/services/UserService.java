@@ -3,7 +3,7 @@ package br.com.thallyta.algafood.services;
 import br.com.thallyta.algafood.core.exceptions.NotFoundException;
 import br.com.thallyta.algafood.core.exceptions.ValidateMessageException;
 import br.com.thallyta.algafood.models.Group;
-import br.com.thallyta.algafood.models.User;
+import br.com.thallyta.algafood.models.UserSystem;
 import br.com.thallyta.algafood.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,9 +25,9 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public User save(User user) {
+    public UserSystem save(UserSystem user) {
         userRepository.detachUser(user);
-        Optional<User> userFound = userRepository.findByEmail(user.getEmail());
+        Optional<UserSystem> userFound = userRepository.findByEmail(user.getEmail());
 
         if(userFound.isPresent() && !userFound.get().equals(user)){
             throw new ValidateMessageException("Já existe um usuário com o email " + user.getEmail());
@@ -42,7 +42,7 @@ public class UserService {
 
     @Transactional
     public void updatePassword(Long userId, String currentPassword, String newPassword) {
-        User user = findOrFail(userId);
+        UserSystem user = findOrFail(userId);
 
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             throw new ValidateMessageException("Senha atual informada não coincide com a senha do usuário.");
@@ -51,21 +51,21 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
     }
 
-    public User findOrFail(Long userId) {
+    public UserSystem findOrFail(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Não foi encontrado usuário com id informado"));
     }
 
     @Transactional
     public void unbindGroup(Long userId, Long groupId) {
-        User user = findOrFail(userId);
+        UserSystem user = findOrFail(userId);
         Group group = groupService.findOrFail(groupId);
         user.getGroups().remove(group);
     }
 
     @Transactional
     public void bindGroup(Long userId, Long groupId) {
-        User user = findOrFail(userId);
+        UserSystem user = findOrFail(userId);
         Group group = groupService.findOrFail(groupId);
         user.getGroups().add(group);
     }
