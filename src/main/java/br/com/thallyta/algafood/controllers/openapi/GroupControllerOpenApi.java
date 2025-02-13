@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @SecurityRequirement(name = "security_auth")
 @Tag(name = "Grupos")

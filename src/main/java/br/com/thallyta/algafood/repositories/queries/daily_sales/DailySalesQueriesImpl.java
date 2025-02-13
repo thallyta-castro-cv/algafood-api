@@ -5,12 +5,12 @@ import br.com.thallyta.algafood.models.dtos.v1.responses.DailySalesResponseDTO;
 import br.com.thallyta.algafood.models.enums.RequestStatus;
 import br.com.thallyta.algafood.models.params.ListDailySalesParams;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class DailySalesQueriesImpl implements DailySalesQueries{
         var predicates = new ArrayList<Predicate>();
 
         if(params.getRestaurantId() != null) {
-            predicates.add(builder.equal(root.get("restaurant"), params.getRestaurantId()));
+            predicates.add(builder.equal(root.get("restaurant").get("id"), params.getRestaurantId()));
         }
 
         if(params.getCreatedDateStart() != null) {

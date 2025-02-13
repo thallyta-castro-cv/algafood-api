@@ -3,9 +3,9 @@ package br.com.thallyta.algafood.core.validation.classes;
 import br.com.thallyta.algafood.core.validation.annotation.ValueZeroIncludeDescription;
 import org.springframework.beans.BeanUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ValidationException;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ValidationException;
 import java.math.BigDecimal;
 import java.util.Objects;
 

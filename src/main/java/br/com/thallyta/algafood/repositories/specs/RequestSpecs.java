@@ -4,7 +4,7 @@ import br.com.thallyta.algafood.models.Request;
 import br.com.thallyta.algafood.models.params.ListRequestParams;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 
 
@@ -20,11 +20,11 @@ public class RequestSpecs {
             var predicates =  new ArrayList<Predicate>();
 
             if (params.getClientId() != null) {
-                predicates.add(builder.equal(root.get("client"), params.getClientId()));
+                predicates.add(builder.equal(root.get("client").get("id"), params.getClientId()));
             }
 
             if (params.getRestaurantId() != null) {
-                predicates.add(builder.equal(root.get("restaurant"), params.getRestaurantId()));
+                predicates.add(builder.equal(root.get("restaurant").get("id"), params.getRestaurantId()));
             }
 
             if (params.getCreatedDateStart() != null) {

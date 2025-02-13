@@ -3,8 +3,8 @@ package br.com.thallyta.algafood.models;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import javax.persistence.FetchType;
+import jakarta.persistence.*;
+import jakarta.persistence.FetchType;
 
 @Data
 @Entity

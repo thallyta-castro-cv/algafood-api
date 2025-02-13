@@ -18,10 +18,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -98,7 +98,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected @NotNull ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(@NotNull HttpMediaTypeNotAcceptableException ex,
-                                                                               @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                                               @NotNull HttpHeaders headers, @NotNull HttpStatusCode status,
                                                                                @NotNull WebRequest request) {
         return ResponseEntity.status(status).headers(headers).build();
     }
@@ -106,7 +106,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected @NotNull ResponseEntity<Object> handleHttpMessageNotReadable(@NotNull HttpMessageNotReadableException exception,
-                                                                           @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                                           @NotNull HttpHeaders headers, @NotNull HttpStatusCode status,
                                                                            @NotNull WebRequest request) {
         Throwable rootCause = ExceptionUtils.getRootCause(exception);
 
@@ -124,7 +124,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected @NotNull ResponseEntity<Object> handleTypeMismatch(@NotNull TypeMismatchException exception,
-                                                                 @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                                 @NotNull HttpHeaders headers, @NotNull HttpStatusCode status,
                                                                  @NotNull WebRequest request) {
 
         if (exception instanceof MethodArgumentTypeMismatchException) {
@@ -137,7 +137,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected @NotNull ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException exception,
-                                                                            @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                                            @NotNull HttpHeaders headers, @NotNull HttpStatusCode status,
                                                                             @NotNull WebRequest request) {
 
         String message = String.format("O recurso %s, que você tentou acessar, é inexistente.",
@@ -145,27 +145,20 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         LogExceptionAdapter error = new LogExceptionAdapter(httpStatusNotFound, exception, message);
         log.error(String.valueOf(error));
-        return handleExceptionInternal(exception, error, headers, status, request);
+        return Objects.requireNonNull(handleExceptionInternal(exception, error, headers, status, request));
     }
 
-    @Override
-    protected @NotNull ResponseEntity<Object> handleBindException(@NotNull BindException exception,
-                                                                  @NotNull HttpHeaders headers, @NotNull HttpStatus status,
-                                                                  @NotNull WebRequest request) {
-
-        return handleValidationInternal(exception, headers, status, request, exception.getBindingResult());
-    }
 
     @Override
     protected @NotNull ResponseEntity<Object> handleMethodArgumentNotValid(@NotNull MethodArgumentNotValidException exception,
-                                                                           @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                                           @NotNull HttpHeaders headers, @NotNull HttpStatusCode status,
                                                                            @NotNull WebRequest request) {
 
         return handleValidationInternal(exception, headers, status, request, exception.getBindingResult());
     }
 
     private ResponseEntity<Object> handleValidationInternal(@NotNull Exception exception,
-                                                            @NotNull HttpHeaders headers, @NotNull HttpStatus status,
+                                                            @NotNull HttpHeaders headers, @NotNull HttpStatusCode status,
                                                             @NotNull WebRequest request, BindingResult bindingResult) {
         String message = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 
@@ -192,7 +185,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException exception,
-                                                                HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         String path = exception.getPath().stream()
                 .map(JsonMappingException.Reference::getFieldName)
@@ -208,7 +201,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleUnrecognizedPropertyException(UnrecognizedPropertyException exception,
-                                                                       HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                       HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         String path = exception.getPath().stream()
                 .map(JsonMappingException.Reference::getFieldName)
@@ -223,7 +216,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException exception,
-                                                                    HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                    HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         String message = "O parâmetro de URL '" + exception.getName()
                 + "' recebeu o valor '" + exception.getValue() + "', que é de um tipo inválido. Corrija e informe um valor compatível com o tipo "

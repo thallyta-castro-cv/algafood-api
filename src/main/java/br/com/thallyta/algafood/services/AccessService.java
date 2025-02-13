@@ -23,7 +23,13 @@ public class AccessService {
 
     public Long getUserId() {
         Jwt jwt = (Jwt) getAuthentication().getPrincipal();
-        return jwt.getClaim("userId");
+        Object userId = jwt.getClaim("userId");
+
+        if(userId == null) {
+            return null;
+        }
+
+        return Long.valueOf(userId.toString());
     }
 
     public boolean manageRestaurant(Long restaurantId) {

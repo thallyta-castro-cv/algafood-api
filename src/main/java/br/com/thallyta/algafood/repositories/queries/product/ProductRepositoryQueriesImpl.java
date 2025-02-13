@@ -3,8 +3,8 @@ package br.com.thallyta.algafood.repositories.queries.product;
 import br.com.thallyta.algafood.models.ProductPhoto;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 public class ProductRepositoryQueriesImpl implements ProductRepositoryQueries{
 

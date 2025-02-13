@@ -2,8 +2,8 @@ package br.com.thallyta.algafood.core.validation.classes;
 
 import br.com.thallyta.algafood.core.validation.annotation.Multiple;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.math.BigDecimal;
 
 public class MultipleValidator implements ConstraintValidator<Multiple, Number> {
