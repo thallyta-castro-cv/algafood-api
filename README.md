@@ -6,6 +6,153 @@
 Este projeto consiste em uma aplicação Backend com Spring Boot para criar um sistema de delivery de comida completo com todos os recursos que o Spring disponibiliza.
 O intuito deste projeto é servir de repositório base para consultas futuras de implementação de recursos do framework.
 
+# Diagrama entidade relacionamento (banco de dados)
+
+```mermaid
+erDiagram
+
+    tb_product_photo {
+        int product_id
+        string file_name
+        string description
+        string content_type
+        int size
+    }
+
+    tb_products {
+        int id
+        boolean active
+        string description
+        string name
+        float price
+        int restaurant_id
+    }
+
+    tb_request_item {
+        int id
+        int amount
+        string note
+        float total_price
+        int request_id
+        int product_id
+    }
+
+    tb_request {
+        int id
+        string code
+        string address_cep
+        string address_complement
+        string address_neighborhood
+        string address_number
+        string address_street
+        datetime created_date
+        datetime confirmation_date
+        datetime delivery_date
+        datetime finished_date
+        float subtotal
+        float total_value
+        int address_city_id
+        int form_payment_id
+        int restaurant_id
+    }
+
+    tb_form_payments {
+        int id
+        string description
+        datetime updated_date
+    }
+
+    tb_restaurants {
+        int id
+        string address_cep
+        string address_complement
+        string address_neighborhood
+        string address_number
+        string address_street
+        datetime created_date
+        string name
+        float shipping_fee
+        int address_city_id
+        int kitchen_id
+        boolean open
+        boolean active
+    }
+
+    tb_cities {
+        int id
+        string name
+        int state_id
+    }
+
+    tb_states {
+        int id
+        string name
+    }
+
+    tb_kitchens {
+        int id
+        string name
+    }
+
+    tb_users {
+        int id
+        datetime created_date
+        string email
+        string name
+        string password
+    }
+
+    tb_user_groups {
+        int user_id
+        int group_id
+    }
+
+    tb_groups {
+        int id
+        string name
+    }
+
+    tb_groups_permissions {
+        int group_id
+        int permission_id
+    }
+
+    tb_permissions {
+        int id
+        string name
+        string description
+    }
+
+    tb_restaurant_responsible {
+        int restaurant_id
+        int user_id
+    }
+
+    tb_restaurant_form_payment {
+        int restaurant_id
+        int form_payment_id
+    }
+
+    tb_request ||--o{ tb_request_item : contains
+    tb_products ||--o{ tb_request_item : contains
+    tb_products ||--|{ tb_product_photo : has
+    tb_request ||--|{ tb_form_payments : uses
+    tb_request ||--|{ tb_restaurants : belongs_to
+    tb_restaurants ||--|{ tb_cities : located_in
+    tb_cities ||--|{ tb_states : belongs_to
+    tb_restaurants ||--|{ tb_kitchens : has
+    tb_users ||--o{ tb_user_groups : belongs_to
+    tb_groups ||--o{ tb_user_groups : groups
+    tb_groups ||--o{ tb_groups_permissions : has
+    tb_permissions ||--|{ tb_groups_permissions : belongs_to
+    tb_restaurants ||--o{ tb_restaurant_responsible : managed_by
+    tb_users ||--|{ tb_restaurant_responsible : responsible_for
+    tb_restaurants ||--o{ tb_restaurant_form_payment : accepts
+    tb_form_payments ||--|{ tb_restaurant_form_payment : allowed
+
+```
+
+
 ## Branches de referência - Desenvolvimento
 
 Para garantir um versionamento estruturado e documentar o uso de cada recurso, dividi o projeto em branches específicas, servindo como referência para a aplicação de funcionalidades.
