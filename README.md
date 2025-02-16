@@ -6,6 +6,14 @@
 Este projeto consiste em uma aplicação Backend com Spring Boot para criar um sistema de delivery de comida completo com todos os recursos que o Spring disponibiliza.
 O intuito deste projeto é servir de repositório base para consultas futuras de implementação de recursos do framework.
 
+## Estrutura do projeto
+
+| Pasta  | Descrição                                                 |
+|--------|-----------------------------------------------------------|
+| `app`  | Contém o projeto **Spring Boot**, incluindo a API e lógica de negócio. |
+| `infra` | Contém os arquivos **Terraform** para provisionar a infraestrutura na AWS. |
+
+
 # Diagrama entidade relacionamento (banco de dados)
 
 ```mermaid
