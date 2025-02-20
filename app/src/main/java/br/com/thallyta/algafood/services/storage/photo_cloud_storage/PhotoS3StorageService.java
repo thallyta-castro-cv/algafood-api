@@ -31,12 +31,11 @@ public class PhotoS3StorageService implements PhotoStorageService {
                     storageProperties.getS3().getBucket(),
                     filePath,
                     newPhoto.getInputStream(),
-                    objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead);
+                    objectMetadata);
 
             amazonS3.putObject(putObjectRequest);
         } catch (Exception e) {
-          throw new StorageException("Não foi possível enviar arquivo para Amazon S3", e);
+            throw new StorageException("Não foi possível enviar arquivo para Amazon S3", e);
         }
     }
 
