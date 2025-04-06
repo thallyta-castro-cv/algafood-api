@@ -61,7 +61,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         return photoProductResponseDTOAssembler.toModel(photoSaved);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @CheckSecurity.Restaurants.CanGet
     public ProductPhotoResponseDTO findById(@PathVariable Long restaurantId,
                                             @PathVariable Long productId) {

@@ -6,6 +6,14 @@
 Este projeto consiste em uma aplicação Backend com Spring Boot para criar um sistema de delivery de comida completo com todos os recursos que o Spring disponibiliza.
 O intuito deste projeto é servir de repositório base para consultas futuras de implementação de recursos do framework.
 
+## Estrutura do projeto
+
+| Pasta  | Descrição                                                 |
+|--------|-----------------------------------------------------------|
+| `app`  | Contém o projeto **Spring Boot**, incluindo a API e lógica de negócio. |
+| `infra` | Contém os arquivos **Terraform** para provisionar a infraestrutura na AWS. |
+
+
 # Diagrama entidade relacionamento (banco de dados)
 
 ```mermaid
@@ -256,6 +264,44 @@ Consultar documentação da Api:
 http://localhost:8080/swagger-ui/index.html#/
 http://localhost:8080/v3/api-docs
 ```
+
+## Configuração da Infraestrutura com Terraform
+
+### Push de Imagem para o ECR
+
+#### Passo 1: Rodar o Terraform
+Execute os comandos abaixo para aplicar a infraestrutura na AWS usando Terraform:
+
+```sh
+terraform init
+terraform apply -auto-approve
+```
+
+#### Passo 2: Acessar o ECR no Console da AWS
+Após rodar o Terraform, entre no console da AWS:
+1. Navegue até **Elastic Container Registry (ECR)**.
+2. Encontre o repositório criado pelo Terraform.
+3. Copie os comandos exibidos na seção **View push commands**, que serão utilizados para autenticar no ECR, criar a imagem e fazer o push.
+
+#### Passo 3: Autenticar no ECR e Fazer o Push da Imagem
+Execute os comandos indicados no AWS ECR para:
+1. Autenticar no ECR.
+2. Criar a imagem do container.
+3. Fazer o push da imagem para o repositório ECR.
+
+Exemplo de comandos (substitua `<aws-account-id>`, `<region>` e `<repository-name>` pelos valores apropriados):
+
+```sh
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws-account-id>.dkr.ecr.<region>.amazonaws.com
+
+docker build -t <repository-name> .
+
+docker tag <repository-name>:latest <aws-account-id>.dkr.ecr.<region>.amazonaws.com/<repository-name>:latest
+
+docker push <aws-account-id>.dkr.ecr.<region>.amazonaws.com/<repository-name>:latest
+```
+
+Após o push, a imagem estará disponível no ECR para ser utilizada na execução do container na AWS.
 
 
 # Autor
